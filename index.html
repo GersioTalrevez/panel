@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<!DOCTYPE html><html class="dark" lang="es" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Portal de Gestión y Administración | Sergio Ricardo Molina</title>
 <!-- Material Symbols Outlined -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <!-- Google Fonts: Raleway & Manrope -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -133,26 +130,7 @@
 <body class="bg-background text-on-background min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-primary custom-optical-glow">
 <!-- ENCABEZADO SOBRIO -->
 <header class="w-full bg-surface/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-outline-variant/30">
-<div class="flex justify-between items-center w-full px-space-gutter-mobile md:px-space-gutter-desktop max-w-container-max mx-auto h-16">
-<!-- Identidad de Marca -->
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-xl" data-icon="photo_camera" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
-<div class="flex flex-col">
-<span class="text-headline-sm font-headline-sm font-bold text-on-surface tracking-wide">
-            SERGIO RICARDO MOLINA
-          </span>
-<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">
-            Estudio Fotográfico · Bóveda de Acceso
-          </span>
-</div>
-</div>
-<!-- Botón Destacado: Volver al Portafolio -->
-<a class="inline-flex items-center gap-space-xs px-space-md py-space-xs rounded-lg border border-outline-variant/60 text-on-surface text-label-md font-label-md hover:border-primary hover:text-primary transition-colors duration-150 active:scale-[0.98]" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
-<span class="material-symbols-outlined text-base" data-icon="arrow_outward">arrow_outward</span>
-<span class="hidden sm:inline">Volver al Portafolio</span>
-<span class="sm:hidden">Portafolio</span>
-</a>
-</div>
+
 </header>
 <!-- CONTENEDOR CENTRAL: GUARDIÁN DE ACCESO -->
 <main class="flex-grow flex items-center justify-center px-space-gutter-mobile py-space-xl md:py-space-2xl">
@@ -160,7 +138,7 @@
 <!-- BANNER DE ALERTA DINÁMICO (Simulación / Manejo de Estado Anti-bypass) -->
 <div class="hidden mb-space-md p-space-md rounded-xl bg-error-container/40 border border-error/50 text-error animate-fade-in shadow-lg" id="denied-alert">
 <div class="flex items-start gap-space-xs">
-<span class="material-symbols-outlined text-error text-xl shrink-0 mt-0.5" data-icon="gpp_bad" style="font-variation-settings: 'FILL' 1;">gpp_bad</span>
+<span class="material-symbols-outlined text-error text-xl shrink-0 mt-0.5" data-icon="gpp_bad" style="font-variation-settings: &quot;FILL&quot; 1;">gpp_bad</span>
 <div class="flex flex-col">
 <span class="text-label-md font-label-md font-bold tracking-wide uppercase text-error">Acceso Denegado</span>
 <p class="text-body-md font-body-md text-on-error-container mt-1" id="denied-text">
@@ -185,9 +163,7 @@
 <h1 class="text-headline-md font-headline-md text-on-surface font-semibold tracking-tight">
             Portal de Gestión y Administración
           </h1>
-<p class="text-body-md font-body-md text-outline mt-1 max-w-xs">
-            Guardián de autenticación centralizado para el repositorio independiente de control y archivos.
-          </p>
+
 </div>
 <!-- IDENTIFICACIÓN DEL PROPIETARIO AUTORIZADO -->
 <div class="bg-surface-container-low rounded-lg p-space-md border border-outline-variant/40 mb-space-lg flex items-center justify-between">
@@ -197,17 +173,17 @@
             </div>
 <div class="flex flex-col text-left">
 <span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">Propietario / Fotógrafo</span>
-<span class="text-body-md font-body-md text-on-surface font-medium">molinaoksergio@gmail.com</span>
+
 </div>
 </div>
-<span class="material-symbols-outlined text-primary text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;" title="Identidad Verificada">verified</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="verified" style="font-variation-settings: &quot;FILL&quot; 1;" title="Identidad Verificada">verified</span>
 </div>
 <!-- ACCIONES DE LOGIN -->
 <div class="space-y-space-md">
 <!-- BOTÓN GOOGLE OAUTH OFICIAL -->
-<button class="w-full flex items-center justify-center gap-space-sm px-space-lg py-3 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface border border-outline-variant/60 hover:border-primary transition-all duration-150 active:scale-[0.98] font-body-md font-semibold text-center shadow-sm group" id="btn-google" type="button">
+<button class="w-full flex items-center justify-center gap-space-sm px-space-lg py-3 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface border border-outline-variant/60 hover:border-primary transition-all duration-150 active:scale-[0.98] font-body-md font-semibold text-center shadow-sm group" id="btn-google" onclick="iniciarGoogleOAuth()" type="button">
 <!-- Icono Google SVG Oficial -->
-<svg class="w-5 h-5 shrink-0" viewbox="0 0 24 24">
+<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24">
 <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.14z" fill="#4285F4"></path>
 <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.27v3.15C3.25 21.34 7.33 24 12 24z" fill="#34A853"></path>
 <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.27C.46 8.21 0 10.05 0 12s.46 3.79 1.27 5.42l4.01-3.15z" fill="#FBBC05"></path>
@@ -228,7 +204,7 @@
                 Clave Maestra de Respaldo
               </label>
 <div class="relative flex items-center">
-<input class="w-full bg-surface-container-lowest border border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary rounded-xl px-space-md py-2.5 text-on-surface text-body-md font-body-md placeholder:text-outline/40 outline-none transition-colors duration-150" id="master-key" placeholder="••••••••••••••••" required="" type="password"/>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary rounded-xl px-space-md py-2.5 text-on-surface text-body-md font-body-md placeholder:text-outline/40 outline-none transition-colors duration-150" id="master-key" placeholder="••••••••••••••••" required="" type="password">
 <button class="absolute right-3 p-1 text-outline hover:text-on-surface transition-colors focus:outline-none" id="toggle-password" title="Alternar visibilidad" type="button">
 <span class="material-symbols-outlined text-xl" data-icon="visibility" id="eye-icon">visibility</span>
 </button>
@@ -237,51 +213,74 @@
 <!-- Botón Ingresar con Clave -->
 <button class="w-full py-3 px-space-lg rounded-lg bg-primary-container hover:bg-primary-container/80 text-on-primary border border-primary/30 transition-all duration-150 active:scale-[0.98] text-body-md font-body-md font-semibold tracking-wide flex items-center justify-center gap-space-xs shadow-md" type="submit">
 <span class="material-symbols-outlined text-lg" data-icon="lock_open">lock_open</span>
-<span>Ingresar con Clave</span>
+<span class="">Ingresar con Clave</span>
 </button>
 </form>
 </div>
 <!-- Indicador de blindaje técnico -->
-<div class="mt-space-lg pt-space-md border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
-<span class="flex items-center gap-1">
-<span class="material-symbols-outlined text-sm text-primary" data-icon="shield">shield</span>
-            Supabase Guard v2.4
-          </span>
-<span class="tracking-widest">TLS 1.3 · ENCRYPTED</span>
-</div>
+
 </div>
 <!-- BOTONES DE RETORNO RÁPIDO -->
 <div class="mt-space-lg flex flex-col sm:flex-row items-center justify-center gap-space-md text-center">
 <a class="inline-flex items-center gap-space-xs text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors duration-150 active:scale-[0.98] py-1 px-2" href="https://sergiomolina-fotografia.netlify.app/">
 <span class="material-symbols-outlined text-base" data-icon="arrow_back">arrow_back</span>
-<span>Volver al Sitio Web</span>
+<span class="">Volver al Sitio Web</span>
 </a>
 <span class="hidden sm:inline text-outline/30">|</span>
 <a class="inline-flex items-center gap-space-xs text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors duration-150 active:scale-[0.98] py-1 px-2" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html">
 <span class="material-symbols-outlined text-base" data-icon="school">school</span>
-<span>Eventos Escolares</span>
+<span class="">Eventos Escolares</span>
 <span class="material-symbols-outlined text-xs text-outline" data-icon="open_in_new">open_in_new</span>
 </a>
 </div>
 </div>
 </main>
 <!-- PIE DE PÁGINA INSTITUCIONAL SOBRIO -->
-<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/20 py-space-md mt-auto">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-space-gutter-mobile md:px-space-gutter-desktop max-w-container-max mx-auto text-center md:text-left gap-2">
-<p class="text-label-sm font-label-sm text-outline tracking-wider">
-        © Sergio Ricardo Molina · Fotografía Profesional · Mendoza, Argentina
-      </p>
-<div class="flex items-center gap-space-md text-label-sm font-label-sm text-outline">
-<span class="hover:text-on-surface transition-colors cursor-default">Acceso Seguro</span>
-<span>·</span>
-<span class="hover:text-on-surface transition-colors cursor-default">Bóveda Privada</span>
-<span>·</span>
-<span class="text-primary font-medium">Panel Independiente</span>
-</div>
-</div>
-</footer>
+
 <!-- LÓGICA DE MICROINTERACCIÓN Y VALIDACIÓN ANTI-BYPASS -->
 <script>
+    const AUTHORIZED_EMAIL = 'molinaoksergio@gmail.com';
+
+    // Obtener la URL de redirección dinámica exacta hacia panel.html
+    function getRedirectUrl() {
+      return window.location.href.split('?')[0].split('#')[0].replace('index.html', '') + 'panel.html';
+    }
+
+    // Verificar si ya existe una sesión activa para el usuario autorizado
+    function verificarSesionActiva() {
+      try {
+        const storedUser = localStorage.getItem('supabase_auth_user') || 
+                           sessionStorage.getItem('supabase_auth_user') ||
+                           localStorage.getItem('admin_user') ||
+                           sessionStorage.getItem('admin_user');
+        
+        if (storedUser) {
+          const parsed = JSON.parse(storedUser);
+          if (parsed && (parsed.email === AUTHORIZED_EMAIL || parsed === AUTHORIZED_EMAIL)) {
+            window.location.href = getRedirectUrl();
+            return;
+          }
+        }
+
+        // Revisión de tokens de Supabase estándar en localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.includes('auth-token')) {
+            const tokenData = JSON.parse(localStorage.getItem(key));
+            if (tokenData?.user?.email === AUTHORIZED_EMAIL) {
+              window.location.href = getRedirectUrl();
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Error al verificar sesión activa:', e);
+      }
+    }
+
+    // Ejecutar verificación de sesión al cargar la página
+    verificarSesionActiva();
+
     // Alternar visibilidad de contraseña
     const toggleBtn = document.getElementById('toggle-password');
     const masterInput = document.getElementById('master-key');
@@ -293,33 +292,40 @@
       eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
     });
 
-    // Control de Autenticación de Google y Protección Anti-Bypass
-    const googleBtn = document.getElementById('btn-google');
     const deniedAlert = document.getElementById('denied-alert');
     const deniedText = document.getElementById('denied-text');
 
-    googleBtn.addEventListener('click', () => {
-      // Simulación de flujo OAuth / Validación Supabase
-      // En un flujo real conectado al SDK de Supabase:
-      // const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google', redirectTo: window.location.origin + '/panel.html' })
-      
-      // Para efectos demostrativos del guardián en frontend:
-      // Simulamos la verificación directa del correo autorizado
-      const emailAuthorized = 'molinaoksergio@gmail.com';
-      
-      // Demostración: si se invoca con éxito hacia panel.html
-      // Si fuera una cuenta bypass detectada:
-      // showAccessDenied('usuario_externo@gmail.com');
-      
-      // Realizamos la redirección estándar hacia panel.html asumiendo autorización
-      window.location.href = 'panel.html';
-    });
+    // Función iniciarGoogleOAuth con redirectTo dinámico exacto
+    async function iniciarGoogleOAuth() {
+      const targetRedirect = getRedirectUrl();
 
+      // Si existe instancia cliente de Supabase configurada en window
+      if (window.supabase && typeof window.supabase.auth?.signInWithOAuth === 'function') {
+        const { data, error } = await window.supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: targetRedirect,
+            queryParams: {
+              login_hint: AUTHORIZED_EMAIL
+            }
+          }
+        });
+        if (error) {
+          showAccessDenied('Error al iniciar autenticación con Google');
+        }
+      } else {
+        // Redirección dinámica directa hacia panel.html con estado simulado o OAuth fallback
+        window.location.href = targetRedirect;
+      }
+    }
+
+    // Control de ingreso mediante Clave Maestra 'admin2026'
     function handleMasterLogin() {
       const keyVal = masterInput.value.trim();
-      if (keyVal === 'molina2024' || keyVal === 'admin' || keyVal.length >= 6) {
-        // Acceso concedido
-        window.location.href = 'panel.html';
+      if (keyVal === 'admin2026') {
+        sessionStorage.setItem('admin_auth', 'master_key');
+        sessionStorage.setItem('admin_user', JSON.stringify({ email: AUTHORIZED_EMAIL, role: 'admin' }));
+        window.location.href = getRedirectUrl();
       } else {
         showAccessDenied('Clave de respaldo inválida');
       }
@@ -327,8 +333,10 @@
 
     function showAccessDenied(accountOrReason) {
       deniedAlert.classList.remove('hidden');
-      deniedText.textContent = `ACCESO DENEGADO: La cuenta [${accountOrReason}] no está autorizada. Este panel es de acceso exclusivo.`;
+      deniedText.textContent = `ACCESO DENEGADO: [${accountOrReason}]. Este panel es de acceso exclusivo.`;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
+
+
 </body></html>
