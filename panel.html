@@ -9,7 +9,6 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Raleway:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <!-- Tailwind Configuration verbatim -->
@@ -120,7 +119,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-[#111111] text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-white">
-<!-- TopNavBar from Shared Components JSON -->
+<!-- Overlay de Autenticación Asíncrona (Previene rebote instantáneo hacia index.html) -->
+<div class="fixed inset-0 z-50 bg-[#111111] flex flex-col items-center justify-center p-6 text-center transition-opacity duration-300" id="auth-shield">
+<div class="w-14 h-14 rounded-2xl bg-surface-container border border-outline-variant flex items-center justify-center text-primary shadow-xl mb-4">
+<span class="material-symbols-outlined text-3xl animate-spin" data-icon="sync">sync</span>
+</div>
+<h2 class="text-headline-sm font-headline-sm text-white font-semibold tracking-wide">Validando Acceso Darkroom</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-sm mt-1" id="auth-shield-msg">Comprobando credenciales Google OAuth y sesión activa...</p>
+</div>
+<!-- Barra Superior / TopNavBar con accesos directos de retorno arriba -->
 <header class="bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant shadow-sm w-full sticky top-0 z-40">
 <div class="flex justify-between items-center w-full px-space-gutter-desktop max-w-container-max mx-auto h-16">
 <!-- Brand Logo / Product Name -->
@@ -129,14 +136,20 @@
 <span class="material-symbols-outlined text-primary text-2xl" data-icon="lens_blur">lens_blur</span>
 <span>Darkroom Console</span>
 </a>
-<span class="hidden md:inline-block px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-outline-variant text-primary">v2.4 Supabase</span>
+<span class="hidden md:inline-block px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container border border-outline-variant text-primary">v2.5 Supabase</span>
 </div>
-<!-- Navigation Links from JSON (Desktop) -->
-<nav class="hidden lg:flex items-center gap-space-lg">
-<a class="text-primary dark:text-primary border-b-2 border-primary dark:border-primary pb-1 font-medium text-label-md font-label-md hover:text-primary transition-colors duration-150" href="panel.html">OAuth</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface pb-1 text-label-md font-label-md hover:text-primary transition-colors duration-150" href="panel.html">Supabase</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface pb-1 text-label-md font-label-md hover:text-primary transition-colors duration-150" href="panel.html">Permisos</a>
-<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-on-surface dark:hover:text-on-surface pb-1 text-label-md font-label-md hover:text-primary transition-colors duration-150" href="panel.html">Diagnóstico</a>
+<!-- Accesos directos de retorno superiores -->
+<nav class="hidden sm:flex items-center gap-2 md:gap-space-md">
+<a class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#181818] hover:border-primary/40 hover:text-white text-on-surface-variant text-label-md font-label-md transition-colors shadow-sm" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base text-primary" data-icon="arrow_back">arrow_back</span>
+<span>Portafolio Netlify</span>
+<span class="text-xs text-outline font-mono">↗</span>
+</a>
+<a class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#181818] hover:border-[#38bdf8]/40 hover:text-white text-on-surface-variant text-label-md font-label-md transition-colors shadow-sm" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-base text-[#38bdf8]" data-icon="open_in_new">open_in_new</span>
+<span>Eventos Escolares</span>
+<span class="text-xs text-outline font-mono">↗</span>
+</a>
 </nav>
 <!-- Trailing Primary Action & Icon Actions -->
 <div class="flex items-center gap-space-sm">
@@ -151,9 +164,9 @@
 <span class="material-symbols-outlined text-xl" data-icon="admin_panel_settings">admin_panel_settings</span>
 </a>
 <!-- User profile icon with avatar label fallback -->
-<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary text-label-md font-label-md" title="Sergio Ricardo Molina Avatar">
-          SM
-        </div>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary text-label-md font-label-md" id="user-avatar" title="molinaoksergio@gmail.com">
+  SM
+</div>
 </div>
 </div>
 </header>
@@ -191,12 +204,12 @@
 <div class="p-3 bg-[#181818] border border-[#222222] rounded-xl">
 <div class="flex items-center justify-between mb-1.5">
 <span class="text-label-sm font-label-sm text-outline">ESTADO SUPABASE</span>
-<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-container text-white">ONLINE</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-primary-container text-white" id="supabase-status-badge">ONLINE</span>
 </div>
-<div class="text-[11px] font-mono text-on-surface-variant truncate">zbixojacwvanucxlrdcd</div>
+<div class="text-[11px] font-mono text-on-surface-variant truncate" id="auth-email-display">molinaoksergio@gmail.com</div>
 </div>
 </div>
-<!-- Accesos Directos Inferiores -->
+<!-- Accesos Directos Inferiores y Logout -->
 <div class="border-t border-[#222222] pt-4 space-y-1">
 <span class="text-label-sm font-label-sm text-outline uppercase tracking-widest px-space-xs block mb-2">Accesos Directos</span>
 <a class="flex items-center justify-between px-3 py-2 rounded-lg text-on-surface-variant hover:text-white hover:bg-[#181818] text-body-md font-body-md transition-colors group" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
@@ -233,8 +246,8 @@
 <span>+ Cargar Nueva Galería</span>
 </a>
 </div>
-<!-- Métricas / Contadores Rápidos -->
-<section class="grid grid-cols-1 sm:grid-cols-3 gap-space-md mb-space-xl">
+<!-- Métricas / Contadores Rápidos: Los 3 módulos métricas en la misma fila -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md mb-space-xl">
 <div class="bg-[#181818] border border-[#222222] p-space-md rounded-xl flex items-center justify-between shadow-sm">
 <div>
 <span class="text-label-sm font-label-sm text-outline uppercase block mb-1">Total Registradas</span>
@@ -314,20 +327,20 @@
 </div>
 </div>
 </footer>
-<!-- Modal de Confirmación de Borrado -->
+<!-- Modal de Confirmación de Borrado Real en Supabase -->
 <div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4" id="delete-modal">
 <div class="bg-[#181818] border border-[#333333] rounded-xl max-w-md w-full p-space-lg shadow-2xl">
 <div class="flex items-center gap-3 text-error mb-3">
 <span class="material-symbols-outlined text-2xl" data-icon="warning">warning</span>
-<h3 class="text-headline-sm font-headline-sm font-semibold text-white">¿Eliminar Galería?</h3>
+<h3 class="text-headline-sm font-headline-sm font-semibold text-white">¿Eliminar Galería de Supabase?</h3>
 </div>
 <p class="text-body-md font-body-md text-on-surface-variant mb-6">
-        Esta acción eliminará el registro de la base de datos Supabase <span class="font-mono text-white text-xs bg-[#222222] px-1.5 py-0.5 rounded" id="modal-album-name"></span>. El contenido en Google Drive no será modificado, pero el enlace público quedará inactivo.
-      </p>
+  Esta acción ejecutará un borrado permanente en la tabla <span class="text-white font-semibold">galerias</span> de Supabase para el registro: <br/><span class="font-mono text-white text-xs bg-[#222222] px-2 py-1 rounded inline-block mt-2 border border-[#333]" id="modal-album-name"></span>. El archivo físico en Google Drive permanecerá intacto.
+</p>
 <div class="flex justify-end gap-3">
 <button class="px-4 py-2 rounded-lg border border-[#333333] text-on-surface hover:bg-[#222222] text-label-md font-label-md active:scale-[0.98] transition-colors" id="btn-cancel-delete">
-          Cancelar
-        </button>
+  Cancelar
+</button>
 <button class="px-4 py-2 rounded-lg bg-error-container text-on-error-container border border-error/20 hover:bg-error hover:text-on-error text-label-md font-label-md font-semibold active:scale-[0.98] transition-all flex items-center gap-1.5" id="btn-confirm-delete">
 <span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
 <span>Confirmar Eliminación</span>
@@ -335,72 +348,14 @@
 </div>
 </div>
 </div>
-<!-- Operational JavaScript Logic -->
+<!-- Operational JavaScript Logic & Asynchronous Access Guard -->
 <script>
-    // 1. Guardián de Autenticación
-    const authStatus = localStorage.getItem('admin_autenticado');
-    if (!authStatus || authStatus !== 'true') {
-      // Si no existe la cookie/token o no es true, redirige a login guardián
-      window.location.href = 'index.html';
-    }
-
-    // 2. Conexión de Supabase Client
+    // Credenciales de Supabase
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg1NDg1NDcsImV4cCI6MjA1NDEyNDU0N30.kX0eX4K9hK9uYQ4gJ7tV4iP9L6vW8rX3bN1mZ0c';
-    
-    // Fallback datasets en memoria si la conexión falla o para preview inmediato
-    let galeriasData = [
-      {
-        id: "gal-01",
-        titulo: "Graduación Colegio San Martín 2024",
-        categoria: "Escolar",
-        es_privada: false,
-        clave: "",
-        drive_folder_id: "1v7W8_xK-ABCDE12345XYZ",
-        created_at: "2024-10-18T10:00:00Z",
-        portada_url: "placeholder",
-        data_alt: "A cinematic documentary photograph of high school students throwing graduation caps into the air at dusk. The venue is illuminated with deep oceanic cyan stage lights and high-contrast ambient darkroom shadows. The tone is editorial, clean, and modern."
-      },
-      {
-        id: "gal-02",
-        titulo: "Retratos de Estudio: Serie Óptica",
-        categoria: "Retrato",
-        es_privada: true,
-        clave: "STUDIO2024",
-        drive_folder_id: "1z99B_mQ-STUDIO987654",
-        created_at: "2024-11-04T15:30:00Z",
-        portada_url: "placeholder",
-        data_alt: "A stark high-fashion black and white studio portrait of a model with dramatic rim lighting. Deep textured shadows merge into pure darkness while an anamorphic cool cyan reflection highlights the lens curvature. Architectural and disciplined composition."
-      },
-      {
-        id: "gal-03",
-        titulo: "Torneo Intercolegial de Atletismo",
-        categoria: "Deportes",
-        es_privada: false,
-        clave: "",
-        drive_folder_id: "1d22L_pA-SPORTS334411",
-        created_at: "2024-11-12T09:15:00Z",
-        portada_url: "placeholder",
-        data_alt: "An action shot of an athlete crossing the finish line on a wet track under atmospheric stadium floodlights. Cool maritime blue highlights refract through water drops against a deep dark background with strong geometric track lines."
-      },
-      {
-        id: "gal-04",
-        titulo: "Gala Anual Sinfónica Infantil",
-        categoria: "Institucional",
-        es_privada: true,
-        clave: "CONCIERTO",
-        drive_folder_id: "1h88N_kL-SINFO556677",
-        created_at: "2024-11-20T19:40:00Z",
-        portada_url: "placeholder",
-        data_alt: "A sophisticated performance photograph of a youth violin section on a theatre stage. Warm wooden instruments stand out against an atmospheric dark auditorium washed with deep cyan mood lighting, sharp depth of field, and editorial focus."
-      }
-    ];
+    const AUTHORIZED_ADMIN_EMAIL = 'molinaoksergio@gmail.com';
 
-    let currentFilter = 'all';
-    let searchQuery = '';
-    let itemToDelete = null;
-
-    // Supabase Initialization
+    // Inicializar Cliente Supabase
     let supabaseClient = null;
     if (window.supabase) {
       try {
@@ -410,13 +365,132 @@
       }
     }
 
+    // 1. Guardián de Acceso Asíncrono e Inteligente (Google OAuth + Clave Maestra)
+    // Examina: 1) Hash URL (#access_token), 2) getSession(), 3) sessionStorage / localStorage
+    async function verificarAccesoInteligente() {
+      const shield = document.getElementById('auth-shield');
+      const shieldMsg = document.getElementById('auth-shield-msg');
+
+      try {
+        // A) Verificar si existe retorno con hash de Google OAuth (#access_token=...)
+        const hash = window.location.hash;
+        if (hash && hash.includes('access_token')) {
+          shieldMsg.textContent = 'Procesando token de autenticación de Google...';
+          if (supabaseClient) {
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            if (session && session.user) {
+              const email = (session.user.email || '').toLowerCase();
+              if (email === AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+                sessionStorage.setItem('admin_autenticado', 'true');
+                localStorage.setItem('admin_autenticado', 'true');
+                // Limpiar fragmento del hash sin recargar
+                history.replaceState(null, '', window.location.pathname);
+                liberarAcceso();
+                return;
+              } else {
+                alert(`El correo ${email} no cuenta con permisos administrativos.`);
+                window.location.href = 'index.html';
+                return;
+              }
+            }
+          }
+        }
+
+        // B) Verificar sesión guardada en sessionStorage / localStorage (Clave Maestra o Login previo)
+        const sessionAuth = sessionStorage.getItem('admin_autenticado');
+        const localAuth = localStorage.getItem('admin_autenticado');
+        if (sessionAuth === 'true' || localAuth === 'true') {
+          sessionStorage.setItem('admin_autenticado', 'true');
+          liberarAcceso();
+          return;
+        }
+
+        // C) Verificar sesión activa de Supabase
+        if (supabaseClient) {
+          shieldMsg.textContent = 'Consultando sesión de usuario en Supabase...';
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session && session.user) {
+            const userEmail = (session.user.email || '').toLowerCase();
+            if (userEmail === AUTHORIZED_ADMIN_EMAIL.toLowerCase()) {
+              sessionStorage.setItem('admin_autenticado', 'true');
+              localStorage.setItem('admin_autenticado', 'true');
+              liberarAcceso();
+              return;
+            }
+          }
+        }
+
+        // Si ninguna condición se cumple, redirigir pacíficamente a index.html
+        window.location.href = 'index.html';
+      } catch (e) {
+        console.error("Error en validación de acceso:", e);
+        // Si hay error pero ya existía la bandera de acceso manual, permitir pase
+        if (sessionStorage.getItem('admin_autenticado') === 'true' || localStorage.getItem('admin_autenticado') === 'true') {
+          liberarAcceso();
+        } else {
+          window.location.href = 'index.html';
+        }
+      }
+    }
+
+    function liberarAcceso() {
+      const shield = document.getElementById('auth-shield');
+      if (shield) {
+        shield.style.opacity = '0';
+        setTimeout(() => {
+          shield.classList.add('hidden');
+        }, 300);
+      }
+      fetchGalerias();
+    }
+
+    // Datos y Estado
+    let galeriasData = [
+      {
+        id: "gal-01",
+        titulo: "Graduación Colegio San Martín 2024",
+        categoria: "Escolar",
+        es_privada: false,
+        clave: "",
+        drive_folder_id: "1v7W8_xK-ABCDE12345XYZ",
+        created_at: "2024-10-18T10:00:00Z",
+        portada_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop",
+        data_alt: "A cinematic documentary photograph of high school students throwing graduation caps into the air at dusk. The venue is illuminated with deep oceanic cyan stage lights and high-contrast ambient darkroom shadows."
+      },
+      {
+        id: "gal-02",
+        titulo: "Retratos de Estudio: Serie Óptica",
+        categoria: "Retrato",
+        es_privada: true,
+        clave: "STUDIO2024",
+        drive_folder_id: "1z99B_mQ-STUDIO987654",
+        created_at: "2024-11-04T15:30:00Z",
+        portada_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop",
+        data_alt: "A stark high-fashion studio portrait of a model with dramatic rim lighting. Deep textured shadows merge into pure darkness while an anamorphic cool cyan reflection highlights the lens curvature."
+      },
+      {
+        id: "gal-03",
+        titulo: "Torneo Intercolegial de Atletismo",
+        categoria: "Deportes",
+        es_privada: false,
+        clave: "",
+        drive_folder_id: "1d22L_pA-SPORTS334411",
+        created_at: "2024-11-12T09:15:00Z",
+        portada_url: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=800&auto=format&fit=crop",
+        data_alt: "An action shot of an athlete crossing the finish line on a wet track under atmospheric stadium floodlights. Cool maritime blue highlights refract through water drops against a deep dark background."
+      }
+    ];
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let itemToDelete = null;
+
     async function fetchGalerias() {
       const loading = document.getElementById('loading-state');
       if (loading) loading.classList.remove('hidden');
 
       if (supabaseClient) {
         try {
-          // Intento de query a la tabla 'galerias' o 'galeria'
           let { data, error } = await supabaseClient.from('galerias').select('*').order('created_at', { ascending: false });
           if (error) {
             const fallbackQuery = await supabaseClient.from('galeria').select('*').order('created_at', { ascending: false });
@@ -425,17 +499,16 @@
             }
           }
           if (data && data.length > 0) {
-            // Mapeamos los datos garantizando el schema esperado
             galeriasData = data.map(g => ({
               id: g.id || String(Math.random()),
               titulo: g.titulo || g.nombre || "Galería Sin Título",
               categoria: g.categoria || "Archivo",
-              es_privada: g.es_privada ?? (g.privada || Boolean(g.clave)),
+              es_privada: g.es_privada !== undefined ? g.es_privada : Boolean(g.clave),
               clave: g.clave || "",
               drive_folder_id: g.drive_folder_id || g.drive_id || "ID_NO_DEFINIDO",
               created_at: g.created_at || new Date().toISOString(),
-              portada_url: g.portada_url || "placeholder",
-              data_alt: "An architectural photography archival frame showcasing curated darkroom prints bathed in gentle ocean cyan overhead spotlights, crisp shadows, and minimalist gallery ambiance."
+              portada_url: g.portada_url || "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop",
+              data_alt: "Archival photography frame with darkroom lighting and minimalist gallery ambiance."
             }));
           }
         } catch (e) {
@@ -466,14 +539,10 @@
         return matchesFilter && matchesSearch;
       });
 
-      // Update counters
-      const totalCount = galeriasData.length;
-      const publicCount = galeriasData.filter(g => !g.es_privada).length;
-      const privateCount = galeriasData.filter(g => g.es_privada).length;
-
-      document.getElementById('metric-total').textContent = totalCount;
-      document.getElementById('metric-public').textContent = publicCount;
-      document.getElementById('metric-private').textContent = privateCount;
+      // Actualizar contadores
+      document.getElementById('metric-total').textContent = galeriasData.length;
+      document.getElementById('metric-public').textContent = galeriasData.filter(g => !g.es_privada).length;
+      document.getElementById('metric-private').textContent = galeriasData.filter(g => g.es_privada).length;
 
       if (filtered.length === 0) {
         container.innerHTML = '';
@@ -489,9 +558,11 @@
           <div class="relative aspect-[16/10] bg-[#111111] overflow-hidden">
             <img 
               src="${item.portada_url}" 
-              data-alt="${item.data_alt || 'A sleek darkroom photography print illuminated with precise deep maritime cyan lights, high-contrast monochrome tones, and curated gallery aesthetics.'}" 
+              alt="${item.titulo}"
+              data-alt="${item.data_alt || 'Fotografía de archivo Darkroom'}" 
               class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-400 ease-out" 
               loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=800&auto=format&fit=crop'"
             />
             
             <!-- Badge de Privacidad -->
@@ -552,7 +623,7 @@
               <button 
                 onclick="promptDelete('${item.id}', '${item.titulo.replace(/'/g, "\\'")}')"
                 class="inline-flex items-center gap-1 text-label-sm font-label-sm text-error hover:text-white hover:bg-error-container/40 px-3 py-1.5 rounded-lg border border-transparent hover:border-error/30 active:scale-[0.98] transition-all"
-                title="Eliminar registro"
+                title="Eliminar registro de Supabase"
               >
                 <span class="material-symbols-outlined text-sm" data-icon="delete">delete</span>
                 <span>Eliminar Galería</span>
@@ -568,26 +639,32 @@
     // Modal Trigger
     window.promptDelete = function(id, title) {
       itemToDelete = id;
-      document.getElementById('modal-album-name').textContent = title;
+      document.getElementById('modal-album-name').textContent = `${title} (ID: ${id})`;
       document.getElementById('delete-modal').classList.remove('hidden');
     };
 
-    // Confirm Delete Action
+    // Confirm Delete Action con Borrado Real en Supabase
     document.getElementById('btn-confirm-delete').addEventListener('click', async () => {
       if (!itemToDelete) return;
       const targetId = itemToDelete;
+      const confirmBtn = document.getElementById('btn-confirm-delete');
+      const originalText = confirmBtn.innerHTML;
+      confirmBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin" data-icon="sync">sync</span><span>Eliminando...</span>`;
 
       if (supabaseClient) {
         try {
-          await supabaseClient.from('galerias').delete().eq('id', targetId);
-          await supabaseClient.from('galeria').delete().eq('id', targetId);
+          const res1 = await supabaseClient.from('galerias').delete().eq('id', targetId);
+          if (res1.error) {
+            await supabaseClient.from('galeria').delete().eq('id', targetId);
+          }
         } catch (e) {
-          console.warn("Fallo en sincronización remota:", e);
+          console.warn("Fallo en sincronización de borrado remota:", e);
         }
       }
 
       // Actualizar estado local
       galeriasData = galeriasData.filter(g => g.id !== targetId);
+      confirmBtn.innerHTML = originalText;
       document.getElementById('delete-modal').classList.add('hidden');
       itemToDelete = null;
       renderGalerias();
@@ -601,7 +678,7 @@
 
     // Filtros de Botones
     document.querySelectorAll('.filter-chip').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-chip').forEach(b => {
           b.classList.remove('border-[#005580]', 'bg-[#004466]', 'text-white');
           b.classList.add('border-[#333333]', 'bg-[#111111]', 'text-[#aaaaaa]');
@@ -637,7 +714,7 @@
           if (!error) {
             alert('Conexión con Supabase verificada exitosamente.');
           } else {
-            alert('Supabase respondió con estado de advertencia: ' + error.message);
+            alert('Supabase respondió: ' + error.message);
           }
         } else {
           alert('Modo local / Demostración activo sin errores.');
@@ -649,13 +726,21 @@
       }
     });
 
-    // Cerrar Sesión
-    document.getElementById('btn-cerrar-sesion').addEventListener('click', () => {
+    // Cerrar Sesión completo (OAuth y Local)
+    document.getElementById('btn-cerrar-sesion').addEventListener('click', async () => {
+      sessionStorage.removeItem('admin_autenticado');
       localStorage.removeItem('admin_autenticado');
+      if (supabaseClient) {
+        try {
+          await supabaseClient.auth.signOut();
+        } catch (e) {
+          console.warn("SignOut Supabase:", e);
+        }
+      }
       window.location.href = 'index.html';
     });
 
-    // Inicio inicial
-    fetchGalerias();
+    // Ejecutar guardián de acceso asíncrono e inteligente
+    verificarAccesoInteligente();
   </script>
 </body></html>
