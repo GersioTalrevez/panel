@@ -10,8 +10,8 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     (function() {
-      const isValidSession = window.__APP_SESSION__ && window.__APP_SESSION__.admin === true;
-      if (!isValidSession) {
+      const sessionOK = document.cookie.includes('admin_session=true');
+      if (!sessionOK) {
         window.location.href = 'index.html?unauthorized=1';
       }
     })();
@@ -66,12 +66,12 @@
     }
 
     document.getElementById('btn-logout').addEventListener('click', function () {
+      document.cookie = 'admin_session=; Max-Age=0; path=/;';
       limpiarAutenticacionLocal();
       window.location.href = 'index.html?logout=true';
     });
 
-    const adminSession = window.__APP_SESSION__ || null;
-    if (!adminSession || adminSession.admin !== true) {
+    if (!document.cookie.includes('admin_session=true')) {
       window.location.href = 'index.html?unauthorized=1';
     }
   </script>
