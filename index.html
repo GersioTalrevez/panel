@@ -204,13 +204,11 @@
       denegarAcceso('La autenticación con Google requiere el backend configurado. No se acepta acceso directo desde el navegador.');
     });
 
-    // Si hay cierre de sesión o parámetros bloqueados, no se permiten accesos por localStorage
     if (window.location.search.includes('logout=true')) {
       limpiarAutenticacionLocal();
       window.history.replaceState(null, null, window.location.pathname);
     }
 
-    // Si la app se visita con una sesión local vieja o falsa, la ignoramos por seguridad.
     limpiarAutenticacionLocal();
   </script>
 </body>
