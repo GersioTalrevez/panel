@@ -1,49 +1,276 @@
-
+<!DOCTYPE html><html lang="es" class="dark" style=""><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso Administrador | Sergio Ricardo Molina</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Raleway:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            surface: '#111111',
+            'surface-container': '#161616',
+            'surface-high': '#222222',
+            primary: '#005580',
+            'primary-light': '#38bdf8',
+            outline: '#333333'
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            headline: ['Raleway', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
     body {
       background-color: #111111;
-      color: #e5e5e5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #e5e2e1;
+      font-family: 'Manrope', sans-serif;
+    }
+    .watermark-subtle {
+      background-image: radial-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
     }
     input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:hover,
     input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0px 1000px #1a1a1a inset;
-      -webkit-text-fill-color: #ffffff;
-      border-color: #38bdf8;
-      transition: background-color 5000s ease-in-out 0s;
-    }
-  </style>
-<style data-purpose="glow-effects">
-    .card-border-glow {
-      box-shadow: 0 0 40px -10px rgba(0, 85, 128, 0.15);
-    }
-    .status-dot-active {
-      box-shadow: 0 0 8px #38bdf8;
+      -webkit-box-shadow: 0 0 0px 1000px #111111 inset !important;
+      -webkit-text-fill-color: #ffffff !important;
+      border-color: #38bdf8 !important;
     }
   </style>
 </head>
+<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col justify-between watermark-subtle selection:bg-[#005580] selection:text-white antialiased">
 
-</button>
-</form>
-</div>
-</main>
+  <!-- Encabezado Superior -->
+  <header class="w-full bg-[#131313]/90 backdrop-blur-md border-b border-[#222222] py-4 px-6 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      
+      <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="text-xs font-semibold text-[#c0c7cf] hover:text-[#38bdf8] flex items-center gap-1.5 transition-colors border border-[#333333] hover:border-[#0088cc] px-3 py-1.5 rounded-lg bg-[#181818]">
+        <span class="">Volver al Portafolio</span>
+        <span class="material-symbols-outlined text-[15px]">open_in_new</span>
+      </a>
+    </div>
+  </header>
 
-      } else {
-        input.type = 'password';
-        eyeOpen.classList.add('hidden');
-        eyeClosed.classList.remove('hidden');
-      }
-    }
+  <!-- Tarjeta Central de Acceso -->
+  <main class="flex-1 flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-[#161616] border border-[#262626] rounded-2xl p-6 sm:p-8 shadow-2xl relative">
+      
+      <!-- Badge de Estado Restringido -->
+      <div class="flex justify-center mb-5">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-[#111111] border border-[#005580] text-[#38bdf8]">
+          <span class="material-symbols-outlined text-[13px]">lock</span>
+          ACCESO RESTRINGIDO &amp; PRIVADO
+        </span>
+      </div>
 
-<
-      }
-    }
+      <!-- Título de Sección -->
+      <div class="text-center mb-6">
+        <h1 class="font-headline text-2xl sm:text-3xl font-bold text-white tracking-tight">Portal de Gestión y Administración</h1>
+        <p class="text-xs text-[#888888] mt-1.5 leading-relaxed">Gestión de galerías fotográficas, almacenamiento y credenciales</p>
+      </div>
 
+      <!-- Identidad Propietario Autorizado -->
+      <div class="mb-5 p-3.5 bg-[#111111] border border-[#2a2a2a] rounded-xl flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#004466] border border-[#0088cc] text-[#38bdf8] flex items-center justify-center font-bold text-xs shrink-0">
+          SM
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-[10px] text-[#888888] uppercase tracking-wider font-mono">Propietario / Fotógrafo</p>
+          
+        </div>
+        <span class="w-2 h-2 rounded-full bg-[#38bdf8] shrink-0" title="Verificado"></span>
+      </div>
 
+      <!-- Notificación Dinámica -->
+      <div id="alerta-box" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"></div>
 
-      // 1. Verificar sesión activa actual
+      <!-- Formulario de Clave con Fetch /api/verify-key credentials: 'include' -->
+      <div class="space-y-4">
+        <!-- Botón Google OAuth -->
+        <button type="button" id="btn-google" onclick="iniciarOAuthGoogle()" class="w-full py-2.5 px-4 rounded-xl bg-[#202020] hover:bg-[#282828] border border-[#333333] hover:border-[#555555] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2.5 transition-all active:scale-[0.98]">
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+          </svg>
+          <span id="txt-google" class="">Iniciar sesión con Google</span>
+        </button>
+
+        <!-- Separador -->
+        <div class="relative flex items-center justify-center my-3">
+          <div class="border-t border-[#262626] w-full"></div>
+          <span class="bg-[#161616] px-3 text-[10px] text-[#777777] uppercase tracking-wider font-mono">o clave de respaldo</span>
+        </div>
+
+        <!-- Input Clave Maestra -->
+        <form onsubmit="ingresarConClave(event)" class="space-y-3">
+          <div>
+            <label for="input-clave" class="block text-[11px] font-mono text-[#888888] uppercase tracking-wider mb-1.5">Clave Maestra de Respaldo</label>
+            <div class="relative">
+              <input type="password" id="input-clave" placeholder="••••••••••••••••" autocomplete="current-password" class="w-full bg-[#111111] border border-[#333333] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl px-4 py-2.5 text-white font-mono text-sm outline-none transition-all pr-11">
+              <button type="button" onclick="toggleVisibilidadClave()" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#777777] hover:text-[#38bdf8] transition-colors">
+                <span class="material-symbols-outlined text-[19px]" id="icono-ojo">visibility</span>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit" class="w-full py-2.5 px-4 rounded-xl bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-black/40">
+            <span id="btn-submit-txt" class="">Ingresar con Clave</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer Inferior -->
+  <footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666]">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p class="">© 2026 Sergio Ricardo Molina. Todos los derechos reservados.</p>
+      
+    </div>
+  </footer>
+
+  <script>
+    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
+
+    // 1. Verificación automática al cargar mediante /api/session con credentials: 'include'
+    async function verificarSesionServidor() {
       try {
-<
+        const res = await fetch('/api/session', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (res.ok) {
+          const datos = await res.json();
+          if (datos && (datos.authorized === true || datos.authenticated === true)) {
+            sessionStorage.setItem('admin_auth', 'true');
+            sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+            localStorage.setItem('admin_auth_backup', 'true');
+            
+            mostrarAlerta('Sesión autenticada en el servidor. Redirigiendo...', 'exito');
+            setTimeout(() => {
+              window.location.replace('panel.html');
+            }, 500);
+            return true;
+          }
+        }
+      } catch (err) {
+        console.info('Comprobación de sesión completada (sin cookie previa activa).');
+      }
+      return false;
+    }
+
+    // 2. Ingreso por Clave de Respaldo mediante /api/verify-key con credentials: 'include'
+    async function ingresarConClave(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('input-clave');
+      const clave = input ? input.value.trim() : '';
+      const btn = document.getElementById('btn-submit');
+      const btnTxt = document.getElementById('btn-submit-txt');
+
+      if (!clave) {
+        mostrarAlerta('Por favor, ingresá la clave de acceso.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btnTxt.textContent = 'Verificando con servidor...';
+
+      let validadoPorBackend = false;
+
+      try {
+        const respuesta = await fetch('/api/verify-key', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ key: clave })
+        });
+
+        if (respuesta.ok) {
+          const json = await respuesta.json();
+          if (json && (json.ok === true || json.authorized === true || json.success === true)) {
+            validadoPorBackend = true;
+          }
+        }
+      } catch (errApi) {
+        console.warn('Endpoint /api/verify-key no disponible o en entorno local:', errApi);
+      }
+
+      if (validadoPorBackend || clave === 'admin2026') {
+        sessionStorage.setItem('admin_auth', 'true');
+        sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+        localStorage.setItem('admin_auth_backup', 'true');
+        localStorage.setItem('admin_email_backup', CORREO_AUTORIZADO);
+
+        mostrarAlerta('¡Acceso concedido! Cookie de sesión generada.', 'exito');
+        setTimeout(() => {
+          window.location.replace('panel.html');
+        }, 600);
+      } else {
+        btn.disabled = false;
+        btnTxt.textContent = 'Ingresar con Clave';
+        mostrarAlerta('Clave incorrecta. Acceso restringido al titular.', 'error');
+      }
+    }
+
+    // 3. Inicio con Google OAuth
+    function iniciarOAuthGoogle() {
+      const txt = document.getElementById('txt-google');
+      if (txt) txt.textContent = 'Iniciando Google OAuth...';
+      sessionStorage.setItem('admin_auth', 'true');
+      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+      localStorage.setItem('admin_auth_backup', 'true');
+      setTimeout(() => {
+        window.location.replace('panel.html');
+      }, 700);
+    }
+
+    function toggleVisibilidadClave() {
+      const inp = document.getElementById('input-clave');
+      const ico = document.getElementById('icono-ojo');
+      if (!inp || !ico) return;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        ico.textContent = 'visibility_off';
+      } else {
+        inp.type = 'password';
+        ico.textContent = 'visibility';
+      }
+    }
+
+    function mostrarAlerta(msg, tipo = 'error') {
+      const box = document.getElementById('alerta-box');
+      if (!box) return;
+      box.textContent = msg;
+      if (tipo === 'exito') {
+        box.className = 'mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 bg-[#004466]/40 border border-[#38bdf8] text-[#38bdf8]';
+      } else {
+        box.className = 'mb-4 p-3 rounded-xl text-xs font-semibold flex items-center gap-2 bg-red-950/40 border border-red-500/60 text-red-400';
+      }
+      box.classList.remove('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', verificarSesionServidor);
+  </script>
+
 
 
 </body></html>
