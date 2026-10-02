@@ -53,11 +53,11 @@
 
   <!-- Encabezado Superior -->
   <header class="w-full bg-[#131313]/90 backdrop-blur-md border-b border-[#222222] py-4 px-6 sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+    <div class="max-w-6xl mx-auto flex items-center justify-center">
       
-      <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="text-xs font-semibold text-[#c0c7cf] hover:text-[#38bdf8] flex items-center gap-1.5 transition-colors border border-[#333333] hover:border-[#0088cc] px-3 py-1.5 rounded-lg bg-[#181818]">
+      <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="text-sm font-semibold text-white hover:text-[#38bdf8] flex items-center gap-2 transition-all border border-[#0088cc] hover:border-[#38bdf8] px-5 py-2.5 rounded-xl bg-[#202020] hover:bg-[#282828] shadow-lg shadow-black/40">
         <span class="">Volver al Portafolio</span>
-        <span class="material-symbols-outlined text-[15px]">open_in_new</span>
+        <span class="material-symbols-outlined text-[19px]">open_in_new</span>
       </a>
     </div>
   </header>
@@ -77,7 +77,7 @@
       <!-- Título de Sección -->
       <div class="text-center mb-6">
         <h1 class="font-headline text-2xl sm:text-3xl font-bold text-white tracking-tight">Portal de Gestión y Administración</h1>
-        <p class="text-xs text-[#888888] mt-1.5 leading-relaxed">Gestión de galerías fotográficas, almacenamiento y credenciales</p>
+        
       </div>
 
       <!-- Identidad Propietario Autorizado -->
@@ -111,7 +111,7 @@
         <!-- Separador -->
         <div class="relative flex items-center justify-center my-3">
           <div class="border-t border-[#262626] w-full"></div>
-          <span class="bg-[#161616] px-3 text-[10px] text-[#777777] uppercase tracking-wider font-mono">o clave de respaldo</span>
+          
         </div>
 
         <!-- Input Clave Maestra -->
@@ -136,12 +136,7 @@
   </main>
 
   <!-- Footer Inferior -->
-  <footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666]">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p class="">© 2026 Sergio Ricardo Molina. Todos los derechos reservados.</p>
-      
-    </div>
-  </footer>
+  
 
   <script>
     const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
@@ -167,7 +162,7 @@
             
             mostrarAlerta('Sesión autenticada en el servidor. Redirigiendo...', 'exito');
             setTimeout(() => {
-              window.location.replace('panel.html');
+              window.location.href = 'panel.html';
             }, 500);
             return true;
           }
@@ -222,8 +217,8 @@
 
         mostrarAlerta('¡Acceso concedido! Cookie de sesión generada.', 'exito');
         setTimeout(() => {
-          window.location.replace('panel.html');
-        }, 600);
+          window.location.href = 'panel.html';
+        }, 500);
       } else {
         btn.disabled = false;
         btnTxt.textContent = 'Ingresar con Clave';
@@ -239,8 +234,8 @@
       sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
       localStorage.setItem('admin_auth_backup', 'true');
       setTimeout(() => {
-        window.location.replace('panel.html');
-      }, 700);
+        window.location.href = 'panel.html';
+      }, 500);
     }
 
     function toggleVisibilidadClave() {
@@ -270,6 +265,7 @@
 
     document.addEventListener('DOMContentLoaded', verificarSesionServidor);
   </script>
+
 
 
 
