@@ -59,7 +59,6 @@
     const inputKey = document.getElementById('input-key');
     const btnSubmit = document.getElementById('btn-submit');
     const btnGoogle = document.getElementById('btn-google');
-    const txtGoogle = document.getElementById('txt-google');
     const eye = document.getElementById('eye');
     const btnToggle = document.getElementById('btn-toggle');
 
@@ -143,7 +142,7 @@
 
     btnGoogle.addEventListener('click', (e) => {
       e.preventDefault();
-      showAlert('La autenticación con proveedor (Google) debe estar iniciada desde el backend. Si querés, implemento /api/start-oauth.', true);
+      showAlert('La autenticación con proveedor (Google) debe iniciarse desde el backend. Implementá /api/start-oauth si querés ese flujo.', true);
     });
   </script>
 </body>
