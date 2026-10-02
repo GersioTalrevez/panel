@@ -1,517 +1,124 @@
 <!DOCTYPE html>
 <html lang="es" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Control | SERGIO RICARDO MOLINA</title>
-  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            surface: '#111111',
-            'surface-container': '#161616',
-            'surface-card': '#181818',
-            primary: '#005580',
-            'primary-light': '#38bdf8',
-            gold: '#facc15'
-          },
-          fontFamily: {
-            sans: ['Manrope', 'sans-serif'],
-            headline: ['Raleway', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
-    }
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <style>
-    body { background-color: #111111; color: #e5e2e1; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
-    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #005580; }
+    body {
+      background-color: #111111;
+      color: #e5e2e1;
+      font-family: 'Manrope', sans-serif;
+    }
   </style>
 </head>
-<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
-
-  <!-- Header Superior Global -->
-  <header class="w-full bg-[#131313] border-b border-[#222222] sticky top-0 z-50">
-    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
-      <div class="flex items-center gap-3">
-        <button id="btnMobileMenu" onclick="toggleMenuMobile()" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all" aria-label="Menú">
-          <span class="material-symbols-outlined text-[24px]" id="iconMobileMenu">menu</span>
-        </button>
-        <span class="material-symbols-outlined text-[#38bdf8] text-[24px]">grid_view</span>
-        <div class="flex flex-col">
-          <span class="font-headline font-bold text-white text-base sm:text-lg tracking-wide">Panel Control</span>
-          <span class="text-[10px] text-[#888888] font-mono tracking-wider uppercase">SERGIO RICARDO MOLINA</span>
-        </div>
+<body class="bg-[#111111] text-[#e5e2e1] min-h-screen">
+  <div class="max-w-6xl mx-auto p-6">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.18em] text-[#38bdf8] font-semibold">Panel administrativo</p>
+        <h1 class="text-3xl font-bold text-white font-['Raleway']">Control del sitio</h1>
       </div>
 
-      <div class="flex items-center gap-2 sm:gap-3">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#181818] border border-[#2a2a2a] rounded-full text-xs font-mono text-[#38bdf8]">
-          <span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
-          <span class="hidden xs:inline">SISTEMA ACTIVO</span>
-          <span class="xs:hidden">EN VIVO</span>
-        </div>
-        <button onclick="cerrarSesion()" class="px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/20 text-xs font-semibold text-[#c0c7cf] hover:text-red-400 transition-all flex items-center gap-1.5">
-          <span class="material-symbols-outlined text-[16px]">logout</span>
-          <span class="hidden sm:inline">Cerrar Sesión</span>
-        </button>
-      </div>
-    </div>
+      <button id="btn-logout" class="inline-flex items-center gap-2 rounded-xl border border-red-500/40 bg-red-950/20 px-4 py-2 text-sm font-semibold text-red-200 hover:bg-red-900/30 transition">
+        <span class="material-symbols-outlined text-base">logout</span>
+        Cerrar sesión
+      </button>
+    </header>
 
-    <!-- Menú Desplegable Móvil -->
-    <div id="mobileDrawer" class="hidden md:hidden border-b border-[#222222] bg-[#141414] px-4 py-4 space-y-3">
-      <nav class="space-y-1">
-        <a href="panel.html" class="flex items-center justify-between text-white px-3 py-2.5 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">photo_library</span>
-            <span>Galerías</span>
-          </div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-[#002b40] text-[#38bdf8] font-mono" id="badge-total-mobile">0</span>
-        </a>
-        <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
-            <span>Cargas y Enlaces</span>
-          </div>
-          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-        </a>
-        <a href="precios.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[18px]">payments</span>
-            <span>Tarifas y Precios</span>
-          </div>
-          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-        </a>
-        <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-[18px]">insights</span>
-            <span>Métricas y Visitas</span>
-          </div>
-          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-        </a>
-      </nav>
-      <div class="pt-3 border-t border-[#222222] space-y-1">
-        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
-          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
-          <span>Volver a Eventos</span>
-        </a>
-        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
-          <span class="material-symbols-outlined text-[16px]">visibility</span>
-          <span>Ver Portafolio</span>
-        </a>
+    <div class="grid gap-4 md:grid-cols-3 mb-8">
+      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">estado</p>
+        <p class="mt-3 text-2xl font-bold text-white">Activa</p>
+      </div>
+
+      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">usuario</p>
+        <p id="userEmail" class="mt-3 text-xl font-semibold text-[#38bdf8] break-all">Verificando…</p>
+      </div>
+
+      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">acceso</p>
+        <p class="mt-3 text-2xl font-bold text-emerald-400">Permitido</p>
       </div>
     </div>
-  </header>
 
-  <!-- Layout Principal con Sidebar -->
-  <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
-    <!-- Sidebar Desktop -->
-    <aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
-      <div class="space-y-4">
-        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
-        <nav class="space-y-1">
-          <a href="panel.html" class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">photo_library</span>
-              <span>Galerías</span>
-            </div>
-            <span class="text-[10px] px-1.5 py-0.2 rounded bg-[#002b40] text-[#38bdf8] font-mono" id="badge-total-aside">0</span>
-          </a>
-          <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
-              <span>Cargas y Enlaces</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-          <a href="precios.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">payments</span>
-              <span>Tarifas y Precios</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-          <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">insights</span>
-              <span>Métricas y Visitas</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-        </nav>
+    <div class="rounded-2xl border border-[#292929] bg-[#181818] p-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-xl font-bold text-white">Resumen</h2>
+        <span class="rounded-full border border-[#2d2d2d] bg-[#121212] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#8b9199]">
+          Backend validado
+        </span>
       </div>
 
-      <div class="pt-4 border-t border-[#222222] space-y-1">
-        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 mb-1">Portales Públicos</div>
-        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
-          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
-          <span>Volver a Eventos</span>
-        </a>
-        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
-          <span class="material-symbols-outlined text-[16px]">visibility</span>
-          <span>Ver Portafolio</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- Contenido Principal -->
-    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 pb-20 md:pb-8">
-      
-      <!-- Título & Botón de Acción -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <span class="text-[11px] font-mono text-[#38bdf8] uppercase tracking-wider">CONSOLA ATELIER · ARCHIVOS SUPABASE</span>
-          <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1">Administración de Galerías</h1>
-        </div>
-        <a href="cargas.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white rounded-xl text-xs sm:text-sm font-semibold transition-all active:scale-[0.98] shadow-lg shadow-black/50">
-          <span class="material-symbols-outlined text-[18px]">add_circle</span>
-          <span>+ CARGAR NUEVA GALERÍA</span>
-        </a>
-      </div>
-
-      <!-- Tarjetas de Métricas en 3 Columnas -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
-        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-          <div>
-            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Total Registradas</p>
-            <p class="text-2xl font-headline font-bold text-white mt-1" id="lbl-total-galerias">0</p>
-          </div>
-          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
-            <span class="material-symbols-outlined text-[20px]">collections_bookmark</span>
-          </div>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-xl border border-[#2a2a2a] bg-[#121212] p-4">
+          <p class="text-xs uppercase tracking-[0.18em] text-[#8b9199] mb-2">RRSS / gestión</p>
+          <p class="text-sm text-[#d4d4d4]">
+            Este panel sólo se muestra si el backend valida la sesión del usuario.
+          </p>
         </div>
 
-        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-          <div>
-            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Álbumes Públicos</p>
-            <p class="text-2xl font-headline font-bold text-[#38bdf8] mt-1" id="lbl-publicas-count">0</p>
-          </div>
-          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
-            <span class="material-symbols-outlined text-[20px]">lock_open</span>
-          </div>
-        </div>
-
-        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-          <div>
-            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Privadas con Clave</p>
-            <p class="text-2xl font-headline font-bold text-[#facc15] mt-1" id="lbl-privadas-count">0</p>
-          </div>
-          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#facc15]">
-            <span class="material-symbols-outlined text-[20px]">vpn_key</span>
-          </div>
+        <div class="rounded-xl border border-[#2a2a2a] bg-[#121212] p-4">
+          <p class="text-xs uppercase tracking-[0.18em] text-[#8b9199] mb-2">Seguridad</p>
+          <p class="text-sm text-[#d4d4d4]">
+            Sin `localStorage`, sin `sessionStorage` para autorizar acceso. Validación desde cookie HttpOnly.
+          </p>
         </div>
       </div>
-
-      <!-- Barra de Filtros y Búsqueda -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6 bg-[#161616] p-3 rounded-xl border border-[#242424]">
-        <div class="relative flex-1">
-          <span class="material-symbols-outlined text-[#777777] text-[18px] absolute left-3 top-1/2 -translate-y-1/2">search</span>
-          <input type="text" id="input-busqueda" onkeyup="filtrarLista()" placeholder="Filtrar por título, ID de Drive o clave..." class="w-full bg-[#111111] border border-[#2a2a2a] focus:border-[#38bdf8] rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-white outline-none">
-        </div>
-        <div class="flex items-center gap-1 self-start sm:self-auto overflow-x-auto w-full sm:w-auto">
-          <button onclick="cambiarFiltro('todas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#005580] text-white border border-[#0088cc]">Todas</button>
-          <button onclick="cambiarFiltro('publicas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent">Solo Públicas</button>
-          <button onclick="cambiarFiltro('privadas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent">Solo Privadas</button>
-          <button onclick="cargarColecciones()" class="p-1.5 rounded-lg bg-[#111111] border border-[#2a2a2a] text-[#888888] hover:text-[#38bdf8] transition-colors" title="Refrescar">
-            <span class="material-symbols-outlined text-[16px]">sync</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Grid de Galerías Reales (Inicia vacío y solo pinta datos reales) -->
-      <div id="contenedor-galerias" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-
-      <!-- Estado Vacío -->
-      <div id="estado-vacio" class="hidden text-center py-16 px-4 bg-[#141414] border border-dashed border-[#242424] rounded-2xl">
-        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1c1c1c] border border-[#2a2a2a] flex items-center justify-center text-[#38bdf8]">
-          <span class="material-symbols-outlined text-[24px]">folder_off</span>
-        </div>
-        <h3 class="text-base font-bold text-white">No hay galerías registradas en este momento</h3>
-        <p class="text-xs text-[#888888] mt-1 max-w-sm mx-auto">Crea una nueva colección desde Cargas y Enlaces o revisa los filtros aplicados arriba.</p>
-        <a href="cargas.html" class="inline-flex items-center gap-1.5 px-4 py-2 mt-4 bg-[#005580] hover:bg-[#0077b3] text-white rounded-lg text-xs font-semibold transition-all">
-          <span class="material-symbols-outlined text-[16px]">add_circle</span>
-          <span>+ CARGAR NUEVA GALERÍA</span>
-        </a>
-      </div>
-
-    </main>
+    </div>
   </div>
 
-  <!-- Barra de Navegación Inferior Móvil -->
-  <nav class="md:hidden bg-[#131313]/95 backdrop-blur-md border-t border-[#222222] fixed bottom-0 left-0 right-0 z-40 px-2 py-1 flex justify-around items-center">
-    <a href="panel.html" class="flex flex-col items-center py-1 px-2 text-[#38bdf8] font-bold">
-      <span class="material-symbols-outlined text-[20px]">photo_library</span>
-      <span class="text-[10px] mt-0.5">Galerías</span>
-    </a>
-    <a href="cargas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-      <span class="text-[10px] mt-0.5 font-medium">Cargas</span>
-    </a>
-    <a href="precios.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">payments</span>
-      <span class="text-[10px] mt-0.5 font-medium">Tarifas</span>
-    </a>
-    <a href="metricas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">insights</span>
-      <span class="text-[10px] mt-0.5 font-medium">Métricas</span>
-    </a>
-  </nav>
-
-  <!-- Pie de Página Desktop -->
-  <footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666] hidden md:block">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>© 2026 · Sergio Ricardo Molina</p>
-      <div class="flex items-center gap-4 text-[11px] font-mono">
-        <span>ESTUDIO FOTOGRÁFICO PROFESIONAL</span>
-        <span class="text-[#38bdf8]">SUPABASE CLOUD SYNC</span>
-      </div>
-    </div>
-  </footer>
-
   <script>
-    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
-    const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
-
-    // 1. Guardián de Acceso Resiliente
-    (function verificarAccesoSeguro() {
-      const authSession = sessionStorage.getItem('admin_auth') === 'true';
-      const authBackup = localStorage.getItem('admin_auth_backup') === 'true';
-      const cookieAuth = document.cookie.includes('admin_session=true');
-
-      if (!authSession && !authBackup && !cookieAuth) {
-        window.location.href = 'index.html';
-        return;
-      }
-
-      sessionStorage.setItem('admin_auth', 'true');
-      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
-
+    async function ensureSession() {
       try {
-        fetch('/api/session', { credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-    })();
-
-    function toggleMenuMobile() {
-      const drawer = document.getElementById('mobileDrawer');
-      const icon = document.getElementById('iconMobileMenu');
-      if (!drawer) return;
-      const isHidden = drawer.classList.contains('hidden');
-      if (isHidden) {
-        drawer.classList.remove('hidden');
-        if (icon) icon.textContent = 'close';
-      } else {
-        drawer.classList.add('hidden');
-        if (icon) icon.textContent = 'menu';
-      }
-    }
-
-    let supabaseClient = null;
-    try {
-      if (window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      }
-    } catch(err) {
-      console.warn('Supabase init:', err);
-    }
-
-    let coleccionesGlobales = [];
-    let filtroActivo = 'todas';
-
-    async function cargarColecciones() {
-      const contenedor = document.getElementById('contenedor-galerias');
-      const vacio = document.getElementById('estado-vacio');
-      let lista = [];
-
-      // Consulta a Supabase (tabla 'galeria')
-      if (supabaseClient) {
-        try {
-          const { data, error } = await supabaseClient
-            .from('galeria')
-            .select('*')
-            .order('created_at', { ascending: false });
-
-          if (!error && data) {
-            lista = data;
-          }
-        } catch(e) {
-          console.warn('Lectura remota Supabase:', e);
-        }
-      }
-
-      // Combinar con respaldo local
-      try {
-        const locales = JSON.parse(localStorage.getItem('galerias_locales') || '[]');
-        locales.forEach(loc => {
-          const existe = lista.some(rem => String(rem.id) === String(loc.id) || rem.drive_url === loc.drive_url);
-          if (!existe) lista.unshift(loc);
+        const res = await fetch('/api/session', {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
         });
-      } catch(_) {}
 
-      coleccionesGlobales = lista;
-      actualizarContadores();
-      renderizarTarjetas();
-    }
-
-    function actualizarContadores() {
-      const total = coleccionesGlobales.length;
-      const privadas = coleccionesGlobales.filter(g => g.es_privada === true || (g.password && String(g.password).trim().length > 0)).length;
-      const publicas = total - privadas;
-
-      const elTot = document.getElementById('lbl-total-galerias');
-      const elPub = document.getElementById('lbl-publicas-count');
-      const elPriv = document.getElementById('lbl-privadas-count');
-      const elAside = document.getElementById('badge-total-aside');
-      const elMobile = document.getElementById('badge-total-mobile');
-
-      if (elTot) elTot.textContent = total;
-      if (elPub) elPub.textContent = publicas;
-      if (elPriv) elPriv.textContent = privadas;
-      if (elAside) elAside.textContent = total;
-      if (elMobile) elMobile.textContent = total;
-    }
-
-    function renderizarTarjetas() {
-      const contenedor = document.getElementById('contenedor-galerias');
-      const vacio = document.getElementById('estado-vacio');
-      const busqueda = (document.getElementById('input-busqueda')?.value || '').toLowerCase().trim();
-
-      const filtradas = coleccionesGlobales.filter(item => {
-        const esPriv = item.es_privada === true || (item.password && String(item.password).trim().length > 0);
-        if (filtroActivo === 'publicas' && esPriv) return false;
-        if (filtroActivo === 'privadas' && !esPriv) return false;
-
-        if (busqueda) {
-          const tit = (item.titulo || '').toLowerCase();
-          const drive = (item.drive_url || '').toLowerCase();
-          const pass = (item.password || '').toLowerCase();
-          return tit.includes(busqueda) || drive.includes(busqueda) || pass.includes(busqueda);
+        if (!res.ok) {
+          throw new Error('No autorizado');
         }
-        return true;
-      });
 
-      if (filtradas.length === 0) {
-        contenedor.innerHTML = '';
-        vacio?.classList.remove('hidden');
-        return;
-      }
+        const data = await res.json();
+        const emailNode = document.getElementById('userEmail');
 
-      vacio?.classList.add('hidden');
-      contenedor.innerHTML = '';
-
-      filtradas.forEach(item => {
-        const esPriv = item.es_privada === true || (item.password && String(item.password).trim().length > 0);
-        const driveId = extraerIdDrive(item.drive_url);
-        const portada = item.portada_url || (driveId ? `https://lh3.googleusercontent.com/d/${driveId}=w600` : '');
-        const fecha = item.created_at ? new Date(item.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Reciente';
-
-        const card = document.createElement('div');
-        card.className = 'bg-[#181818] border border-[#262626] rounded-xl overflow-hidden hover:border-[#0088cc]/60 transition-all flex flex-col justify-between shadow-lg';
-        card.innerHTML = `
-          <div>
-            <div class="relative w-full aspect-[16/9] bg-[#111111] overflow-hidden">
-              ${portada ? `<img src="${portada}" alt="${item.titulo || 'Portada'}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full text-xs text-[#666666]\\'>Sin portada</div>'">` : `<div class="flex items-center justify-center h-full text-xs text-[#666666]">Sin portada</div>`}
-              <div class="absolute top-2.5 left-2.5">
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono uppercase tracking-wider ${esPriv ? 'bg-amber-950/80 text-amber-400 border border-amber-600/50' : 'bg-[#004466]/80 text-[#38bdf8] border border-[#0088cc]/50'}">
-                  <span class="material-symbols-outlined text-[12px]">${esPriv ? 'lock' : 'public'}</span>
-                  <span>${esPriv ? 'PRIVADA' : 'PÚBLICA'}</span>
-                </span>
-              </div>
-            </div>
-            <div class="p-4">
-              <h3 class="text-sm sm:text-base font-headline font-bold text-white line-clamp-1">${item.titulo || 'Sin Título'}</h3>
-              <div class="mt-2 space-y-1 font-mono text-[11px] text-[#888888]">
-                <div class="flex items-center justify-between">
-                  <span class="truncate">ID DRIVE: ${driveId || 'Directo'}</span>
-                  <span>${fecha}</span>
-                </div>
-                ${esPriv ? `<div class="text-[#facc15] font-semibold">CLAVE: ${item.password || 'Asignada'}</div>` : '<div class="text-[#38bdf8]">ACCESO: Público / Abierto</div>'}
-              </div>
-            </div>
-          </div>
-          <div class="p-4 pt-0 border-t border-[#222222] mt-2 flex items-center justify-between gap-2">
-            <button onclick="eliminarGaleria('${item.id}', '${item.drive_url}', '${(item.titulo || '').replace(/'/g, "\\\'")}')" class="w-full py-2 px-3 rounded-lg border border-red-500/30 hover:border-red-500/60 bg-red-950/20 hover:bg-red-950/40 text-red-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
-              <span class="material-symbols-outlined text-[15px]">delete</span>
-              <span>Eliminar</span>
-            </button>
-          </div>
-        `;
-        contenedor.appendChild(card);
-      });
-    }
-
-    async function eliminarGaleria(id, driveUrl, titulo) {
-      if (!confirm(`¿Eliminar la galería "${titulo}"? Se quitará de la nube y del sitio web.`)) return;
-
-      try {
-        let locales = JSON.parse(localStorage.getItem('galerias_locales') || '[]');
-        locales = locales.filter(g => String(g.id) !== String(id) && g.drive_url !== driveUrl);
-        localStorage.setItem('galerias_locales', JSON.stringify(locales));
-      } catch(_) {}
-
-      if (supabaseClient) {
-        try {
-          if (id && !isNaN(id)) await supabaseClient.from('galeria').delete().eq('id', id);
-          if (driveUrl) await supabaseClient.from('galeria').delete().eq('drive_url', driveUrl);
-        } catch(e) {
-          console.warn('Borrado Supabase:', e);
+        if (emailNode) {
+          emailNode.textContent = data.email || 'usuario@admin';
         }
+      } catch (err) {
+        console.warn('Session invalid:', err);
+        window.location.href = 'index.html?unauthorized=1';
       }
-
-      cargarColecciones();
     }
 
-    function cambiarFiltro(tipo, btn) {
-      filtroActivo = tipo;
-      document.querySelectorAll('.btn-filtro').forEach(b => {
-        b.className = 'btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent';
-      });
-      if (btn) {
-        btn.className = 'btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#005580] text-white border border-[#0088cc]';
-      }
-      renderizarTarjetas();
-    }
-
-    function filtrarLista() {
-      renderizarTarjetas();
-    }
-
-    function extraerIdDrive(input) {
-      if (!input) return '';
-      const str = String(input).trim();
-      const matchFolder = str.match(/folders\/([a-zA-Z0-9_-]+)/);
-      if (matchFolder && matchFolder[1]) return matchFolder[1];
-      const matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      if (matchId && matchId[1]) return matchId[1];
-      const matchD = str.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (matchD && matchD[1]) return matchD[1];
-      return str.split('?')[0].split('#')[0].replace(/.*drive\.google\.com\//, '').trim();
-    }
-
-    function cerrarSesion() {
-      sessionStorage.clear();
-      localStorage.removeItem('admin_auth_backup');
+    async function logout() {
       try {
-        document.cookie = 'admin_session=; Path=/; Max-Age=0;';
-        document.cookie = 'admin_email=; Path=/; Max-Age=0;';
-        fetch('/api/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-      window.location.href = 'index.html';
+        await fetch('/api/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+      } catch (err) {
+        console.warn('Logout failed:', err);
+      } finally {
+        window.location.href = 'index.html?logout=true';
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', cargarColecciones);
+    document.addEventListener('DOMContentLoaded', () => {
+      ensureSession();
+
+      const btnLogout = document.getElementById('btn-logout');
+      if (btnLogout) {
+        btnLogout.addEventListener('click', logout);
+      }
+    });
   </script>
 </body>
 </html>
