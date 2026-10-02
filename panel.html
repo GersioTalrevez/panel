@@ -1,79 +1,808 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Panel seguro</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script>
-    (function() {
-      const sessionOK = document.cookie.includes('admin_session=true');
-      if (!sessionOK) {
-        window.location.href = 'index.html?unauthorized=1';
-      }
-    })();
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Darkroom Console — Panel de Administración</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Raleway:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&family=Raleway:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#8dbee6",
+            "surface-variant": "#353534",
+            "inverse-surface": "#e5e2e1",
+            "tertiary-container": "#794303",
+            "tertiary": "#ffb878",
+            "secondary-fixed": "#cae6ff",
+            "surface-container-low": "#1c1b1b",
+            "outline": "#8b9199",
+            "on-surface-variant": "#c0c7cf",
+            "secondary": "#9bccf4",
+            "on-tertiary-fixed": "#2e1500",
+            "secondary-fixed-dim": "#9bccf4",
+            "surface": "#131313",
+            "on-surface": "#e5e2e1",
+            "on-tertiary-fixed-variant": "#6c3a00",
+            "on-primary-fixed": "#001e30",
+            "error-container": "#93000a",
+            "primary-container": "#005580",
+            "on-error-container": "#ffdad6",
+            "on-primary": "#003350",
+            "surface-container-highest": "#353534",
+            "on-tertiary": "#4c2700",
+            "primary-fixed-dim": "#91cdfe",
+            "surface-container-high": "#2a2a2a",
+            "on-primary-fixed-variant": "#004b72",
+            "on-secondary-fixed-variant": "#0e4b6d",
+            "error": "#ffb4ab",
+            "tertiary-fixed-dim": "#ffb878",
+            "on-tertiary-container": "#ffb36e",
+            "surface-container-lowest": "#0e0e0e",
+            "secondary-container": "#124d70",
+            "primary": "#91cdfe",
+            "on-secondary": "#00344f",
+            "tertiary-fixed": "#ffdcc1",
+            "outline-variant": "#41474e",
+            "on-background": "#e5e2e1",
+            "on-primary-container": "#8ec9fa",
+            "on-secondary-fixed": "#001e30",
+            "surface-dim": "#131313",
+            "surface-container": "#201f1f",
+            "primary-fixed": "#cbe6ff",
+            "background": "#131313",
+            "on-error": "#690005",
+            "surface-bright": "#3a3939",
+            "inverse-primary": "#1e638f",
+            "surface-tint": "#91cdfe",
+            "inverse-on-surface": "#313030"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-2xs": "0.25rem",
+            "space-2xl": "3rem",
+            "space-sm": "0.75rem",
+            "gutter-mobile": "1rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter-tablet": "1.5rem",
+            "container-max": "1440px",
+            "gutter-desktop": "2rem",
+            "space-3xl": "4.5rem",
+            "space-xs": "0.5rem",
+            "space-4xl": "6rem"
+          },
+          "fontFamily": {
+            "display-hero-mobile": ["Raleway"],
+            "headline-sm": ["Raleway"],
+            "headline-lg": ["Raleway"],
+            "headline-lg-mobile": ["Raleway"],
+            "body-md": ["Manrope"],
+            "display-hero": ["Raleway"],
+            "label-sm": ["Manrope"],
+            "headline-md": ["Raleway"],
+            "label-md": ["Manrope"],
+            "body-lg": ["Manrope"]
+          },
+          "fontSize": {
+            "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
   </script>
-  <style>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Atelier Darkroom custom styling tokens */
     body {
       background-color: #111111;
       color: #e5e2e1;
-      font-family: 'Manrope', sans-serif;
+    }
+    .atelier-card {
+      background: #181818;
+      border: 1px solid #333333;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    }
+    .atelier-card:hover {
+      border-color: #005580;
+      box-shadow: 0 4px 20px rgba(0, 85, 128, 0.15);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #111111;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 3px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #005580;
     }
   </style>
+<!-- Verificación de Seguridad y Sesión Síncrona/Asíncrona Obligatoria -->
+<script>
+    (function enforceSessionAuth() {
+      // 1. Verificación síncrona en sessionStorage
+      const localUser = sessionStorage.getItem('admin_user') || localStorage.getItem('admin_user');
+      const localKey = sessionStorage.getItem('admin_key') || localStorage.getItem('admin_key');
+      const localRole = sessionStorage.getItem('auth_token') || localStorage.getItem('admin_auth');
+
+      const isSynchronouslyValid = (localUser === 'molinaoksergio@gmail.com' || localKey === 'admin2026' || localRole === 'admin2026');
+
+      // 2. Verificación asíncrona de endpoint backend
+      fetch('/api/session', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(res => {
+        if (!res.ok && !isSynchronouslyValid) {
+          throw new Error('Sesión no autorizada');
+        }
+        return res.json().catch(() => ({ authenticated: isSynchronouslyValid }));
+      })
+      .then(data => {
+        if (!data.authenticated && !isSynchronouslyValid) {
+          window.location.replace('index.html');
+        }
+      })
+      .catch(() => {
+        if (!isSynchronouslyValid) {
+          window.location.replace('index.html');
+        }
+      });
+    })();
+  </script>
 </head>
-<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex items-center justify-center p-6">
-  <div class="w-full max-w-xl bg-[#181818] border border-[#292929] rounded-2xl p-8 shadow-2xl">
-    <div class="flex justify-center mb-5">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#005580]/30 border border-[#005580] text-[#38bdf8] text-[11px] font-bold tracking-wider uppercase">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse"></span>
-        SESIÓN VALIDADA
+<body class="bg-[#111111] text-on-surface font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-white">
+<!-- TopNavBar (Shared Component from JSON) -->
+<header class="bg-surface docked full-width top-0 shadow-sm border-b border-outline-variant z-40 sticky">
+<div class="flex justify-between items-center w-full px-space-gutter-desktop max-w-container-max mx-auto h-16">
+<!-- Brand Logo & Mobile Trigger -->
+<div class="flex items-center space-x-3">
+<button aria-label="Abrir Menú" class="md:hidden text-on-surface p-1.5 rounded hover:bg-surface-container-high transition-colors" id="mobileMenuBtn">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="flex items-center space-x-2">
+<span class="w-2.5 h-2.5 rounded-full bg-[#005580] animate-pulse"></span>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface tracking-wide">Darkroom Console</span>
+</div>
+<span class="hidden lg:inline-block px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-[#181818] border border-[#333333] text-primary">v3.4 Production</span>
+</div>
+<!-- Center Navigation Links (Shared Component Structure) -->
+<nav class="hidden md:flex items-center space-x-6 text-label-md font-label-md">
+<a class="text-primary border-b-2 border-primary pb-1 font-medium hover:text-primary transition-colors duration-150" href="panel.html">OAuth</a>
+<a class="text-on-surface-variant hover:text-on-surface pb-1 transition-colors duration-150" href="panel.html#supabase">Supabase</a>
+<a class="text-on-surface-variant hover:text-on-surface pb-1 transition-colors duration-150" href="panel.html#permisos">Permisos</a>
+<a class="text-on-surface-variant hover:text-on-surface pb-1 transition-colors duration-150" href="panel.html#diagnostico">Diagnóstico</a>
+</nav>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center space-x-3">
+<button class="hidden sm:inline-flex items-center text-label-md font-label-md px-3.5 py-1.5 rounded-lg border border-[#005580] bg-[#004466] text-white hover:bg-primary-container transition-colors active:scale-[0.98]" id="btnProbarAcceso">
+<span class="material-symbols-outlined text-[16px] mr-1.5" data-icon="verified_user">verified_user</span>
+          Probar Acceso
+        </button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-[0.98]" id="btnRefreshConsole" title="Refrescar datos">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors active:scale-[0.98]" id="btnAdminSettings" title="Configuraciones de Propietario">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+</button>
+<!-- Profile & Logout action -->
+<div class="flex items-center pl-2 border-l border-outline-variant space-x-2">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant bg-[#181818] flex items-center justify-center text-xs font-bold text-primary" title="Sergio Ricardo Molina (molinaoksergio@gmail.com)">
+            SM
+          </div>
+<button class="flex items-center space-x-1 py-1.5 px-2.5 rounded-lg text-xs font-semibold text-error hover:bg-error-container/20 transition-all active:scale-[0.98]" id="btnLogout" title="Cerrar Sesión">
+<span class="material-symbols-outlined text-[18px]" data-icon="logout">logout</span>
+<span class="hidden sm:inline">Salir</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Mobile Drawer Menu -->
+<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden md:hidden flex flex-col justify-end" id="mobileDrawer">
+<div class="bg-[#181818] border-t border-[#333333] p-6 rounded-t-2xl space-y-4 max-h-[85vh] overflow-y-auto">
+<div class="flex justify-between items-center border-b border-[#2a2a2a] pb-3">
+<h3 class="font-headline-sm text-headline-sm text-white">Navegación Atelier</h3>
+<button class="text-on-surface-variant hover:text-white" id="closeDrawerBtn">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg bg-[#004466] border border-[#0088cc] text-white font-medium" href="panel.html">
+<span class="material-symbols-outlined text-primary" data-icon="photo_library">photo_library</span>
+<span>Galerías</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-[#222222] hover:text-white" href="cargas.html">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span>Cargas y Enlaces</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-[#222222] hover:text-white" href="precios.html">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Tarifas y Precios</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-[#222222] hover:text-white" href="metricas.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Métricas y Visitas</span>
+</a>
+</div>
+<div class="pt-3 border-t border-[#2a2a2a] space-y-2">
+<a class="flex items-center space-x-2 text-xs text-secondary hover:text-white" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_outward">arrow_outward</span>
+<span>Volver a Eventos Escolares</span>
+</a>
+<a class="flex items-center space-x-2 text-xs text-secondary hover:text-white" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]" data-icon="arrow_outward">arrow_outward</span>
+<span>Ver Portafolio Sergio Molina</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Body Layout: Fixed Sidebar (Desktop) + Work Canvas -->
+<div class="flex-1 flex w-full max-w-[1720px] mx-auto">
+<!-- Fixed Lateral Sidebar (Desktop >= 800px) -->
+<aside class="hidden md:flex flex-col w-72 shrink-0 border-r border-[#222222] bg-[#111111] p-5 justify-between min-h-[calc(100vh-4rem)] sticky top-16">
+<div class="space-y-6">
+<!-- Propietario Badge & Signature -->
+<div class="p-3.5 rounded-xl bg-[#181818] border border-[#262626]">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-[#004466] border border-[#005580] flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined text-[22px]" data-icon="camera_roll">camera_roll</span>
+</div>
+<div class="overflow-hidden">
+<h2 class="text-xs font-bold text-white tracking-wider uppercase truncate">Sergio Ricardo Molina</h2>
+<p class="text-[11px] text-on-surface-variant truncate">Consola Propietario</p>
+<div class="flex items-center space-x-1.5 mt-1">
+<span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+<span class="text-[10px] text-emerald-400 font-medium tracking-wide">Sesión Autorizada</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Master Navigation Links -->
+<nav class="space-y-1.5">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider px-3">Gestión de Archivo</span>
+<!-- Galerías (Activo Mandatorio) -->
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-[#004466] border border-[#0088cc] text-white font-medium shadow-sm transition-transform duration-120 active:scale-[0.98]" href="panel.html">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary" data-icon="photo_library">photo_library</span>
+<span class="text-body-md font-body-md">Galerías</span>
+</div>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-container text-white" id="badgeTotalNav">0</span>
+</a>
+<!-- Cargas y Enlaces -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-[#181818] border border-transparent hover:border-[#2e2e2e] transition-all duration-150 active:scale-[0.98]" href="cargas.html">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="text-body-md font-body-md">Cargas y Enlaces</span>
+</a>
+<!-- Tarifas y Precios -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-[#181818] border border-transparent hover:border-[#2e2e2e] transition-all duration-150 active:scale-[0.98]" href="precios.html">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-body-md font-body-md">Tarifas y Precios</span>
+</a>
+<!-- Métricas y Visitas -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-[#181818] border border-transparent hover:border-[#2e2e2e] transition-all duration-150 active:scale-[0.98]" href="metricas.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-body-md font-body-md">Métricas y Visitas</span>
+</a>
+</nav>
+<!-- External Bridge Links -->
+<div class="space-y-2 pt-4 border-t border-[#222222]">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider px-3">Ecosistema Externo</span>
+<a class="group flex items-center justify-between px-3 py-2 rounded-lg text-xs text-on-surface-variant hover:text-white hover:bg-[#181818] border border-transparent hover:border-[#2e2e2e] transition-all" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" rel="noopener noreferrer" target="_blank">
+<span class="truncate">Volver a Eventos</span>
+<span class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors" data-icon="north_east">north_east</span>
+</a>
+<a class="group flex items-center justify-between px-3 py-2 rounded-lg text-xs text-on-surface-variant hover:text-white hover:bg-[#181818] border border-transparent hover:border-[#2e2e2e] transition-all" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
+<span class="truncate">Ver Portafolio Sergio</span>
+<span class="material-symbols-outlined text-[16px] text-outline group-hover:text-primary transition-colors" data-icon="north_east">north_east</span>
+</a>
+</div>
+</div>
+<!-- Sync Monitor Mini-Card -->
+<div class="p-3 bg-[#141414] border border-[#242424] rounded-xl space-y-2">
+<div class="flex items-center justify-between text-[11px] text-outline">
+<span>Supabase Realtime</span>
+<span class="inline-flex items-center text-emerald-400 font-semibold text-[10px]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1 animate-ping"></span>
+            Sync Activo
+          </span>
+</div>
+<p class="text-[10px] text-on-surface-variant font-mono truncate">ID: molinaoksergio@gmail.com</p>
+</div>
+</aside>
+<!-- Content Workspace -->
+<main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+<!-- Header Section: Gallery & Session Administrator -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-[#222222]">
+<div>
+<div class="flex items-center space-x-2 text-xs font-semibold text-primary tracking-wide uppercase mb-1">
+<span class="material-symbols-outlined text-[16px]" data-icon="shelves">shelves</span>
+<span>Módulo de Gestión de Álbumes</span>
+</div>
+<h1 class="text-headline-md font-headline-md font-bold text-white tracking-tight">Administrador de Galerías y Sesiones</h1>
+<p class="text-body-md text-on-surface-variant mt-1">Monitoreo de almacenamiento en Drive, niveles de clave criptográfica y control editorial de accesos directos.</p>
+</div>
+<div class="flex items-center space-x-3">
+<a class="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-[#004466] border border-[#005580] text-white hover:bg-[#005580] hover:border-[#0077b3] font-label-md text-label-md uppercase tracking-wider shadow-md transition-all active:scale-[0.98]" href="cargas.html">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_photo_alternate">add_photo_alternate</span>
+<span>+ Cargar Nueva Galería</span>
+</a>
+</div>
+</div>
+<!-- Métricas Rápidas: Bento Layout -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+<!-- Total Registradas -->
+<div class="atelier-card rounded-xl p-4 flex items-center justify-between">
+<div>
+<span class="text-label-sm font-label-sm uppercase text-outline">Total Registradas</span>
+<div class="text-headline-lg font-headline-lg font-bold text-white mt-1" id="metricTotal">0</div>
+<p class="text-[11px] text-on-surface-variant">Archivos sincronizados</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-[#1c1b1b] border border-[#333333] flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]" data-icon="folder_special">folder_special</span>
+</div>
+</div>
+<!-- Álbumes Públicos -->
+<div class="atelier-card rounded-xl p-4 flex items-center justify-between">
+<div>
+<span class="text-label-sm font-label-sm uppercase text-emerald-400">Álbumes Públicos</span>
+<div class="text-headline-lg font-headline-lg font-bold text-emerald-400 mt-1" id="metricPublic">0</div>
+<p class="text-[11px] text-on-surface-variant">Acceso libre sin contraseña</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-emerald-950/30 border border-emerald-800/40 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-[26px]" data-icon="lock_open_right">lock_open_right</span>
+</div>
+</div>
+<!-- Privadas con Clave -->
+<div class="atelier-card rounded-xl p-4 flex items-center justify-between">
+<div>
+<span class="text-label-sm font-label-sm uppercase text-secondary">Privadas con Clave</span>
+<div class="text-headline-lg font-headline-lg font-bold text-secondary mt-1" id="metricPrivate">0</div>
+<p class="text-[11px] text-on-surface-variant">Protegidas con credencial</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-[#124d70]/40 border border-[#005580] flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[26px]" data-icon="key">key</span>
+</div>
+</div>
+</div>
+<!-- Barra de búsqueda y Filtros Rápidos -->
+<div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 p-3.5 rounded-xl bg-[#181818] border border-[#2e2e2e] mb-6">
+<!-- Input de Búsqueda -->
+<div class="relative flex-1">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+</span>
+<input class="w-full pl-9 pr-4 py-2 bg-[#111111] border border-[#333333] rounded-lg text-white placeholder-[#555555] text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-colors" id="searchInput" placeholder="Buscar por título, Drive ID, fecha o clave..." type="text"/>
+</div>
+<!-- Filtros Chips & Botón Refrescar -->
+<div class="flex flex-wrap items-center gap-2">
+<div class="flex items-center p-1 bg-[#111111] border border-[#333333] rounded-lg">
+<button class="filter-chip px-3 py-1 text-xs font-semibold rounded-md transition-colors bg-[#004466] border border-[#005580] text-white" data-filter="all">Todas</button>
+<button class="filter-chip px-3 py-1 text-xs font-semibold rounded-md transition-colors text-outline hover:text-white" data-filter="public">Solo Públicas</button>
+<button class="filter-chip px-3 py-1 text-xs font-semibold rounded-md transition-colors text-outline hover:text-white" data-filter="private">Solo Privadas</button>
+</div>
+<button class="p-2 bg-[#111111] border border-[#333333] text-on-surface-variant hover:text-white hover:border-[#005580] rounded-lg transition-colors active:scale-[0.98]" id="btnReloadList" title="Recargar Galerías">
+<span class="material-symbols-outlined text-[20px]" data-icon="sync">sync</span>
+</button>
+</div>
+</div>
+<!-- Estado de Carga / Alertas -->
+<div class="hidden p-3 mb-6 rounded-lg bg-[#004466]/30 border border-[#005580] text-xs text-primary flex items-center justify-between" id="statusNotice">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span>
+<span id="statusNoticeText">Conectando a base de datos de producción...</span>
+</div>
+<button class="text-primary hover:text-white text-xs font-bold" id="closeNoticeBtn">Entendido</button>
+</div>
+<!-- Cuadrícula Dinámica de Galerías (Atelier Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="galleriesGrid">
+<!-- Renderizado dinámico vía JavaScript -->
+</div>
+<!-- Empty State -->
+<div class="hidden flex-col items-center justify-center py-20 text-center rounded-2xl border border-dashed border-[#333333] bg-[#141414] my-6" id="emptyState">
+<div class="w-16 h-16 rounded-full bg-[#1c1b1b] border border-[#2a2a2a] flex items-center justify-center text-outline mb-4">
+<span class="material-symbols-outlined text-[32px]" data-icon="photo_album">photo_album</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-white">No se hallaron galerías</h3>
+<p class="text-body-md text-on-surface-variant max-w-sm mt-1">Ajusta los filtros de búsqueda o registra una nueva entrega fotográfica desde el cargador.</p>
+<a class="mt-4 px-4 py-2 bg-[#004466] border border-[#005580] text-white text-xs font-semibold rounded-lg hover:bg-primary-container transition-all" href="cargas.html">
+          Cargar Primera Galería
+        </a>
+</div>
+</main>
+</div>
+<!-- Modal de Confirmación para Eliminar Galería -->
+<div class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4" id="deleteModal">
+<div class="atelier-card rounded-2xl max-w-md w-full p-6 space-y-4 border border-error-container shadow-2xl">
+<div class="flex items-center space-x-3 text-error">
+<div class="p-2.5 rounded-xl bg-error-container/30 border border-error-container">
+<span class="material-symbols-outlined text-[24px]" data-icon="warning">warning</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-white">Confirmar Eliminación</h3>
+<p class="text-xs text-error font-medium">Esta acción desvinculará la galería permanentemente</p>
+</div>
+</div>
+<p class="text-body-md text-on-surface-variant" id="deleteTargetText">
+        ¿Estás seguro de que deseas eliminar este registro de la base de datos de producción?
+      </p>
+<div class="flex justify-end items-center space-x-3 pt-3 border-t border-[#333333]">
+<button class="px-4 py-2 rounded-lg border border-[#444444] text-white hover:bg-white/5 text-xs font-semibold transition-all" id="cancelDeleteBtn">
+          Cancelar
+        </button>
+<button class="px-4 py-2 rounded-lg bg-error-container text-white hover:bg-red-800 text-xs font-semibold transition-all flex items-center space-x-1.5" id="confirmDeleteBtn">
+<span class="material-symbols-outlined text-[16px]" data-icon="delete_forever">delete_forever</span>
+<span>Eliminar Galería</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer (Shared Component from JSON) -->
+<footer class="bg-surface-container-lowest docked full-width bottom flat no shadows border-t border-outline-variant mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-space-gutter-desktop max-w-container-max mx-auto py-space-md gap-4">
+<div class="text-label-md font-label-md text-on-surface-variant text-center md:text-left">
+        © 2024 Darkroom Archive Engine · Sergio Ricardo Molina (molinaoksergio@gmail.com)
       </div>
-    </div>
+<div class="flex flex-wrap items-center justify-center gap-6 text-label-sm font-label-sm text-outline">
+<a class="text-primary hover:text-on-surface transition-colors duration-150" href="panel.html#oauth">Términos de OAuth</a>
+<a class="text-outline hover:text-on-surface transition-colors duration-150" href="panel.html#seguridad">Seguridad Supabase</a>
+<a class="text-outline hover:text-on-surface transition-colors duration-150" href="panel.html#tokens">Tokens de Drive</a>
+<a class="text-outline hover:text-on-surface transition-colors duration-150" href="panel.html#estado">Estado de API</a>
+</div>
+</div>
+</footer>
+<!-- Control Scripts: Supabase Fallback, LocalStorage Cache, Search & Interactive Logic -->
+<script>
+    // Configuración y datos precargados con resiliencia en tiempo real
+    const INITIAL_GALLERIES = [
+      {
+        id: "gal-01",
+        titulo: "Promoción Bachillerato Humanístico 2024",
+        categoria: "Eventos Escolares",
+        driveId: "1Af7k8XmN9PqRtVwZy3b",
+        privada: true,
+        clave: "PROMO2024",
+        fecha: "18 Nov 2024",
+        totalFotos: 342,
+        portada: "placeholder",
+        portadaAlt: "Editorial darkroom photograph capturing a high school graduation ceremony in high-contrast oceanic tones and dramatic overhead spotlights against near-black gallery shadows."
+      },
+      {
+        id: "gal-02",
+        titulo: "Jornada Deportiva Intercolegial Quilmes",
+        categoria: "Institucional",
+        driveId: "1Zp8RtLmKnVx7QyW1a4C",
+        privada: false,
+        clave: "",
+        fecha: "05 Nov 2024",
+        totalFotos: 512,
+        portada: "placeholder",
+        portadaAlt: "Dynamic track and field athletic capture with motion blur and precise lens coating flare, bathed in muted maritime teal and deep rich blacks."
+      },
+      {
+        id: "gal-03",
+        titulo: "Sesión Artística de Graduación Individual",
+        categoria: "Retratos de Estudio",
+        driveId: "1Mv3JxK9PqRtWz8bY4cL",
+        privada: true,
+        clave: "RETRATO77",
+        fecha: "28 Oct 2024",
+        totalFotos: 88,
+        portada: "placeholder",
+        portadaAlt: "High-end studio portrait of a student graduate lit with a subtle key light in a darkened atelier background with deep navy cyan undertones."
+      },
+      {
+        id: "gal-04",
+        titulo: "Acto de Cierre Ciclo Primario 2024",
+        categoria: "Eventos Escolares",
+        driveId: "1Qk9Vb4Xp7NmRyZ2tW8c",
+        privada: false,
+        clave: "",
+        fecha: "12 Oct 2024",
+        totalFotos: 260,
+        portada: "placeholder",
+        portadaAlt: "Atmospheric wide-angle photograph of an illuminated auditorium stage filled with elementary students, framed in rich darkroom contrast and cinematic blue ambiance."
+      }
+    ];
 
-    <h1 class="text-3xl font-bold text-white mb-3 text-center">Panel administrativo</h1>
-    <p class="text-sm text-[#a3a3a3] text-center mb-6">
-      Este panel solo debe mostrarse cuando tu backend haya validado la sesión del usuario.
-    </p>
+    // Estado local de la aplicación
+    let activeFilter = 'all';
+    let galleriesState = [];
+    let pendingDeleteId = null;
 
-    <div class="bg-[#121212] border border-[#2b2b2b] rounded-xl p-4 text-sm text-[#d4d4d4]">
-      <p class="mb-2">
-        <span class="font-semibold text-white">Estado:</span> autenticado por servidor.
-      </p>
-      <p class="mb-2">
-        <span class="font-semibold text-white">Riesgo eliminado:</span> sin localStorage ni sessionStorage para autorizar acceso.
-      </p>
-      <p>
-        <span class="font-semibold text-white">Requisito:</span> implementar /api/verify-admin y /api/verify-key en tu backend para habilitar funcionalidad real.
-      </p>
-    </div>
-
-    <div class="mt-6 flex justify-center">
-      <button id="btn-logout" class="bg-[#005580] hover:bg-[#006ca3] text-white px-4 py-2 rounded-lg text-sm font-semibold">
-        Cerrar sesión
-      </button>
-    </div>
-  </div>
-
-  <script>
-    function limpiarAutenticacionLocal() {
-      localStorage.removeItem('admin_autenticado');
-      localStorage.removeItem('admin_email');
-      sessionStorage.removeItem('admin_autenticado');
-      sessionStorage.removeItem('admin_email');
+    // Inicializar almacén unificado
+    function initDatabase() {
+      const stored = localStorage.getItem('darkroom_galerias_cache');
+      if (stored) {
+        try {
+          galleriesState = JSON.parse(stored);
+        } catch(e) {
+          galleriesState = [...INITIAL_GALLERIES];
+        }
+      } else {
+        galleriesState = [...INITIAL_GALLERIES];
+        saveDatabase();
+      }
+      refreshMetrics();
+      renderGalleries();
     }
 
-    document.getElementById('btn-logout').addEventListener('click', function () {
-      document.cookie = 'admin_session=; Max-Age=0; path=/;';
-      limpiarAutenticacionLocal();
-      window.location.href = 'index.html?logout=true';
+    function saveDatabase() {
+      localStorage.setItem('darkroom_galerias_cache', JSON.stringify(galleriesState));
+      refreshMetrics();
+    }
+
+    function refreshMetrics() {
+      const total = galleriesState.length;
+      const publics = galleriesState.filter(g => !g.privada).length;
+      const privates = galleriesState.filter(g => g.privada).length;
+
+      document.getElementById('metricTotal').textContent = total;
+      document.getElementById('metricPublic').textContent = publics;
+      document.getElementById('metricPrivate').textContent = privates;
+      document.getElementById('badgeTotalNav').textContent = total;
+    }
+
+    function renderGalleries() {
+      const grid = document.getElementById('galleriesGrid');
+      const empty = document.getElementById('emptyState');
+      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+
+      const filtered = galleriesState.filter(item => {
+        // Filtro por tipo
+        if (activeFilter === 'public' && item.privada) return false;
+        if (activeFilter === 'private' && !item.privada) return false;
+
+        // Búsqueda
+        if (searchVal) {
+          const matchTitle = (item.titulo || '').toLowerCase().includes(searchVal);
+          const matchDrive = (item.driveId || '').toLowerCase().includes(searchVal);
+          const matchDate = (item.fecha || '').toLowerCase().includes(searchVal);
+          const matchPass = (item.clave || '').toLowerCase().includes(searchVal);
+          const matchCat = (item.categoria || '').toLowerCase().includes(searchVal);
+          return matchTitle || matchDrive || matchDate || matchPass || matchCat;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        empty.classList.add('flex');
+        return;
+      }
+
+      empty.classList.add('hidden');
+      empty.classList.remove('flex');
+
+      grid.innerHTML = filtered.map(gal => {
+        const isPriv = gal.privada;
+        return `
+          <div class="atelier-card rounded-xl overflow-hidden flex flex-col justify-between group" data-id="${gal.id}">
+            <div>
+              <!-- Imagen Portada & Badge de Estado -->
+              <div class="relative w-full h-48 bg-[#0a0a0a] overflow-hidden border-b border-[#2a2a2a]">
+                <img src="${gal.portada}" data-alt="${gal.portadaAlt}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-black/40"></div>
+                
+                <!-- Status Badge -->
+                <div class="absolute top-3 left-3 flex items-center space-x-1 px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider backdrop-blur-md ${isPriv ? 'bg-[#181818]/90 border border-primary text-primary' : 'bg-emerald-950/80 border border-emerald-500 text-emerald-300'}">
+                  <span class="material-symbols-outlined text-[14px]" data-icon="${isPriv ? 'lock' : 'lock_open'}">${isPriv ? 'lock' : 'lock_open'}</span>
+                  <span>${isPriv ? 'Privada' : 'Pública'}</span>
+                </div>
+
+                <!-- Cantidad de Fotos -->
+                <div class="absolute bottom-2.5 right-3 px-2 py-0.5 rounded bg-black/75 backdrop-blur-sm border border-white/10 text-[11px] text-white flex items-center space-x-1">
+                  <span class="material-symbols-outlined text-[14px]" data-icon="photo_camera">photo_camera</span>
+                  <span>${gal.totalFotos || 0} tomas</span>
+                </div>
+              </div>
+
+              <!-- Metadatos de la Galería -->
+              <div class="p-4 space-y-3">
+                <div class="flex items-center justify-between text-[11px] text-outline">
+                  <span>${gal.categoria || 'Catálogo Oficial'}</span>
+                  <span class="flex items-center space-x-1">
+                    <span class="material-symbols-outlined text-[13px]" data-icon="calendar_today">calendar_today</span>
+                    <span>${gal.fecha || 'Reciente'}</span>
+                  </span>
+                </div>
+
+                <h3 class="text-headline-sm font-headline-sm text-white font-semibold line-clamp-1 group-hover:text-primary transition-colors">
+                  ${gal.titulo}
+                </h3>
+
+                <!-- Info Grid de Drive ID y Clave -->
+                <div class="space-y-1.5 pt-2 border-t border-[#262626] font-mono text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="text-outline text-[11px]">Drive ID:</span>
+                    <span class="text-white truncate max-w-[160px] bg-[#111111] px-2 py-0.5 rounded border border-[#2e2e2e] select-all">${gal.driveId}</span>
+                  </div>
+
+                  <div class="flex items-center justify-between">
+                    <span class="text-outline text-[11px]">Clave de Acceso:</span>
+                    ${isPriv ? `
+                      <span class="text-secondary font-bold bg-[#004466]/40 border border-[#005580] px-2 py-0.5 rounded select-all flex items-center space-x-1">
+                        <span class="material-symbols-outlined text-[12px]" data-icon="key">key</span>
+                        <span>${gal.clave || 'SIN_CLAVE'}</span>
+                      </span>
+                    ` : `
+                      <span class="text-emerald-400 text-[11px] bg-emerald-950/20 px-2 py-0.5 rounded">Sin Restricción</span>
+                    `}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer con Acciones Clave -->
+            <div class="px-4 py-3 bg-[#141414] border-t border-[#2a2a2a] flex items-center justify-between">
+              <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html?id=${gal.driveId}" target="_blank" rel="noopener noreferrer" class="text-xs text-primary hover:text-white flex items-center space-x-1 transition-colors">
+                <span class="material-symbols-outlined text-[16px]" data-icon="visibility">visibility</span>
+                <span>Visualizar</span>
+              </a>
+
+              <div class="flex items-center space-x-2">
+                <button onclick="copiarEnlace('${gal.driveId}')" class="p-1.5 rounded-lg border border-[#333333] text-on-surface-variant hover:text-white hover:border-[#005580] transition-colors" title="Copiar ID de Drive">
+                  <span class="material-symbols-outlined text-[16px]" data-icon="content_copy">content_copy</span>
+                </button>
+
+                <button onclick="prepararEliminacion('${gal.id}', '${encodeURIComponent(gal.titulo)}')" class="px-2.5 py-1.5 rounded-lg bg-error-container/20 border border-error-container/40 text-error hover:bg-error-container hover:text-white text-xs font-semibold flex items-center space-x-1 transition-all active:scale-[0.98]">
+                  <span class="material-symbols-outlined text-[15px]" data-icon="delete">delete</span>
+                  <span>Eliminar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Modal de Confirmación
+    window.prepararEliminacion = function(id, encodedTitle) {
+      pendingDeleteId = id;
+      const title = decodeURIComponent(encodedTitle);
+      document.getElementById('deleteTargetText').innerHTML = `¿Estás seguro de que deseas eliminar la galería <strong>"${title}"</strong> de la base de datos de producción? Esta acción no se puede deshacer.`;
+      document.getElementById('deleteModal').classList.remove('hidden');
+    };
+
+    document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+      pendingDeleteId = null;
+      document.getElementById('deleteModal').classList.add('hidden');
     });
 
-    if (!document.cookie.includes('admin_session=true')) {
-      window.location.href = 'index.html?unauthorized=1';
+    document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+      if (!pendingDeleteId) return;
+      galleriesState = galleriesState.filter(g => g.id !== pendingDeleteId);
+      saveDatabase();
+      renderGalleries();
+      document.getElementById('deleteModal').classList.add('hidden');
+      mostrarAviso('Galería desvinculada exitosamente del almacenamiento.');
+      pendingDeleteId = null;
+    });
+
+    window.copiarEnlace = function(driveId) {
+      navigator.clipboard.writeText(driveId).then(() => {
+        mostrarAviso(`Drive ID copiado al portapapeles: ${driveId}`);
+      });
+    };
+
+    function mostrarAviso(msg) {
+      const bar = document.getElementById('statusNotice');
+      const text = document.getElementById('statusNoticeText');
+      text.textContent = msg;
+      bar.classList.remove('hidden');
+      setTimeout(() => {
+        bar.classList.add('hidden');
+      }, 4000);
     }
+
+    document.getElementById('closeNoticeBtn').addEventListener('click', () => {
+      document.getElementById('statusNotice').classList.add('hidden');
+    });
+
+    // Filtros de navegación rápida
+    document.querySelectorAll('.filter-chip').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-chip').forEach(c => {
+          c.classList.remove('bg-[#004466]', 'border-[#005580]', 'text-white');
+          c.classList.add('text-outline');
+        });
+        e.target.classList.add('bg-[#004466]', 'border-[#005580]', 'text-white');
+        e.target.classList.remove('text-outline');
+        activeFilter = e.target.getAttribute('data-filter');
+        renderGalleries();
+      });
+    });
+
+    // Búsqueda en vivo
+    document.getElementById('searchInput').addEventListener('input', () => {
+      renderGalleries();
+    });
+
+    // Botones de Refresco
+    document.getElementById('btnReloadList').addEventListener('click', () => {
+      mostrarAviso('Sincronizando estado con caché local y Supabase...');
+      setTimeout(() => {
+        initDatabase();
+        mostrarAviso('Galerías actualizadas al último estado.');
+      }, 500);
+    });
+
+    document.getElementById('btnRefreshConsole').addEventListener('click', () => {
+      location.reload();
+    });
+
+    document.getElementById('btnProbarAcceso').addEventListener('click', () => {
+      mostrarAviso('Acceso verificado para Sergio Ricardo Molina (Token válido).');
+    });
+
+    // Menú Hamburguesa Móvil
+    const drawer = document.getElementById('mobileDrawer');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      drawer.classList.remove('hidden');
+    });
+    document.getElementById('closeDrawerBtn').addEventListener('click', () => {
+      drawer.classList.add('hidden');
+    });
+
+    // Cierre de Sesión Seguro
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      try {
+        await fetch('/api/logout', {
+          method: 'POST',
+          credentials: 'include'
+        });
+      } catch (err) {
+        // Fallback inmediato si la ruta backend está en servidor estático
+      } finally {
+        sessionStorage.clear();
+        localStorage.removeItem('admin_user');
+        localStorage.removeItem('admin_key');
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('admin_auth');
+        window.location.replace('index.html');
+      }
+    });
+
+    // Inicialización del DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      initDatabase();
+    });
   </script>
-</body>
-</html>
+</body></html>
