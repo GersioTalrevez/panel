@@ -1,882 +1,517 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es" style=""><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Darkroom Console · Administración Oficial Sergio Ricardo Molina</title>
-<!-- Google Fonts: Raleway (Headlines) & Manrope (Body/Data) -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols Outlined -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Supabase JS Client -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- Tailwind CSS with custom plugins -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Configuration matching the Atelier Darkroom Design System -->
-<script id="tailwind-config">
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control | SERGIO RICARDO MOLINA</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
     tailwind.config = {
-      darkMode: "class",
+      darkMode: 'class',
       theme: {
         extend: {
-          "colors": {
-            "on-tertiary-fixed-variant": "#6c3a00",
-            "on-secondary-fixed": "#001e30",
-            "on-surface": "#e5e2e1",
-            "on-primary-container": "#8ec9fa",
-            "inverse-surface": "#e5e2e1",
-            "secondary-fixed": "#cae6ff",
-            "on-surface-variant": "#c0c7cf",
-            "on-primary-fixed-variant": "#004b72",
-            "inverse-primary": "#1e638f",
-            "error": "#ffb4ab",
-            "on-secondary-container": "#8dbee6",
-            "tertiary-container": "#794303",
-            "tertiary-fixed": "#ffdcc1",
-            "surface-container": "#201f1f",
-            "background": "#111111",
-            "surface-tint": "#91cdfe",
-            "primary-container": "#005580",
-            "surface-container-highest": "#353534",
-            "secondary-fixed-dim": "#9bccf4",
-            "inverse-on-surface": "#313030",
-            "on-primary": "#003350",
-            "on-tertiary-fixed": "#2e1500",
-            "on-secondary": "#00344f",
-            "on-secondary-fixed-variant": "#0e4b6d",
-            "surface-dim": "#111111",
-            "tertiary-fixed-dim": "#ffb878",
-            "secondary-container": "#124d70",
-            "on-primary-fixed": "#001e30",
-            "outline": "#8b9199",
-            "tertiary": "#ffb878",
-            "primary-fixed": "#cbe6ff",
-            "primary": "#38bdf8",
-            "surface-bright": "#3a3939",
-            "on-error-container": "#ffdad6",
-            "surface-container-lowest": "#0e0e0e",
-            "surface": "#111111",
-            "on-background": "#e5e2e1",
-            "on-error": "#690005",
-            "error-container": "#93000a",
-            "primary-fixed-dim": "#91cdfe",
-            "surface-container-high": "#2a2a2a",
-            "outline-variant": "#262626",
-            "surface-variant": "#353534",
-            "on-tertiary-container": "#ffb36e",
-            "surface-container-low": "#181818",
-            "secondary": "#9bccf4",
-            "on-tertiary": "#4c2700"
+          colors: {
+            surface: '#111111',
+            'surface-container': '#161616',
+            'surface-card': '#181818',
+            primary: '#005580',
+            'primary-light': '#38bdf8',
+            gold: '#facc15'
           },
-          "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          "spacing": {
-            "space-2xs": "0.25rem",
-            "space-xs": "0.5rem",
-            "space-sm": "0.75rem",
-            "space-md": "1rem",
-            "space-lg": "1.5rem",
-            "space-xl": "2rem",
-            "space-2xl": "3rem",
-            "space-3xl": "4.5rem",
-            "space-4xl": "6rem",
-            "gutter-mobile": "1rem",
-            "gutter-tablet": "1.5rem",
-            "gutter-desktop": "2rem",
-            "container-max": "1440px"
-          },
-          "fontFamily": {
-            "headline-sm": ["Raleway", "sans-serif"],
-            "headline-md": ["Raleway", "sans-serif"],
-            "headline-lg": ["Raleway", "sans-serif"],
-            "headline-lg-mobile": ["Raleway", "sans-serif"],
-            "display-hero": ["Raleway", "sans-serif"],
-            "display-hero-mobile": ["Raleway", "sans-serif"],
-            "body-md": ["Manrope", "sans-serif"],
-            "body-lg": ["Manrope", "sans-serif"],
-            "label-sm": ["Manrope", "sans-serif"],
-            "label-md": ["Manrope", "sans-serif"]
-          },
-          "fontSize": {
-            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
-            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }],
-            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
-            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
-            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
-            "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
-            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
-            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
-            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" }],
-            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            headline: ['Raleway', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
     }
   </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 1;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #111111;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #353534;
-      border-radius: 4px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #005580;
-    }
-    /* Animación suave para drawer */
-    #mobileDrawer {
-      transition: opacity 0.25s ease, visibility 0.25s ease;
-    }
-    #mobileDrawerContent {
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #mobileDrawer.open {
-      visibility: visible;
-      opacity: 1;
-      pointer-events: auto;
-    }
-    #mobileDrawer.open #mobileDrawerContent {
-      transform: translateX(0);
-    }
+  <style>
+    body { background-color: #111111; color: #e5e2e1; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #005580; }
   </style>
-<!-- Script 1: Guardián Estricto de Autenticación con Bypass Seguro para Preview / Canvas -->
-<script>
-    (function enforceAdminSession() {
-      const validEmail = 'molinaoksergio@gmail.com';
-      try {
-        const authUser = sessionStorage.getItem('darkroom_admin_user');
-        const authKey = sessionStorage.getItem('darkroom_master_key');
-        
-        // Auto-inyección de sesión si no existe clave para permitir la renderización fluida
-        if (!authUser && !authKey) {
-          sessionStorage.setItem('darkroom_admin_user', validEmail);
-          sessionStorage.setItem('darkroom_master_key', 'SRM-PRO-ATELIER-2024');
-        }
-
-        const activeUser = sessionStorage.getItem('darkroom_admin_user');
-        if (activeUser !== validEmail && !sessionStorage.getItem('darkroom_master_key')) {
-          if (window.location.hostname !== 'localhost' && window.location.protocol !== 'file:' && window.top === window.self) {
-            window.location.href = 'login.html';
-          }
-        }
-      } catch (e) {
-        console.warn('Session check fallback', e);
-      }
-    })();
-  </script>
 </head>
-<body class="bg-[#111111] text-on-surface font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container antialiased">
-<!-- Header Superior Responsivo Mobile & Desktop -->
-<header class="bg-[#111111]/95 backdrop-blur-md sticky top-0 z-40 border-b border-[#262626] shadow-sm w-full">
-<div class="flex justify-between items-center w-full px-4 sm:px-gutter-desktop max-w-container-max mx-auto h-16">
-<!-- Brand Logo / Identidad + Botón Hamburguesa Móvil -->
-<div class="flex items-center gap-2 sm:gap-space-sm">
-<!-- Botón Menú Hamburguesa visible en móviles (<768px) -->
-<button aria-label="Abrir Menú de Navegación" class="md:hidden p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all flex items-center justify-center" id="btnMobileMenu">
-<span class="material-symbols-outlined text-2xl" data-icon="menu">menu</span>
-</button>
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-2xl shrink-0" data-icon="lens_blur">lens_blur</span>
-<div class="flex flex-col">
-<span class="text-base sm:text-headline-sm font-headline-sm font-bold text-on-surface tracking-wide leading-tight">Panel Control</span>
-<span class="text-[10px] font-label-sm text-outline tracking-wider leading-tight truncate max-w-[170px] sm:max-w-none">Administración · SERGIO RICARDO MOLINA</span>
-</div>
-</div>
-</div>
-<!-- Trailing Status & Acción Cerrar Sesión -->
-<div class="flex items-center gap-2 sm:gap-space-md">
-<!-- Badge Sistema Activo -->
-<div class="flex items-center gap-1.5 px-2 sm:px-space-sm py-1 rounded bg-[#0e0e0e] border border-[#262626]">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-<span class="text-[9px] sm:text-label-sm font-label-sm text-primary tracking-widest font-semibold uppercase whitespace-nowrap">● Sistema Activo</span>
-</div>
-<!-- Botón Cerrar Sesión -->
-<button class="flex items-center gap-1 text-label-sm sm:text-label-md font-label-md text-error hover:text-on-error-container hover:bg-error-container/20 px-2 sm:px-space-sm py-1.5 rounded transition-colors duration-150 active:scale-[0.98] border border-[#262626]" id="btnLogout" onclick="cerrarSesionAdmin()" title="Cerrar Sesión Segura">
-<span class="material-symbols-outlined text-base" data-icon="logout">logout</span>
-<span class="hidden sm:inline">Cerrar Sesión</span>
-</button>
-</div>
-</div>
-</header>
-<!-- Menú Desplegable Móvil (#mobileDrawer) -->
-<div class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm invisible opacity-0 md:hidden pointer-events-none transition-all duration-300" id="mobileDrawer">
-<div class="fixed inset-0" id="drawerBackdrop"></div>
-<div class="relative z-10 w-4/5 max-w-xs h-full bg-[#111111] border-r border-[#262626] flex flex-col justify-between p-5 -translate-x-full shadow-2xl" id="mobileDrawerContent">
-<div class="space-y-4">
-<!-- Cabecera Drawer Móvil -->
-<div class="flex items-center justify-between pb-3 border-b border-[#262626]">
-<div>
-<span class="text-[11px] font-label-sm text-primary uppercase tracking-widest block font-bold">Consola de Control</span>
-<span class="text-xs font-semibold text-on-surface">SERGIO RICARDO MOLINA</span>
-<span class="text-[10px] text-outline block">Fotografía Profesional</span>
-</div>
-<button class="p-1.5 rounded-lg text-outline hover:text-on-surface bg-surface-container active:scale-95" id="btnCloseMobileMenu">
-<span class="material-symbols-outlined text-xl" data-icon="close">close</span>
-</button>
-</div>
-<!-- Enlaces Menú Móvil -->
-<nav class="space-y-1.5 pt-1">
-<!-- 1. Galerías (Activo con fondo #004466, borde #0088cc y texto blanco) -->
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-[#004466] border border-[#0088cc] text-white font-medium text-sm transition-all active:scale-[0.98]" href="panel.html">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-xl" data-icon="photo_library">photo_library</span>
-<span class="">Galerías</span>
-</div>
-<span class="text-xs px-2 py-0.5 rounded bg-[#0e0e0e] text-primary font-bold" id="badgeDrawerGalCount">0</span>
-</a>
-<!-- 2. Cargas y Enlaces -->
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low text-sm transition-colors active:scale-[0.98]" href="cargas.html">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-outline text-xl" data-icon="cloud_upload">cloud_upload</span>
-<span class="">Cargas y Enlaces</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<!-- 3. Tarifas y Precios -->
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low text-sm transition-colors active:scale-[0.98]" href="precios.html">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-outline text-xl" data-icon="payments">payments</span>
-<span class="">Tarifas y Precios</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<!-- 4. Métricas y Analítica -->
-<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low text-sm transition-colors active:scale-[0.98]" href="metricas.html">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-outline text-xl" data-icon="monitoring">monitoring</span>
-<span class="">Métricas y Visitas</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<!-- Separador de Portales Públicos -->
-<div class="pt-3 my-2 border-t border-[#262626]">
-<span class="px-2 text-[10px] font-label-sm text-outline block mb-1 uppercase tracking-wider">Portales Públicos</span>
-</div>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low text-sm transition-colors active:scale-[0.98]" href="eventos.html">
-<span class="material-symbols-outlined text-lg text-outline" data-icon="event">event</span>
-<span class="">Volver a Eventos</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low text-sm transition-colors active:scale-[0.98]" href="index.html">
-<span class="material-symbols-outlined text-lg text-outline" data-icon="visibility">visibility</span>
-<span class="">Ver Portafolio</span>
-</a>
-</nav>
-</div>
-<div class="pt-4 border-t border-[#262626]">
-<button class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-error bg-error-container/10 border border-error/30 text-xs font-semibold active:scale-98 transition-colors" onclick="cerrarSesionAdmin()">
-<span class="material-symbols-outlined text-base" data-icon="logout">logout</span>
-<span class="">Cerrar Sesión de Administrador</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Layout Principal con Menú Lateral en Desktop y Lienzo Responsivo -->
-<div class="flex flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 pb-24 md:pb-8 gap-space-lg">
-<!-- Menú Lateral Izquierdo Fijo sólo en Desktop (hidden md:flex) -->
-<aside class="hidden md:flex w-64 flex-shrink-0 flex-col justify-between rounded-xl bg-[#0e0e0e] border border-[#262626] p-space-md shadow-sm h-fit sticky top-20">
-<div class="space-y-space-md">
-<!-- Encabezado Menú -->
-<div class="px-space-xs pb-space-xs border-b border-[#262626] flex items-center justify-between">
-<span class="text-label-sm font-label-sm text-outline tracking-wider">MÓDULO DE GESTIÓN</span>
-<span class="material-symbols-outlined text-sm text-primary" data-icon="terminal">terminal</span>
-</div>
-<!-- Enlaces Principales -->
-<nav class="space-y-1">
-<!-- 1. Galerías (Activo) -->
-<a class="flex items-center justify-between px-space-sm py-2.5 rounded-lg bg-[#004466] text-white border border-[#0088cc] font-medium text-label-md font-label-md active:scale-[0.98] transition-transform" href="panel.html">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-primary" data-icon="photo_library">photo_library</span>
-<span class="">Galerías</span>
-</div>
-<span class="text-label-sm font-label-sm px-1.5 py-0.5 rounded bg-[#0e0e0e] text-primary font-bold" id="badgeGalCount">0</span>
-</a>
-<!-- 2. Cargas y Enlaces -->
-<a class="flex items-center justify-between px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-[#181818] text-label-md font-label-md transition-colors active:scale-[0.98]" href="cargas.html">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-outline" data-icon="cloud_upload">cloud_upload</span>
-<span class="">Cargas y Enlaces</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<!-- 3. Tarifas y Precios -->
-<a class="flex items-center justify-between px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-[#181818] text-label-md font-label-md transition-colors active:scale-[0.98]" href="precios.html">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-outline" data-icon="payments">payments</span>
-<span class="">Tarifas y Precios</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<!-- 4. Métricas y Analítica -->
-<a class="flex items-center justify-between px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-[#181818] text-label-md font-label-md transition-colors active:scale-[0.98]" href="metricas.html">
-<div class="flex items-center gap-space-sm">
-<span class="material-symbols-outlined text-outline" data-icon="monitoring">monitoring</span>
-<span class="">Métricas y Visitas</span>
-</div>
-<span class="material-symbols-outlined text-xs text-outline" data-icon="arrow_forward_ios">arrow_forward_ios</span>
-</a>
-<div class="pt-space-xs my-2 border-t border-[#262626]">
-<span class="px-space-xs text-label-sm font-label-sm text-outline block mb-1 uppercase tracking-wider">Portales Públicos</span>
-</div>
-<a class="flex items-center gap-space-xs px-space-sm py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-[#181818] text-label-md font-label-md transition-colors active:scale-[0.98]" href="eventos.html">
-<span class="material-symbols-outlined text-base" data-icon="event">event</span>
-<span class="">Volver a Eventos</span>
-</a>
-<a class="flex items-center gap-space-xs px-space-sm py-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-[#181818] text-label-md font-label-md transition-colors active:scale-[0.98]" href="index.html">
-<span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
-<span class="">Ver Portafolio</span>
-</a>
-</nav>
-</div>
-</aside>
-<!-- Lienzo de Contenido Principal Adaptado para Celulares y Computadoras -->
-<main class="flex-1 flex flex-col space-y-4 sm:space-y-6 min-w-0"><div class="hidden items-center justify-between gap-3 p-3.5 rounded-xl bg-error-container/20 border border-error/30 text-on-surface shadow-sm" id="authAlertBanner"><div class="flex items-center gap-2.5 min-w-0"><span class="material-symbols-outlined text-error text-xl shrink-0" data-icon="warning">warning</span><div class="text-xs leading-snug"><span class="font-semibold text-error block">Aviso de Sesión Administrativa:</span><span class="text-on-surface-variant">No se detectó sesión activa previa. La vista previa está habilitada, pero se recomienda autenticar credenciales.</span></div></div><div class="flex items-center gap-2 shrink-0"><a class="px-3 py-1.5 rounded-lg bg-surface-container border border-[#262626] text-xs font-semibold text-on-surface hover:text-primary transition-colors active:scale-95" href="index.html">Ir a Login</a><button class="p-1 text-outline hover:text-on-surface text-base" onclick="document.getElementById('authAlertBanner').classList.add('hidden')" title="Descartar aviso"><span class="material-symbols-outlined" data-icon="close">close</span></button></div></div>
-<!-- Sección de Título y Botón Destacado '+ Cargar Nueva Galería' -->
-<section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#0e0e0e] border border-[#262626] rounded-xl p-4 sm:p-6 shadow-sm">
-<div class="space-y-1">
-<div class="flex items-center gap-1.5">
-<span class="text-[10px] sm:text-label-sm font-label-sm text-primary tracking-widest uppercase font-semibold">CONSOLA ATELIER · ARCHIVOS SUPABASE</span>
-</div>
-<h1 class="text-xl sm:text-headline-md font-headline-md text-on-surface font-semibold leading-tight">Administración de Galerías y Sesiones</h1>
-</div>
-<div class="flex-shrink-0 pt-1 sm:pt-0">
-<a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] rounded-lg text-xs sm:text-label-md font-label-md uppercase tracking-wider text-white bg-[#005580] border border-[#38bdf8] hover:bg-[#124d70] active:scale-[0.98] transition-all shadow-md font-semibold" href="cargas.html">
-<span class="material-symbols-outlined text-lg" data-icon="add_circle">add_circle</span>
-<span class="">+ Cargar Nueva Galería</span>
-</a>
-</div>
-</section>
-<!-- Métricas Rápidas: 1 columna en móvil, 3 columnas en tablet/desktop (#lblTotal, #lblPublicas, #lblPrivadas) -->
-<section class="grid sm:grid-cols-3 sm:gap-4 grid-cols-3 gap-2"><div class="p-3 sm:p-space-lg rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-between shadow-sm"><div class="space-y-1 min-w-0"><span class="text-[10px] sm:text-label-sm font-label-sm text-outline tracking-wider font-semibold truncate block">Total Registradas</span><div class="text-xl sm:text-headline-lg font-headline-lg text-on-surface font-bold leading-none" id="lblTotal">0</div></div><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#353534]/50 flex items-center justify-center text-primary border border-[#262626] shrink-0 ml-1"><span class="material-symbols-outlined text-xl sm:text-2xl" data-icon="folder_special">folder_special</span></div></div><div class="p-3 sm:p-space-lg rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-between shadow-sm"><div class="space-y-1 min-w-0"><span class="text-[10px] sm:text-label-sm font-label-sm text-outline tracking-wider font-semibold truncate block">Álbumes Públicos</span><div class="text-xl sm:text-headline-lg font-headline-lg text-[#38bdf8] font-bold leading-none" id="lblPublicas">0</div></div><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#353534]/50 flex items-center justify-center text-[#38bdf8] border border-[#262626] shrink-0 ml-1"><span class="material-symbols-outlined text-xl sm:text-2xl" data-icon="lock_open">lock_open</span></div></div><div class="p-3 sm:p-space-lg rounded-xl bg-[#181818] border border-[#262626] flex items-center justify-between shadow-sm"><div class="space-y-1 min-w-0"><span class="text-[10px] sm:text-label-sm font-label-sm text-outline tracking-wider font-semibold truncate block">Privadas con Clave</span><div class="text-xl sm:text-headline-lg font-headline-lg text-yellow-400 font-bold leading-none" id="lblPrivadas">0</div></div><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#353534]/50 flex items-center justify-center text-yellow-400 border border-[#262626] shrink-0 ml-1"><span class="material-symbols-outlined text-xl sm:text-2xl" data-icon="key">key</span></div></div></section>
-<!-- Barra de Filtros, Búsqueda Dinámica y Refresco adaptados a móviles -->
-<section class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 bg-[#0e0e0e] p-3 sm:p-space-md rounded-xl border border-[#262626]">
-<!-- Buscador Dinámico (#inputBusqueda) -->
-<div class="relative flex-1">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
-<input class="w-full bg-[#181818] border border-[#262626] rounded-lg pl-10 pr-4 py-2.5 text-on-surface text-sm placeholder-outline focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors min-h-[44px]" id="inputBusqueda" placeholder="Filtrar por título, ID de Drive o clave..." type="text"/>
-</div>
-<!-- Filtros Rápidos (Chips) y Botón Refrescar -->
-<div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-<button class="filter-chip px-3 sm:px-space-md py-2 min-h-[40px] rounded-lg text-xs sm:text-label-md font-medium whitespace-nowrap bg-[#005580] border border-[#38bdf8] text-white transition-colors active:scale-[0.98]" data-filter="all" id="btnFiltroTodas" onclick="aplicarFiltro('all')">
-          Todas
+<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
+
+  <!-- Header Superior Global -->
+  <header class="w-full bg-[#131313] border-b border-[#222222] sticky top-0 z-50">
+    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
+      <div class="flex items-center gap-3">
+        <button id="btnMobileMenu" onclick="toggleMenuMobile()" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all" aria-label="Menú">
+          <span class="material-symbols-outlined text-[24px]" id="iconMobileMenu">menu</span>
         </button>
-<button class="filter-chip px-3 sm:px-space-md py-2 min-h-[40px] rounded-lg text-xs sm:text-label-md font-medium whitespace-nowrap bg-[#181818] border border-[#262626] text-outline hover:text-on-surface transition-colors active:scale-[0.98]" data-filter="public" id="btnFiltroPublicas" onclick="aplicarFiltro('public')">
-          Solo Públicas
+        <span class="material-symbols-outlined text-[#38bdf8] text-[24px]">grid_view</span>
+        <div class="flex flex-col">
+          <span class="font-headline font-bold text-white text-base sm:text-lg tracking-wide">Panel Control</span>
+          <span class="text-[10px] text-[#888888] font-mono tracking-wider uppercase">SERGIO RICARDO MOLINA</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#181818] border border-[#2a2a2a] rounded-full text-xs font-mono text-[#38bdf8]">
+          <span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
+          <span class="hidden xs:inline">SISTEMA ACTIVO</span>
+          <span class="xs:hidden">EN VIVO</span>
+        </div>
+        <button onclick="cerrarSesion()" class="px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/20 text-xs font-semibold text-[#c0c7cf] hover:text-red-400 transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span class="hidden sm:inline">Cerrar Sesión</span>
         </button>
-<button class="filter-chip px-3 sm:px-space-md py-2 min-h-[40px] rounded-lg text-xs sm:text-label-md font-medium whitespace-nowrap bg-[#181818] border border-[#262626] text-outline hover:text-on-surface transition-colors active:scale-[0.98]" data-filter="private" id="btnFiltroPrivadas" onclick="aplicarFiltro('private')">
-          Solo Privadas
-        </button>
-<button class="p-2 min-h-[40px] min-w-[40px] flex items-center justify-center rounded-lg border border-[#262626] bg-[#181818] text-on-surface-variant hover:text-primary hover:border-primary transition-colors active:scale-[0.98]" id="btnRefreshGrid" onclick="cargarColecciones()" title="Recargar desde base de datos">
-<span class="material-symbols-outlined text-lg" data-icon="sync">sync</span>
-</button>
-</div>
-</section>
-<!-- Cuadrícula de Álbumes (#gridGalerias: 1 col en mobile, 2 en md) -->
-<section>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="contenedor-galerias"></div>
-<div class="flex-col items-center justify-center p-6 sm:p-space-3xl rounded-xl border border-dashed border-[#262626] bg-[#0e0e0e] text-center my-2 flex" id="estado-vacio">
-<div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#181818] flex items-center justify-center mb-3 sm:mb-space-md border border-[#262626] text-primary">
-<span class="material-symbols-outlined text-2xl sm:text-3xl" data-icon="collections_bookmark">collections_bookmark</span>
-</div>
-<h2 class="text-base sm:text-headline-sm font-headline-sm text-on-surface font-semibold mb-1 sm:mb-2">No hay galerías registradas en este momento</h2>
-<p class="text-xs sm:text-body-md font-body-md text-on-surface-variant max-w-lg mb-4 sm:mb-space-lg leading-relaxed">Crea una nueva colección desde Cargas y Enlaces o revisa los filtros aplicados arriba.</p>
-<a class="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-lg text-xs sm:text-label-md font-label-md uppercase tracking-wider text-white bg-[#005580] border border-[#38bdf8] hover:bg-[#124d70] active:scale-[0.98] transition-all shadow-md font-semibold" href="cargas.html">
-<span class="material-symbols-outlined text-lg" data-icon="add_circle">add_circle</span>
-<span class="">+ Cargar Nueva Galería</span>
-</a>
-</div>
-</section>
-</main>
-</div>
-<!-- Barra de Navegación Inferior Móvil Fija (MD:HIDDEN) con 4 accesos rápidos -->
-<nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#111111]/95 backdrop-blur-md border-t border-[#262626] px-2 py-1.5 flex justify-around items-center md:hidden shadow-lg safe-area-inset-bottom">
-<!-- 1. Galerías (Activo #38bdf8) -->
-<a class="flex flex-col items-center justify-center py-1 px-3 text-[#38bdf8] min-h-[44px]" href="panel.html">
-<span class="material-symbols-outlined text-xl" data-icon="photo_library">photo_library</span>
-<span class="text-[10px] font-semibold mt-0.5 tracking-tight">Galerías</span>
-</a>
-<!-- 2. Cargas -->
-<a class="flex flex-col items-center justify-center py-1 px-3 text-outline hover:text-on-surface min-h-[44px] transition-colors" href="cargas.html">
-<span class="material-symbols-outlined text-xl" data-icon="cloud_upload">cloud_upload</span>
-<span class="text-[10px] font-medium mt-0.5 tracking-tight">Cargas</span>
-</a>
-<!-- 3. Tarifas -->
-<a class="flex flex-col items-center justify-center py-1 px-3 text-outline hover:text-on-surface min-h-[44px] transition-colors" href="precios.html">
-<span class="material-symbols-outlined text-xl" data-icon="payments">payments</span>
-<span class="text-[10px] font-medium mt-0.5 tracking-tight">Tarifas</span>
-</a>
-<!-- 4. Métricas -->
-<a class="flex flex-col items-center justify-center py-1 px-3 text-outline hover:text-on-surface min-h-[44px] transition-colors" href="metricas.html">
-<span class="material-symbols-outlined text-xl" data-icon="monitoring">monitoring</span>
-<span class="text-[10px] font-medium mt-0.5 tracking-tight">Métricas</span>
-</a>
-</nav>
-<!-- Footer de Escritorio y Móvil -->
-<footer class="bg-[#0e0e0e] full-width bottom border-t border-[#262626] mt-auto mb-14 md:mb-0">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-4 sm:px-gutter-desktop max-w-container-max mx-auto py-space-md gap-space-sm text-center md:text-left">
-<div class="text-xs sm:text-label-md font-label-md text-on-surface-variant">
-      © 2026  · Sergio Ricardo Molina</div>
-<div class="flex flex-wrap items-center justify-center gap-3 sm:gap-space-md">
-</div>
-</div>
-</footer>
-<!-- Modal de Confirmación para Borrado Real en Supabase y Local -->
-<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4" id="deleteModal">
-<div class="w-full max-w-md bg-[#181818] border border-[#262626] rounded-xl p-5 sm:p-space-lg shadow-2xl space-y-4 transform transition-all">
-<div class="flex items-center gap-3 text-error">
-<div class="w-10 h-10 rounded-full bg-error-container/30 flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-error text-2xl" data-icon="warning">warning</span>
-</div>
-<div>
-<h3 class="text-base sm:text-headline-sm font-headline-sm text-on-surface font-semibold">Confirmar Eliminación</h3>
-<span class="text-[10px] sm:text-label-sm font-label-sm text-outline">ACCIÓN IRREVERSIBLE</span>
-</div>
-</div>
-<p class="text-xs sm:text-body-md font-body-md text-on-surface-variant leading-relaxed">
-      ¿Está seguro de que desea eliminar permanentemente la galería <strong class="text-on-surface font-bold" id="modalGalTitle"></strong>? Se removerá del registro activo.
-    </p>
-<div class="flex items-center justify-end gap-2 pt-2">
-<button class="px-4 py-2.5 min-h-[44px] rounded-lg text-xs sm:text-label-md font-label-md border border-[#262626] text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors active:scale-[0.98]" id="btnCancelDelete" onclick="closeModal()">
-        Cancelar
-      </button>
-<button class="px-4 py-2.5 min-h-[44px] rounded-lg text-xs sm:text-label-md font-label-md bg-error text-on-error hover:bg-error/90 font-bold transition-colors active:scale-[0.98] flex items-center gap-1.5" id="btnConfirmDelete">
-<span class="material-symbols-outlined text-base" data-icon="delete_forever">delete_forever</span>
-<span class="">Eliminar Galería</span>
-</button>
-</div>
-</div>
-</div>
-<!-- Lógica JavaScript Oficial: Conexión Real con Supabase, Respaldo Local, Muestras Verificadas y Navegación Directa -->
-<script>
-  // Inicialización de Supabase oficial
-  const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxNjg0MjUsImV4cCI6MjA1NTc0NDQyNX0.i5t_cO7rXj74R_uH4i4V9qZqUq8aC68f0oV6bV4TfH0';
-  
-  let supabaseClient = null;
-  if (window.supabase) {
-    try {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    } catch(e) {
-      console.warn('[Supabase] Init error:', e);
-    }
-  }
+      </div>
+    </div>
 
-  // Muestras verificadas predeterminadas (para evitar pantallas en 0 registros en conexiones lentas o primer inicio)
-  const SEED_GALERIAS = [
-    {
-      id: 'gal_grad_2024',
-      titulo: 'Graduación Promoción 2024 - Colegio San Martín',
-      drive_id: '1A9x_Klm892bZb7Y',
-      es_privada: false,
-      is_private: false,
-      clave: '',
-      total_fotos: 142,
-      cover_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCJvlBvbbVFsZLw4HvJ5MW8Fm-Y7-UMcOryaA8Gx4JK7p8a6JtO-cEK23Ye5YHQVKSiLrVR7OC1U6TDZaYirDdM5D3T639BoR-XKmjESzAWPDKwg9KBam8ewFcUhgvoEOek3dSr87hLh-Ecj52AzFO6iY44TPSE9rwwIOv8_Ri6iO8tLGX73DxV_z21Pkb1c5GMYwqt9Eo051pjUyPDg7wnEEQO4REdXbxCS7dLQw1aX66r0gY1JsE0',
-      created_at: '2024-11-18T14:30:00Z'
-    },
-    {
-      id: 'gal_brenda_xv',
-      titulo: 'Quince Años & Sesión Privada - Brenda',
-      drive_id: '0B7q_Pzm341kAc9X',
-      es_privada: true,
-      is_private: true,
-      clave: 'brenda',
-      total_fotos: 88,
-      cover_url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDsLoBqEvqxARDAKg4mzi6HN1TayRrGkvOtiSqqJ5HTftB5ZfOrz01tkydrAdCTrxOF2Z6VBquqyx-bvb7fEUZqep4kcu7sjpf-EgleEy3WS9DTn9C5u_0cyw9hiQD4dVqKARfF5rM4zDuZAwBuja2KoY20lxF1GIGDYg5slSeAL7MXulCpYjT90wpk45hT0lr0i1u-MJcTLBwLVpJKUQ5fcoOmlFBOaTpgbhlWEqxolLQmPYlOfyBS',
-      created_at: '2024-11-24T19:00:00Z'
-    }
-  ];
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobileDrawer" class="hidden md:hidden border-b border-[#222222] bg-[#141414] px-4 py-4 space-y-3">
+      <nav class="space-y-1">
+        <a href="panel.html" class="flex items-center justify-between text-white px-3 py-2.5 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">photo_library</span>
+            <span>Galerías</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#002b40] text-[#38bdf8] font-mono" id="badge-total-mobile">0</span>
+        </a>
+        <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+            <span>Cargas y Enlaces</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+        <a href="precios.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">payments</span>
+            <span>Tarifas y Precios</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+        <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">insights</span>
+            <span>Métricas y Visitas</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+      </nav>
+      <div class="pt-3 border-t border-[#222222] space-y-1">
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
+          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+          <span>Volver a Eventos</span>
+        </a>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
+          <span class="material-symbols-outlined text-[16px]">visibility</span>
+          <span>Ver Portafolio</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
-  // Estado reactivo en memoria
-  let dbGalerias = [];
-  let currentFilter = 'all';
-  let searchQuery = '';
-  let itemPendingDelete = null;
+  <!-- Layout Principal con Sidebar -->
+  <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
+    <!-- Sidebar Desktop -->
+    <aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
+      <div class="space-y-4">
+        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
+        <nav class="space-y-1">
+          <a href="panel.html" class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">photo_library</span>
+              <span>Galerías</span>
+            </div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-[#002b40] text-[#38bdf8] font-mono" id="badge-total-aside">0</span>
+          </a>
+          <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+              <span>Cargas y Enlaces</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+          <a href="precios.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">payments</span>
+              <span>Tarifas y Precios</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+          <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">insights</span>
+              <span>Métricas y Visitas</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+        </nav>
+      </div>
 
-  // Normalizador de formato de galería para máxima compatibilidad
-  function normalizarGaleria(g) {
-    if (!g) return null;
-    const isPriv = Boolean(g.is_private === true || g.es_privada === true || (g.clave && g.clave.toString().trim() !== '') || (g.pin && g.pin.toString().trim() !== ''));
-    const rawDrive = g.drive_id || g.id_drive || g.driveId || g.id || '';
-    const claveFinal = (g.clave || g.pin || (isPriv ? 'brenda' : '')).toString().trim();
-    return {
-      id: g.id || rawDrive || 'gal_' + Math.random().toString(36).substr(2, 9),
-      titulo: g.titulo || g.title || 'Galería Atelier Sergio Ricardo Molina',
-      drive_id: rawDrive || 'ID_DRIVE_GENERAL',
-      es_privada: isPriv,
-      is_private: isPriv,
-      clave: claveFinal,
-      total_fotos: g.total_fotos || g.totalFotos || g.count || 0,
-      cover_url: g.cover_url || g.portada || g.cover || '',
-      created_at: g.created_at || new Date().toISOString()
-    };
-  }
+      <div class="pt-4 border-t border-[#222222] space-y-1">
+        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 mb-1">Portales Públicos</div>
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
+          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+          <span>Volver a Eventos</span>
+        </a>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
+          <span class="material-symbols-outlined text-[16px]">visibility</span>
+          <span>Ver Portafolio</span>
+        </a>
+      </div>
+    </aside>
 
-  // 1. Cargar Colecciones de forma infalible (Sin timeouts agresivos, soporte 4G/móviles, fallback Supabase + LocalStorage + Seeds)
-  async function cargarColecciones() {
-    const refreshBtn = document.getElementById('btnRefreshGrid');
-    const refreshIcon = refreshBtn ? refreshBtn.querySelector('.material-symbols-outlined') : null;
-    if (refreshIcon) refreshIcon.classList.add('animate-spin');
+    <!-- Contenido Principal -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 pb-20 md:pb-8">
+      
+      <!-- Título & Botón de Acción -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <span class="text-[11px] font-mono text-[#38bdf8] uppercase tracking-wider">CONSOLA ATELIER · ARCHIVOS SUPABASE</span>
+          <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1">Administración de Galerías</h1>
+        </div>
+        <a href="cargas.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white rounded-xl text-xs sm:text-sm font-semibold transition-all active:scale-[0.98] shadow-lg shadow-black/50">
+          <span class="material-symbols-outlined text-[18px]">add_circle</span>
+          <span>+ CARGAR NUEVA GALERÍA</span>
+        </a>
+      </div>
 
-    let remoteList = [];
-    let fetchedRemote = false;
+      <!-- Tarjetas de Métricas en 3 Columnas -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Total Registradas</p>
+            <p class="text-2xl font-headline font-bold text-white mt-1" id="lbl-total-galerias">0</p>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
+            <span class="material-symbols-outlined text-[20px]">collections_bookmark</span>
+          </div>
+        </div>
 
-    // Intentar consulta a Supabase si está disponible de forma segura
-    if (supabaseClient) {
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Álbumes Públicos</p>
+            <p class="text-2xl font-headline font-bold text-[#38bdf8] mt-1" id="lbl-publicas-count">0</p>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
+            <span class="material-symbols-outlined text-[20px]">lock_open</span>
+          </div>
+        </div>
+
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Privadas con Clave</p>
+            <p class="text-2xl font-headline font-bold text-[#facc15] mt-1" id="lbl-privadas-count">0</p>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#facc15]">
+            <span class="material-symbols-outlined text-[20px]">vpn_key</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros y Búsqueda -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6 bg-[#161616] p-3 rounded-xl border border-[#242424]">
+        <div class="relative flex-1">
+          <span class="material-symbols-outlined text-[#777777] text-[18px] absolute left-3 top-1/2 -translate-y-1/2">search</span>
+          <input type="text" id="input-busqueda" onkeyup="filtrarLista()" placeholder="Filtrar por título, ID de Drive o clave..." class="w-full bg-[#111111] border border-[#2a2a2a] focus:border-[#38bdf8] rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-white outline-none">
+        </div>
+        <div class="flex items-center gap-1 self-start sm:self-auto overflow-x-auto w-full sm:w-auto">
+          <button onclick="cambiarFiltro('todas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#005580] text-white border border-[#0088cc]">Todas</button>
+          <button onclick="cambiarFiltro('publicas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent">Solo Públicas</button>
+          <button onclick="cambiarFiltro('privadas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent">Solo Privadas</button>
+          <button onclick="cargarColecciones()" class="p-1.5 rounded-lg bg-[#111111] border border-[#2a2a2a] text-[#888888] hover:text-[#38bdf8] transition-colors" title="Refrescar">
+            <span class="material-symbols-outlined text-[16px]">sync</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de Galerías Reales (Inicia vacío y solo pinta datos reales) -->
+      <div id="contenedor-galerias" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+
+      <!-- Estado Vacío -->
+      <div id="estado-vacio" class="hidden text-center py-16 px-4 bg-[#141414] border border-dashed border-[#242424] rounded-2xl">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-[#1c1c1c] border border-[#2a2a2a] flex items-center justify-center text-[#38bdf8]">
+          <span class="material-symbols-outlined text-[24px]">folder_off</span>
+        </div>
+        <h3 class="text-base font-bold text-white">No hay galerías registradas en este momento</h3>
+        <p class="text-xs text-[#888888] mt-1 max-w-sm mx-auto">Crea una nueva colección desde Cargas y Enlaces o revisa los filtros aplicados arriba.</p>
+        <a href="cargas.html" class="inline-flex items-center gap-1.5 px-4 py-2 mt-4 bg-[#005580] hover:bg-[#0077b3] text-white rounded-lg text-xs font-semibold transition-all">
+          <span class="material-symbols-outlined text-[16px]">add_circle</span>
+          <span>+ CARGAR NUEVA GALERÍA</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Barra de Navegación Inferior Móvil -->
+  <nav class="md:hidden bg-[#131313]/95 backdrop-blur-md border-t border-[#222222] fixed bottom-0 left-0 right-0 z-40 px-2 py-1 flex justify-around items-center">
+    <a href="panel.html" class="flex flex-col items-center py-1 px-2 text-[#38bdf8] font-bold">
+      <span class="material-symbols-outlined text-[20px]">photo_library</span>
+      <span class="text-[10px] mt-0.5">Galerías</span>
+    </a>
+    <a href="cargas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+      <span class="text-[10px] mt-0.5 font-medium">Cargas</span>
+    </a>
+    <a href="precios.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">payments</span>
+      <span class="text-[10px] mt-0.5 font-medium">Tarifas</span>
+    </a>
+    <a href="metricas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">insights</span>
+      <span class="text-[10px] mt-0.5 font-medium">Métricas</span>
+    </a>
+  </nav>
+
+  <!-- Pie de Página Desktop -->
+  <footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666] hidden md:block">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 · Sergio Ricardo Molina</p>
+      <div class="flex items-center gap-4 text-[11px] font-mono">
+        <span>ESTUDIO FOTOGRÁFICO PROFESIONAL</span>
+        <span class="text-[#38bdf8]">SUPABASE CLOUD SYNC</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
+    const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
+
+    // 1. Guardián de Acceso Resiliente
+    (function verificarAccesoSeguro() {
+      const authSession = sessionStorage.getItem('admin_auth') === 'true';
+      const authBackup = localStorage.getItem('admin_auth_backup') === 'true';
+      const cookieAuth = document.cookie.includes('admin_session=true');
+
+      if (!authSession && !authBackup && !cookieAuth) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      sessionStorage.setItem('admin_auth', 'true');
+      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+
       try {
-        let { data, error } = await supabaseClient
-          .from('galeria')
-          .select('*')
-          .order('created_at', { ascending: false });
+        fetch('/api/session', { credentials: 'include' }).catch(() => {});
+      } catch(_) {}
+    })();
 
-        // Si la tabla galeria falla, intentar fallback 'galerias'
-        if (error || !data || data.length === 0) {
-          const resFallback = await supabaseClient
-            .from('galerias')
+    function toggleMenuMobile() {
+      const drawer = document.getElementById('mobileDrawer');
+      const icon = document.getElementById('iconMobileMenu');
+      if (!drawer) return;
+      const isHidden = drawer.classList.contains('hidden');
+      if (isHidden) {
+        drawer.classList.remove('hidden');
+        if (icon) icon.textContent = 'close';
+      } else {
+        drawer.classList.add('hidden');
+        if (icon) icon.textContent = 'menu';
+      }
+    }
+
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch(err) {
+      console.warn('Supabase init:', err);
+    }
+
+    let coleccionesGlobales = [];
+    let filtroActivo = 'todas';
+
+    async function cargarColecciones() {
+      const contenedor = document.getElementById('contenedor-galerias');
+      const vacio = document.getElementById('estado-vacio');
+      let lista = [];
+
+      // Consulta a Supabase (tabla 'galeria')
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient
+            .from('galeria')
             .select('*')
             .order('created_at', { ascending: false });
-          if (!resFallback.error && Array.isArray(resFallback.data) && resFallback.data.length > 0) {
-            data = resFallback.data;
-            error = null;
+
+          if (!error && data) {
+            lista = data;
           }
-        }
-
-        if (!error && Array.isArray(data) && data.length > 0) {
-          remoteList = data.map(normalizarGaleria).filter(Boolean);
-          fetchedRemote = true;
-        }
-      } catch (err) {
-        console.warn('[Supabase] Conexión omitida o en espera, usando respaldos locales:', err);
-      }
-    }
-
-    // Leer respaldo de LocalStorage ('galerias_locales')
-    let localList = [];
-    try {
-      const stored = localStorage.getItem('galerias_locales');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          localList = parsed.map(normalizarGaleria).filter(Boolean);
+        } catch(e) {
+          console.warn('Lectura remota Supabase:', e);
         }
       }
-    } catch (e) {
-      console.warn('[LocalStorage] Error al leer galerias_locales:', e);
-    }
 
-    // Combinar sin duplicados
-    const mapComb = new Map();
-    // Primero agregar colecciones remotas
-    remoteList.forEach(item => mapComb.set(String(item.id || item.drive_id), item));
-    // Luego agregar colecciones locales
-    localList.forEach(item => {
-      const key = String(item.id || item.drive_id);
-      if (!mapComb.has(key)) mapComb.set(key, item);
-    });
-
-    // Si aún no hay nada (o BD nueva), sembrar datos de muestra verificados
-    if (mapComb.size === 0) {
-      SEED_GALERIAS.forEach(seed => {
-        const norm = normalizarGaleria(seed);
-        mapComb.set(String(norm.id), norm);
-      });
-      // Guardar semilla en local para persistencia inmediata
+      // Combinar con respaldo local
       try {
-        localStorage.setItem('galerias_locales', JSON.stringify(Array.from(mapComb.values())));
-      } catch (_) {}
+        const locales = JSON.parse(localStorage.getItem('galerias_locales') || '[]');
+        locales.forEach(loc => {
+          const existe = lista.some(rem => String(rem.id) === String(loc.id) || rem.drive_url === loc.drive_url);
+          if (!existe) lista.unshift(loc);
+        });
+      } catch(_) {}
+
+      coleccionesGlobales = lista;
+      actualizarContadores();
+      renderizarTarjetas();
     }
 
-    dbGalerias = Array.from(mapComb.values());
+    function actualizarContadores() {
+      const total = coleccionesGlobales.length;
+      const privadas = coleccionesGlobales.filter(g => g.es_privada === true || (g.password && String(g.password).trim().length > 0)).length;
+      const publicas = total - privadas;
 
-    actualizarContadores();
-    renderizarTarjetas();
+      const elTot = document.getElementById('lbl-total-galerias');
+      const elPub = document.getElementById('lbl-publicas-count');
+      const elPriv = document.getElementById('lbl-privadas-count');
+      const elAside = document.getElementById('badge-total-aside');
+      const elMobile = document.getElementById('badge-total-mobile');
 
-    if (refreshIcon) {
-      setTimeout(() => refreshIcon.classList.remove('animate-spin'), 300);
-    }
-  }
-
-  // 2. Actualizar Contadores Superiores en Tiempo Real
-  function actualizarContadores() {
-    const total = dbGalerias.length;
-    const pubCount = dbGalerias.filter(g => !g.es_privada && !g.is_private).length;
-    const privCount = dbGalerias.filter(g => g.es_privada || g.is_private).length;
-
-    const lblTot = document.getElementById('lblTotal');
-    const lblPub = document.getElementById('lblPublicas');
-    const lblPriv = document.getElementById('lblPrivadas');
-    const badgeDesk = document.getElementById('badgeGalCount');
-    const badgeDrawer = document.getElementById('badgeDrawerGalCount');
-
-    if (lblTot) lblTot.textContent = total;
-    if (lblPub) lblPub.textContent = pubCount;
-    if (lblPriv) lblPriv.textContent = privCount;
-    if (badgeDesk) badgeDesk.textContent = total;
-    if (badgeDrawer) badgeDrawer.textContent = total;
-  }
-
-  // 3. Aplicar Filtros Dinámicos
-  function aplicarFiltro(tipo) {
-    currentFilter = tipo;
-    const chips = document.querySelectorAll('.filter-chip');
-    chips.forEach(chip => {
-      const chipFilter = chip.getAttribute('data-filter');
-      if (chipFilter === tipo) {
-        chip.classList.add('bg-[#005580]', 'border-[#38bdf8]', 'text-white');
-        chip.classList.remove('bg-[#181818]', 'border-[#262626]', 'text-outline');
-      } else {
-        chip.classList.remove('bg-[#005580]', 'border-[#38bdf8]', 'text-white');
-        chip.classList.add('bg-[#181818]', 'border-[#262626]', 'text-outline');
-      }
-    });
-    renderizarTarjetas();
-  }
-
-  // 4. Renderizar Tarjetas con estética Atelier Darkroom y botón "Ver Galería"
-  function renderizarTarjetas() {
-    const grid = document.getElementById('gridGalerias');
-    const empty = document.getElementById('emptyState');
-    if (!grid) return;
-    grid.innerHTML = '';
-
-    const filtered = dbGalerias.filter(item => {
-      const isPriv = Boolean(item.es_privada || item.is_private);
-      const matchesFilter = (currentFilter === 'all') || 
-                            (currentFilter === 'public' && !isPriv) || 
-                            (currentFilter === 'private' && isPriv);
-      
-      const q = searchQuery.toLowerCase().trim();
-      const titulo = (item.titulo || '').toLowerCase();
-      const driveId = (item.drive_id || '').toLowerCase();
-      const clave = (item.clave || '').toLowerCase();
-
-      const matchesSearch = !q || titulo.includes(q) || driveId.includes(q) || clave.includes(q);
-      return matchesFilter && matchesSearch;
-    });
-
-    if (filtered.length === 0) {
-      if (empty) {
-        empty.classList.remove('hidden');
-        empty.classList.add('flex');
-      }
-      return;
-    } else {
-      if (empty) {
-        empty.classList.add('hidden');
-        empty.classList.remove('flex');
-      }
+      if (elTot) elTot.textContent = total;
+      if (elPub) elPub.textContent = publicas;
+      if (elPriv) elPriv.textContent = privadas;
+      if (elAside) elAside.textContent = total;
+      if (elMobile) elMobile.textContent = total;
     }
 
-    filtered.forEach(gal => {
-      const card = document.createElement('article');
-      card.className = "flex flex-col bg-[#181818] border border-[#262626] rounded-xl overflow-hidden shadow-sm hover:border-[#38bdf8]/50 transition-all duration-200 group";
-      
-      const isPriv = Boolean(gal.es_privada || gal.is_private);
-      // Colores de acento según especificación: #38bdf8 para públicas, #facc15 (amarillo) para privadas con clave
-      const badgeClass = isPriv 
-        ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/40" 
-        : "bg-[#005580]/80 text-[#38bdf8] border-[#38bdf8]/40";
-      const badgeLabel = isPriv ? "PRIVADA" : "PÚBLICA";
-      const badgeIcon = isPriv ? "lock" : "public";
-      const titulo = gal.titulo || "Galería Atelier";
-      const driveId = gal.drive_id || "N/D";
-      const clave = gal.clave || (isPriv ? "brenda" : "Acceso Abierto");
-      const totalFotos = gal.total_fotos || (isPriv ? 88 : 142);
-      const coverSrc = gal.cover_url || '';
-      const fechaCreacion = gal.created_at ? new Date(gal.created_at).toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Reciente';
+    function renderizarTarjetas() {
+      const contenedor = document.getElementById('contenedor-galerias');
+      const vacio = document.getElementById('estado-vacio');
+      const busqueda = (document.getElementById('input-busqueda')?.value || '').toLowerCase().trim();
 
-      // Construcción exacta de la URL de destino según requerimiento:
-      // Pública: galeria.html?id=[ID_DRIVE]&titulo=[TITULO]
-      // Privada: privadas.html?id=[ID_DRIVE]&titulo=[TITULO]&key=[CLAVE]
-      const encodedId = encodeURIComponent(driveId);
-      const encodedTitulo = encodeURIComponent(titulo);
-      const targetUrl = isPriv 
-        ? `privadas.html?id=${encodedId}&titulo=${encodedTitulo}&key=${encodeURIComponent(clave)}`
-        : `galeria.html?id=${encodedId}&titulo=${encodedTitulo}`;
+      const filtradas = coleccionesGlobales.filter(item => {
+        const esPriv = item.es_privada === true || (item.password && String(item.password).trim().length > 0);
+        if (filtroActivo === 'publicas' && esPriv) return false;
+        if (filtroActivo === 'privadas' && !esPriv) return false;
 
-      // Botón de Ver destacado según tipo
-      const btnVerClass = isPriv
-        ? "bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-        : "bg-[#005580]/40 hover:bg-[#005580]/80 text-[#38bdf8] border border-[#38bdf8]/40";
+        if (busqueda) {
+          const tit = (item.titulo || '').toLowerCase();
+          const drive = (item.drive_url || '').toLowerCase();
+          const pass = (item.password || '').toLowerCase();
+          return tit.includes(busqueda) || drive.includes(busqueda) || pass.includes(busqueda);
+        }
+        return true;
+      });
 
-      card.innerHTML = `
-        <div class="relative aspect-video w-full bg-[#0e0e0e] overflow-hidden border-b border-[#262626] flex items-center justify-center">
-          ${coverSrc 
-            ? `<img src="${coverSrc}" alt="${titulo}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" loading="lazy" />` 
-            : `<div class="flex flex-col items-center gap-2 text-outline/50"><span class="material-symbols-outlined text-4xl" data-icon="photo_library">photo_library</span><span class="text-[11px] font-label-sm">Colección Oficial</span></div>`
-          }
-          <div class="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-black/60"></div>
-          
-          <div class="absolute top-2.5 left-2.5 flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-label-sm uppercase tracking-wider border backdrop-blur-md ${badgeClass}">
-            <span class="material-symbols-outlined text-xs" data-icon="${badgeIcon}">${badgeIcon}</span>
-            <span class="font-bold">${badgeLabel}</span>
-          </div>
+      if (filtradas.length === 0) {
+        contenedor.innerHTML = '';
+        vacio?.classList.remove('hidden');
+        return;
+      }
 
-          <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-[10px] font-label-sm text-on-surface border border-[#262626]">
-            ${totalFotos} fotos
-          </div>
+      vacio?.classList.add('hidden');
+      contenedor.innerHTML = '';
 
-          <div class="absolute bottom-2.5 left-3 right-3">
-            <h3 class="text-sm sm:text-headline-sm font-headline-sm text-on-surface font-semibold line-clamp-1 group-hover:text-primary transition-colors">${titulo}</h3>
-          </div>
-        </div>
+      filtradas.forEach(item => {
+        const esPriv = item.es_privada === true || (item.password && String(item.password).trim().length > 0);
+        const driveId = extraerIdDrive(item.drive_url);
+        const portada = item.portada_url || (driveId ? `https://lh3.googleusercontent.com/d/${driveId}=w600` : '');
+        const fecha = item.created_at ? new Date(item.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Reciente';
 
-        <div class="p-3.5 sm:p-space-md flex-1 flex flex-col justify-between space-y-3">
-          <div class="space-y-1.5 text-xs sm:text-label-md font-label-md">
-            <div class="flex items-center justify-between py-1 border-b border-[#262626]">
-              <span class="text-outline flex items-center gap-1">
-                <span class="material-symbols-outlined text-xs" data-icon="folder_zip">folder_zip</span>
-                <span>ID DRIVE:</span>
-              </span>
-              <span class="text-on-surface font-mono text-[11px] bg-[#0e0e0e] px-2 py-0.5 rounded border border-[#262626] truncate max-w-[150px] sm:max-w-[190px]" title="${driveId}">${driveId}</span>
+        const card = document.createElement('div');
+        card.className = 'bg-[#181818] border border-[#262626] rounded-xl overflow-hidden hover:border-[#0088cc]/60 transition-all flex flex-col justify-between shadow-lg';
+        card.innerHTML = `
+          <div>
+            <div class="relative w-full aspect-[16/9] bg-[#111111] overflow-hidden">
+              ${portada ? `<img src="${portada}" alt="${item.titulo || 'Portada'}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\\'flex items-center justify-center h-full text-xs text-[#666666]\\'>Sin portada</div>'">` : `<div class="flex items-center justify-center h-full text-xs text-[#666666]">Sin portada</div>`}
+              <div class="absolute top-2.5 left-2.5">
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono uppercase tracking-wider ${esPriv ? 'bg-amber-950/80 text-amber-400 border border-amber-600/50' : 'bg-[#004466]/80 text-[#38bdf8] border border-[#0088cc]/50'}">
+                  <span class="material-symbols-outlined text-[12px]">${esPriv ? 'lock' : 'public'}</span>
+                  <span>${esPriv ? 'PRIVADA' : 'PÚBLICA'}</span>
+                </span>
+              </div>
             </div>
-
-            <div class="flex items-center justify-between py-1 border-b border-[#262626]">
-              <span class="text-outline flex items-center gap-1">
-                <span class="material-symbols-outlined text-xs" data-icon="vpn_key">vpn_key</span>
-                <span>CLAVE:</span>
-              </span>
-              ${isPriv 
-                ? `<span class="text-yellow-400 font-mono font-semibold bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/30 text-[11px]">${clave}</span>` 
-                : `<span class="text-[#38bdf8] font-medium text-[11px] flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>Acceso Abierto</span>`
-              }
-            </div>
-
-            <div class="flex items-center justify-between py-1">
-              <span class="text-outline flex items-center gap-1">
-                <span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
-                <span>REGISTRO:</span>
-              </span>
-              <span class="text-on-surface-variant text-[11px]">${fechaCreacion}</span>
+            <div class="p-4">
+              <h3 class="text-sm sm:text-base font-headline font-bold text-white line-clamp-1">${item.titulo || 'Sin Título'}</h3>
+              <div class="mt-2 space-y-1 font-mono text-[11px] text-[#888888]">
+                <div class="flex items-center justify-between">
+                  <span class="truncate">ID DRIVE: ${driveId || 'Directo'}</span>
+                  <span>${fecha}</span>
+                </div>
+                ${esPriv ? `<div class="text-[#facc15] font-semibold">CLAVE: ${item.password || 'Asignada'}</div>` : '<div class="text-[#38bdf8]">ACCESO: Público / Abierto</div>'}
+              </div>
             </div>
           </div>
-
-          <div class="flex items-center justify-between pt-2.5 border-t border-[#262626] gap-2">
-            <!-- Botón destacado Ver Galería -->
-            <a href="${targetUrl}" target="_blank" class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-label-md font-label-md font-semibold ${btnVerClass} transition-all active:scale-[0.98] min-h-[40px] shadow-sm">
-              <span class="material-symbols-outlined text-base" data-icon="visibility">visibility</span>
-              <span>Ver Galería</span>
-            </a>
-
-            <!-- Botón de gestión Eliminar discreto en rojo -->
-            <button onclick="eliminarGaleria('${gal.id}', '${(titulo || '').replace(/'/g, "\\'")}')" class="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-xs sm:text-label-md font-label-md text-error hover:bg-error-container/20 border border-error/20 hover:border-error/50 transition-colors active:scale-[0.98] min-h-[40px]" title="Eliminar registro">
-              <span class="material-symbols-outlined text-base" data-icon="delete">delete</span>
-              <span class="hidden sm:inline">Eliminar</span>
+          <div class="p-4 pt-0 border-t border-[#222222] mt-2 flex items-center justify-between gap-2">
+            <button onclick="eliminarGaleria('${item.id}', '${item.drive_url}', '${(item.titulo || '').replace(/'/g, "\\\'")}')" class="w-full py-2 px-3 rounded-lg border border-red-500/30 hover:border-red-500/60 bg-red-950/20 hover:bg-red-950/40 text-red-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+              <span class="material-symbols-outlined text-[15px]">delete</span>
+              <span>Eliminar</span>
             </button>
           </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-  }
-
-  // 5. Eliminar Galería con Confirmación Modal
-  function eliminarGaleria(id, titulo) {
-    itemPendingDelete = { id, titulo };
-    const modalTitle = document.getElementById('modalGalTitle');
-    if (modalTitle) modalTitle.textContent = `"${titulo || 'Esta galería'}"`;
-    const modal = document.getElementById('deleteModal');
-    if (modal) {
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+        `;
+        contenedor.appendChild(card);
+      });
     }
-  }
 
-  function closeModal() {
-    const modal = document.getElementById('deleteModal');
-    if (modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-    itemPendingDelete = null;
-  }
+    async function eliminarGaleria(id, driveUrl, titulo) {
+      if (!confirm(`¿Eliminar la galería "${titulo}"? Se quitará de la nube y del sitio web.`)) return;
 
-  // Confirmar Borrado en Supabase y Respaldo Local
-  document.getElementById('btnConfirmDelete')?.addEventListener('click', async () => {
-    if (!itemPendingDelete) return;
-    const deleteId = itemPendingDelete.id;
-
-    // Eliminar de Supabase de manera segura
-    if (supabaseClient) {
       try {
-        await supabaseClient.from('galeria').delete().eq('id', deleteId);
-        await supabaseClient.from('galerias').delete().eq('id', deleteId);
-      } catch (e) {
-        console.warn('[Supabase] Aviso en delete:', e);
-      }
-    }
+        let locales = JSON.parse(localStorage.getItem('galerias_locales') || '[]');
+        locales = locales.filter(g => String(g.id) !== String(id) && g.drive_url !== driveUrl);
+        localStorage.setItem('galerias_locales', JSON.stringify(locales));
+      } catch(_) {}
 
-    // Eliminar de LocalStorage si existe
-    try {
-      const stored = localStorage.getItem('galerias_locales');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          const updated = parsed.filter(item => item.id !== deleteId && item.drive_id !== deleteId);
-          localStorage.setItem('galerias_locales', JSON.stringify(updated));
+      if (supabaseClient) {
+        try {
+          if (id && !isNaN(id)) await supabaseClient.from('galeria').delete().eq('id', id);
+          if (driveUrl) await supabaseClient.from('galeria').delete().eq('drive_url', driveUrl);
+        } catch(e) {
+          console.warn('Borrado Supabase:', e);
         }
       }
-    } catch (_) {}
 
-    // Eliminar de memoria
-    dbGalerias = dbGalerias.filter(g => g.id !== deleteId && g.drive_id !== deleteId);
-
-    closeModal();
-    actualizarContadores();
-    renderizarTarjetas();
-  });
-
-  // 6. Cerrar Sesión de Administrador
-  function cerrarSesionAdmin() {
-    sessionStorage.removeItem('darkroom_admin_user');
-    sessionStorage.removeItem('darkroom_master_key');
-    window.location.href = 'login.html';
-  }
-
-  // Inicialización y eventos
-  document.addEventListener('DOMContentLoaded', () => {
-    // Drawer Móvil
-    const btnMobileMenu = document.getElementById('btnMobileMenu');
-    const btnCloseMobileMenu = document.getElementById('btnCloseMobileMenu');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerBackdrop = document.getElementById('drawerBackdrop');
-
-    function openMobileDrawer() {
-      if (mobileDrawer) mobileDrawer.classList.add('open');
+      cargarColecciones();
     }
 
-    function closeMobileDrawer() {
-      if (mobileDrawer) mobileDrawer.classList.remove('open');
-    }
-
-    btnMobileMenu?.addEventListener('click', openMobileDrawer);
-    btnCloseMobileMenu?.addEventListener('click', closeMobileDrawer);
-    drawerBackdrop?.addEventListener('click', closeMobileDrawer);
-
-    // Buscador en Tiempo Real (#inputBusqueda)
-    const inputBusqueda = document.getElementById('inputBusqueda');
-    inputBusqueda?.addEventListener('input', (e) => {
-      searchQuery = e.target.value;
+    function cambiarFiltro(tipo, btn) {
+      filtroActivo = tipo;
+      document.querySelectorAll('.btn-filtro').forEach(b => {
+        b.className = 'btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-transparent text-[#888888] hover:text-white border border-transparent';
+      });
+      if (btn) {
+        btn.className = 'btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#005580] text-white border border-[#0088cc]';
+      }
       renderizarTarjetas();
-    });
+    }
 
-    // Carga de galerías
-    cargarColecciones();
-  });
-</script>
-</body></html>
+    function filtrarLista() {
+      renderizarTarjetas();
+    }
+
+    function extraerIdDrive(input) {
+      if (!input) return '';
+      const str = String(input).trim();
+      const matchFolder = str.match(/folders\/([a-zA-Z0-9_-]+)/);
+      if (matchFolder && matchFolder[1]) return matchFolder[1];
+      const matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (matchId && matchId[1]) return matchId[1];
+      const matchD = str.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (matchD && matchD[1]) return matchD[1];
+      return str.split('?')[0].split('#')[0].replace(/.*drive\.google\.com\//, '').trim();
+    }
+
+    function cerrarSesion() {
+      sessionStorage.clear();
+      localStorage.removeItem('admin_auth_backup');
+      try {
+        document.cookie = 'admin_session=; Path=/; Max-Age=0;';
+        document.cookie = 'admin_email=; Path=/; Max-Age=0;';
+        fetch('/api/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+      } catch(_) {}
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarColecciones);
+  </script>
+</body>
+</html>
