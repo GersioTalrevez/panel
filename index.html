@@ -1,39 +1,4 @@
-<!DOCTYPE html><html class="h-full bg-[#111111] text-[#ededed]" lang="es" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Acceso al Panel · Sergio Ricardo Molina</title>
-<!-- Tailwind CSS CDN with Forms & Container Queries -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Custom Configuration -->
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              bg: '#111111',
-              card: '#161616',
-              border: '#262626',
-              borderHover: '#3b3b3b',
-              accent: '#005580',
-              accentHover: '#004466',
-              cyan: '#38bdf8',
-              muted: '#737373'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'
-          }
-        }
-      }
-    }
-  </script>
-<!-- Custom Styles: Aesthetics & Utilities -->
-<style data-purpose="base-styling">
+
     body {
       background-color: #111111;
       color: #e5e5e5;
@@ -57,144 +22,12 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-[#005580] selection:text-white antialiased">
-<!-- BEGIN: MainHeader -->
-<header class="w-full border-b border-[#262626] bg-[#111111]/90 backdrop-blur-md sticky top-0 z-30">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-<!-- Brand Logotype & Description -->
 
-<!-- Navigation Link to Portfolio -->
-<nav>
-<a class="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-[#38bdf8] border border-[#262626] hover:border-[#38bdf8]/40 px-3 py-1.5 rounded transition duration-200 bg-[#161616]" href="https://sergiomolina.netlify.app" rel="noopener noreferrer" target="_blank">
-<span class="">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Volver al Portafolio&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
-<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</a>
-</nav>
-</div>
-</header>
-<!-- END: MainHeader -->
-<!-- BEGIN: MainContent -->
-<main class="flex-grow flex items-center justify-center p-4 sm:p-6" data-purpose="auth-container">
-<div class="w-full max-w-md bg-[#161616] border border-[#262626] rounded-xl p-6 sm:p-8 card-border-glow relative overflow-hidden" data-purpose="login-card">
-<!-- Top Decorative Glow Stripe -->
-<div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#38bdf8] to-transparent opacity-70"></div>
-<!-- Badge & Titles -->
-<div class="text-center mb-6">
-<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#111111] border border-[#262626] text-[10px] uppercase font-mono tracking-widest text-[#38bdf8] mb-3">
-<svg class="w-3 h-3 text-[#38bdf8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-          Acceso Restringido &amp; Privado
-        </div>
-<h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-white">Portal de Gestión y Administración</h1>
-<p class="text-xs text-neutral-400 mt-1">Gestión de galerías fotográficas, almacenamiento y credenciales</p>
-</div>
-<!-- Designated User Badge -->
-<div class="mb-6 p-3 bg-[#111111]/80 rounded-lg border border-[#262626] flex items-center gap-3" data-purpose="user-badge">
-<div class="w-9 h-9 rounded-full bg-[#005580]/30 border border-[#38bdf8]/40 flex items-center justify-center text-sm font-medium text-[#38bdf8]">
-          SM
-        </div>
-<div class="flex-grow min-w-0">
-<div class="text-[11px] uppercase tracking-wider text-neutral-400 font-mono">Propietario / Fotógrafo</div>
-
-</div>
-<div class="w-2 h-2 rounded-full bg-[#38bdf8]/80"></div>
-</div>
-<!-- Alerts / Feedback Container -->
-<div class="hidden mb-5 text-xs p-3 rounded-lg border font-mono" id="statusMessage"></div>
-<!-- Google OAuth Action -->
-<button class="w-full flex items-center justify-center gap-3 bg-[#1f1f1f] hover:bg-[#262626] border border-[#2e2e2e] hover:border-[#38bdf8]/50 text-neutral-200 text-xs sm:text-sm font-medium py-2.5 px-4 rounded-lg transition duration-200 group focus:outline-none focus:ring-1 focus:ring-[#38bdf8]" id="btnGoogleLogin" onclick="iniciarLoginGoogle()" type="button">
-<svg class="w-4 h-4" viewBox="0 0 24 24">
-<path d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z" fill="#EA4335"></path>
-<path d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z" fill="#4285F4"></path>
-<path d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.8s.2-2.1.4-2.8L1.9 6.3C.7 8.7 0 10.3 0 12s.7 3.3 1.9 5.7l3.7-2.9z" fill="#FBBC05"></path>
-<path d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16C3.7 20.4 7.5 23 12 23z" fill="#34A853"></path>
-</svg>
-<span class="">Iniciar sesión con Google</span>
-</button>
-<!-- Section Divider -->
-<div class="relative my-6 text-center">
-<div class="absolute inset-0 flex items-center">
-<div class="w-full border-t border-[#262626]"></div>
-</div>
-
-</div>
-<!-- Backup Key Access Form -->
-<form class="space-x-0 space-y-4" id="keyLoginForm" onsubmit="validarClave(event)">
-<div>
-<label class="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1.5" for="masterKey">Clave Maestra de Respaldo</label>
-<div class="relative">
-<input autocomplete="current-password" class="w-full bg-[#111111] border border-[#262626] rounded-lg px-3.5 py-2.5 text-xs sm:text-sm text-neutral-100 placeholder-neutral-600 focus:outline-none focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] transition pr-10 font-mono tracking-wider" id="masterKey" placeholder="••••••••••••••••" required="" type="password">
-<!-- Visibility Toggle Button -->
-<button class="absolute right-0 top-0 bottom-0 px-3 flex items-center text-neutral-500 hover:text-neutral-300 focus:outline-none" id="toggleKeyVisibility" onclick="togglePasswordVisibility()" title="Mostrar/Ocultar clave" type="button">
-<svg class="w-4 h-4 hidden" fill="none" id="eyeOpenIcon" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<svg class="w-4 h-4" fill="none" id="eyeClosedIcon" stroke="currentColor" viewBox="0 0 24 24">
-<path d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-</div>
-</div>
-<button class="w-full bg-[#005580] hover:bg-[#004466] border border-[#38bdf8]/40 text-[#ffffff] text-xs sm:text-sm font-medium py-2.5 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#38bdf8]/50 shadow-sm" id="btnSubmitKey" type="submit">
-<span id="btnSubmitText" class="">Ingresar con Clave</span>
-<svg class="w-4 h-4 animate-spin hidden" fill="none" id="btnSubmitSpinner" viewBox="0 0 24 24">
-<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-<path class="opacity-75" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" fill="currentColor"></path>
-</svg>
 </button>
 </form>
 </div>
 </main>
-<!-- END: MainContent -->
-<!-- BEGIN: MainFooter -->
-<footer class="w-full border-t border-[#262626] bg-[#111111] py-4 text-center">
-<div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-2">
-<div class="">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;© 2026 Sergio Ricardo Molina. Todos los derechos reservados.
-      </div>
 
-</div>
-</footer>
-<!-- END: MainFooter -->
-<!-- BEGIN: Authentication Script Logic -->
-<script data-purpose="auth-session-check">
-    // Automatic verification upon page initialization
-    window.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const response = await fetch('/api/session', {
-          method: 'GET',
-          credentials: 'include'
-        });
-
-        if (response.ok) {
-          const sessionData = await response.json();
-          if (sessionData && (sessionData.authorized || sessionData.authenticated || sessionData.email)) {
-            mostrarMensaje('Sesión activa verificada. Redirigiendo...', 'info');
-            setTimeout(() => {
-              window.location.href = 'panel.html';
-            }, 600);
-          }
-        }
-      } catch (err) {
-        // Not authenticated or network error; stay on login page quietly
-        console.debug('No active session found or offline mode.');
-      }
-    });
-  </script>
-<script data-purpose="auth-operations">
-    // Toggle Password Visibility
-    function togglePasswordVisibility() {
-      const input = document.getElementById('masterKey');
-      const eyeOpen = document.getElementById('eyeOpenIcon');
-      const eyeClosed = document.getElementById('eyeClosedIcon');
-
-      if (input.type === 'password') {
-        input.type = 'text';
-        eyeOpen.classList.remove('hidden');
-        eyeClosed.classList.add('hidden');
       } else {
         input.type = 'password';
         eyeOpen.classList.add('hidden');
@@ -202,77 +35,15 @@
       }
     }
 
-    // Google Sign-In redirect handler
-    function iniciarLoginGoogle() {
-      mostrarMensaje('Conectando con el servicio de autenticación...', 'info');
-      // Redirige al handler de autenticación Google del servidor
-      window.location.href = '/api/auth/google';
+<
+      }
     }
 
-    // Status Message Helper
-    function mostrarMensaje(texto, tipo = 'error') {
-      const box = document.getElementById('statusMessage');
-      box.classList.remove('hidden', 'bg-red-950/40', 'border-red-800/60', 'text-red-300', 'bg-cyan-950/40', 'border-cyan-800/60', 'text-cyan-300');
-      
-      if (tipo === 'error') {
-        box.classList.add('bg-red-950/40', 'border-red-800/60', 'text-red-300');
-      } else {
-        box.classList.add('bg-cyan-950/40', 'border-cyan-800/60', 'text-cyan-300');
-      }
 
-      box.textContent = texto;
-    }
 
-    // Form Submission: Verify Master Key
-    async function validarClave(event) {
-      event.preventDefault();
-      const clave = document.getElementById('masterKey').value.trim();
-      const btnText = document.getElementById('btnSubmitText');
-      const spinner = document.getElementById('btnSubmitSpinner');
-      const submitBtn = document.getElementById('btnSubmitKey');
-
-      if (!clave) {
-        mostrarMensaje('Por favor, ingrese la clave de respaldo.');
-        return;
-      }
-
-      // UI Loading state
-      btnText.textContent = 'Verificando...';
-      spinner.classList.remove('hidden');
-      submitBtn.disabled = true;
-
+      // 1. Verificar sesión activa actual
       try {
-        const response = await fetch('/api/verify-key', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json' 
-          },
-          credentials: 'include',
-          body: JSON.stringify({ key: clave })
-        });
-
-        if (response.ok) {
-          mostrarMensaje('Clave validada correctamente. Ingresando...', 'info');
-          setTimeout(() => {
-            window.location.href = 'panel.html';
-          }, 800);
-        } else {
-          const resJson = await response.json().catch(() => ({}));
-          const errorMsg = resJson.message || 'Clave de respaldo incorrecta o no autorizada.';
-          mostrarMensaje(errorMsg, 'error');
-          submitBtn.disabled = false;
-          btnText.textContent = 'Ingresar con Clave';
-          spinner.classList.add('hidden');
-        }
-      } catch (error) {
-        mostrarMensaje('Error de conexión con el servidor. Verifique su red.', 'error');
-        submitBtn.disabled = false;
-        btnText.textContent = 'Ingresar con Clave';
-        spinner.classList.add('hidden');
-      }
-    }
-  </script>
-<!-- END: Authentication Script Logic -->
+<
 
 
 </body></html>
