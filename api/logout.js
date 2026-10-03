@@ -3,22 +3,24 @@ export default function handler(req, res) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const isProd = process.env.NODE_ENV === 'production';
+  const cookieHeader = req.headers.cookie || '';
+  const match = cookieHeader.match(/(?:^|;\s*)panel_session=([^;]+)/);
+  const raw = match ? decodeURIComponent(match[1]) : '';
 
-  const cookieHeader = [
-    'panel_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax' + (isProd ? '; Secure' : ''),
-    'panel_email=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax' + (isProd ? '; Secure' : '')
-  ];
-
-  const cookieHeaderRaw = req.headers.cookie || '';
-  const match = cookieHeaderRaw.match(/(?:^|;\s*)panel_session=([^;]+)/);
-  const token = match ? decodeURIComponent(match[1]).split('.')[0] : null;
-
-  if (token && globalThis.__panelSessions) {
-    globalThis.__panelSessions.delete(token);
+  if (raw) {
+    const token = raw.split('.')[0];
+    if (token) {
+      globalThis.__panelSessions = globalThis.__panelSessions || new Map();
+      globalThis.__panelSessions.delete(token);
+    }
   }
 
-  res.setHeader('Set-Cookie', cookieHeader);
+  const isProd = process.env.NODE_ENV === 'production';
+
+  res.setHeader('Set-Cookie', [
+    `panel_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`,
+    `panel_email=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`
+  ]);
 
   return res.status(200).json({
     ok: true,
