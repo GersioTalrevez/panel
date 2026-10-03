@@ -1,13 +1,47 @@
-<!DOCTYPE html>
+<script>
+  async function ensureSession() {
+    try {
+      const res = await fetch('/api/session', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+      if (!res.ok) {
+        throw new Error('No autorizado');
+      }
 
-</button>
-</div>
-</div>
-</div>
+      const data = await res.json();
+      const emailNode = document.getElementById('userEmail');
 
-  </script>
-</body></html>
+      if (emailNode) {
+        emailNode.textContent = data.email || 'usuario@admin';
+      }
+    } catch (err) {
+      console.warn('Session invalid:', err);
+      window.location.href = 'index.html?unauthorized=1';
+    }
+  }
+
+  async function logout() {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (err) {
+      console.warn('Logout failed:', err);
+    } finally {
+      window.location.href = 'index.html?logout=true';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    ensureSession();
+
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', logout);
+    }
+  });
+</script>
