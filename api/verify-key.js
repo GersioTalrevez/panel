@@ -1,26 +1,48 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
+
+const SESSION_TTL = 60 * 60 * 1000; // 1 hora
+globalThis.__panelSessions = globalThis.__panelSessions || new Map();
 
 export default function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método no permitido' });
+    return res.status(405).json({ success: false, message: 'Método no permitido' });
   }
 
-  const { email } = req.body || {};
+  const body = req.body || {};
+  const { key, email } = body;
+
+  const backupKey = process.env.BACKUP_KEY;
   const allowedEmail = (process.env.ALLOWED_EMAIL || '').trim().toLowerCase();
   const sessionSecret = process.env.SESSION_SECRET;
 
-  if (!allowedEmail || !sessionSecret) {
-    return res.status(500).json({ authorized: false, error: 'Configuración del servidor incompleta' });
+  if (!backupKey || !allowedEmail || !sessionSecret) {
+    return res.status(500).json({
+      success: false,
+      message: 'Configuración del servidor incompleta'
+    });
   }
 
-  if (!email || typeof email !== 'string') {
-    return res.status(400).json({ authorized: false, error: 'Email requerido' });
+  if (typeof key !== 'string' || !key.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: 'Falta la clave'
+    });
   }
 
-  const normalized = email.trim().toLowerCase();
+  if (key !== backupKey) {
+    return res.status(401).json({
+      success: false,
+      message: 'Clave incorrecta'
+    });
+  }
 
-  if (normalized !== allowedEmail) {
-    return res.status(403).json({ authorized: false, error: 'No autorizado' });
+  const normalizedEmail = (email || allowedEmail).trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return res.status(400).json({
+      success: false,
+      message: 'Falta email válido'
+    });
   }
 
   const sessionToken = crypto.randomBytes(32).toString('hex');
@@ -29,16 +51,21 @@ export default function handler(req, res) {
     .update(sessionToken)
     .digest('hex');
 
-  globalThis.__panelSessions = globalThis.__panelSessions || new Map();
   globalThis.__panelSessions.set(sessionToken, {
-    email: normalized,
-    expiresAt: Date.now() + 60 * 60 * 1000
+    email: normalizedEmail,
+    expiresAt: Date.now() + SESSION_TTL
   });
 
   const isProd = process.env.NODE_ENV === 'production';
+
   res.setHeader('Set-Cookie', [
-    `panel_session=${sessionToken}.${signature}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`
+    `panel_session=${sessionToken}.${signature}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`,
+    `panel_email=${encodeURIComponent(normalizedEmail)}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`
   ]);
 
-  return res.status(200).json({ authorized: true, email: normalized });
+  return res.status(200).json({
+    success: true,
+    message: 'Autenticación exitosa',
+    email: normalizedEmail
+  });
 }
