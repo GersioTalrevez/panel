@@ -1,14 +1,27 @@
-// api/logout.js
 export default function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  // Expirar las cookies para cerrar la sesión de forma segura
-  res.setHeader('Set-Cookie', [
-    'admin_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax',
-    'admin_email=; Path=/; Max-Age=0; SameSite=Lax'
-  ]);
+  const isProd = process.env.NODE_ENV === 'production';
 
-  return res.status(200).json({ ok: true, message: 'Sesión cerrada correctamente' });
+  const cookieHeader = [
+    'panel_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax' + (isProd ? '; Secure' : ''),
+    'panel_email=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax' + (isProd ? '; Secure' : '')
+  ];
+
+  const cookieHeaderRaw = req.headers.cookie || '';
+  const match = cookieHeaderRaw.match(/(?:^|;\s*)panel_session=([^;]+)/);
+  const token = match ? decodeURIComponent(match[1]).split('.')[0] : null;
+
+  if (token && globalThis.__panelSessions) {
+    globalThis.__panelSessions.delete(token);
+  }
+
+  res.setHeader('Set-Cookie', cookieHeader);
+
+  return res.status(200).json({
+    ok: true,
+    message: 'Sesión cerrada correctamente'
+  });
 }
