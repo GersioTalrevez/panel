@@ -1,11 +1,16 @@
+function readCookie(rawCookie, name) {
+  if (!rawCookie) return null;
+  const match = rawCookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 export default function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
   const cookieHeader = req.headers.cookie || '';
-  const match = cookieHeader.match(/(?:^|;\s*)panel_session=([^;]+)/);
-  const raw = match ? decodeURIComponent(match[1]) : '';
+  const raw = readCookie(cookieHeader, 'panel_session');
 
   if (raw) {
     const token = raw.split('.')[0];
