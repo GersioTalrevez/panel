@@ -1,652 +1,559 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tarifas y Precios · Sergio Ricardo Molina</title>
-<!-- Typography: Raleway & Manrope -->
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Raleway:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols Outlined -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Configuration verbatim -->
-<script id="tailwind-config">
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarifas y Precios | SERGIO RICARDO MOLINA</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
     tailwind.config = {
-      darkMode: "class",
+      darkMode: 'class',
       theme: {
         extend: {
-          "colors": {
-            "secondary-fixed": "#cae6ff",
-            "on-tertiary": "#4c2700",
-            "background": "#131313",
-            "on-surface": "#e5e2e1",
-            "secondary": "#9bccf4",
-            "on-error": "#690005",
-            "surface-container-highest": "#353534",
-            "on-surface-variant": "#c0c7cf",
-            "secondary-fixed-dim": "#9bccf4",
-            "tertiary-fixed": "#ffdcc1",
-            "surface-container-low": "#1c1b1b",
-            "on-background": "#e5e2e1",
-            "error": "#ffb4ab",
-            "on-error-container": "#ffdad6",
-            "tertiary-fixed-dim": "#ffb878",
-            "tertiary-container": "#794303",
-            "on-secondary-container": "#8dbee6",
-            "primary": "#91cdfe",
-            "tertiary": "#ffb878",
-            "inverse-surface": "#e5e2e1",
-            "surface-dim": "#131313",
-            "outline": "#8b9199",
-            "outline-variant": "#41474e",
-            "surface-container-lowest": "#0e0e0e",
-            "inverse-on-surface": "#313030",
-            "surface-container-high": "#2a2a2a",
-            "on-secondary-fixed": "#001e30",
-            "primary-fixed": "#cbe6ff",
-            "on-primary": "#003350",
-            "primary-fixed-dim": "#91cdfe",
-            "error-container": "#93000a",
-            "on-secondary": "#00344f",
-            "on-tertiary-fixed": "#2e1500",
-            "on-secondary-fixed-variant": "#0e4b6d",
-            "primary-container": "#005580",
-            "surface-variant": "#353534",
-            "surface-tint": "#91cdfe",
-            "secondary-container": "#124d70",
-            "on-primary-fixed": "#001e30",
-            "surface-bright": "#3a3939",
-            "surface": "#131313",
-            "on-tertiary-container": "#ffb36e",
-            "on-tertiary-fixed-variant": "#6c3a00",
-            "on-primary-container": "#8ec9fa",
-            "inverse-primary": "#1e638f",
-            "surface-container": "#201f1f",
-            "on-primary-fixed-variant": "#004b72"
+          colors: {
+            surface: '#111111',
+            'surface-container': '#161616',
+            'surface-card': '#181818',
+            primary: '#005580',
+            'primary-light': '#38bdf8',
+            gold: '#facc15'
           },
-          "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
-          },
-          "spacing": {
-            "space-md": "1rem",
-            "gutter-tablet": "1.5rem",
-            "gutter-desktop": "2rem",
-            "space-xl": "2rem",
-            "space-3xl": "4.5rem",
-            "space-sm": "0.75rem",
-            "container-max": "1440px",
-            "space-lg": "1.5rem",
-            "space-2xs": "0.25rem",
-            "space-4xl": "6rem",
-            "space-xs": "0.5rem",
-            "space-2xl": "3rem",
-            "gutter-mobile": "1rem"
-          },
-          "fontFamily": {
-            "headline-sm": ["Raleway"],
-            "display-hero-mobile": ["Raleway"],
-            "headline-lg": ["Raleway"],
-            "label-sm": ["Manrope"],
-            "body-lg": ["Manrope"],
-            "body-md": ["Manrope"],
-            "headline-lg-mobile": ["Raleway"],
-            "headline-md": ["Raleway"],
-            "display-hero": ["Raleway"],
-            "label-md": ["Manrope"]
-          },
-          "fontSize": {
-            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "0.02em", "fontWeight": "600" }],
-            "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
-            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
-            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "700" }],
-            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
-            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.01em", "fontWeight": "400" }],
-            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
-            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
-            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
-            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }]
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            headline: ['Raleway', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
           }
         }
       }
     }
   </script>
-<!-- Client Session Guardian -->
-<script>
-    if (sessionStorage.getItem('admin_autenticado') !== 'true') {
-      window.location.replace('index.html');
-    }
-  </script>
-<style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 1;
-    }
-    /* Darkroom Ambient Elevation */
-    .darkroom-panel {
-      background-color: #1a1a1a;
-      border: 1px solid #2d3339;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
-    }
-    .darkroom-input {
-      background-color: #121315;
-      border: 1px solid #363d44;
-      color: #e5e2e1;
-    }
-    .darkroom-input:focus {
-      border-color: #0088cc;
-      box-shadow: 0 0 0 2px rgba(0, 85, 128, 0.35);
-      outline: none;
-    }
+  <style>
+    body { background-color: #111111; color: #e5e2e1; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #005580; }
   </style>
 </head>
-<body class="bg-[#111111] text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary">
-<!-- Top App Bar (Shared Components standard header) -->
-<header class="bg-[#141517] border-b border-outline-variant/40 shadow-sm sticky top-0 z-40">
-<div class="flex justify-between items-center w-full px-space-gutter-desktop max-w-container-max mx-auto h-16">
-<!-- Brand Anchor -->
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-primary border border-primary/30">
-<span class="material-symbols-outlined text-[18px]">photo_camera</span>
-</div>
-<span class="text-headline-sm font-headline-sm font-bold text-on-surface tracking-wide">
-          SERGIO RICARDO MOLINA <span class="text-outline font-normal">·</span> <span class="text-primary font-medium text-sm">Panel de Control</span>
-</span>
-</div>
-<!-- Top Center Sync Status Indicator -->
-<div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high border border-outline-variant/40">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Sync: Supabase · configuracion [id:1]</span>
-</div>
-<!-- Trailing Profile & Actions -->
-<div class="flex items-center gap-3">
-<button class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container border border-outline-variant/60 text-label-md font-label-md text-on-surface hover:text-primary hover:border-primary transition-colors duration-150 active:scale-[0.98]" id="btnProbarSync" title="Probar Acceso y Sincronía">
-<span class="material-symbols-outlined text-[16px]">sync</span>
-<span>Probar Acceso</span>
-</button>
-<button class="p-2 rounded-lg text-on-surface-variant hover:text-primary transition-colors duration-150 active:scale-[0.98]" id="btnAuditPanel" title="Refrescar Tarifas">
-<span class="material-symbols-outlined text-[20px]">refresh</span>
-</button>
-<div class="h-6 w-px bg-outline-variant/60 mx-1"></div>
-<div class="flex items-center gap-2 pl-1">
-<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center text-primary text-xs font-bold font-headline-sm" title="Sergio Ricardo Molina Avatar">
-            SRM
+<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
+
+  <!-- Header Superior Global -->
+  <header class="w-full bg-[#131313] border-b border-[#222222] sticky top-0 z-50">
+    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
+      <div class="flex items-center gap-3">
+        <button id="btnMobileMenu" onclick="toggleMenuMobile()" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all" aria-label="Menú">
+          <span class="material-symbols-outlined text-[24px]" id="iconMobileMenu">menu</span>
+        </button>
+        <span class="material-symbols-outlined text-[#38bdf8] text-[24px]">payments</span>
+        <div class="flex flex-col">
+          <span class="font-headline font-bold text-white text-base sm:text-lg tracking-wide">Tarifas y Precios</span>
+          <span class="text-[10px] text-[#888888] font-mono tracking-wider uppercase">SERGIO RICARDO MOLINA</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div id="badge-cloud" class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#181818] border border-emerald-800/60 rounded-full text-xs font-mono text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="hidden xs:inline">SUPABASE CONECTADO</span>
+          <span class="xs:hidden">SYNC OK</span>
+        </div>
+        <button onclick="cerrarSesion()" class="px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/20 text-xs font-semibold text-[#c0c7cf] hover:text-red-400 transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span class="hidden sm:inline">Cerrar Sesión</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobileDrawer" class="hidden md:hidden border-b border-[#222222] bg-[#141414] px-4 py-4 space-y-3">
+      <nav class="space-y-1">
+        <a href="panel.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">photo_library</span>
+            <span>Galerías</span>
           </div>
-<span class="hidden lg:inline text-label-md font-label-md text-on-surface-variant">Sergio R.</span>
-</div>
-</div>
-</div>
-</header>
-<!-- Main Wrapper Layout: Sidebar + Canvas -->
-<div class="flex-1 flex max-w-container-max w-full mx-auto">
-<!-- Sidebar Navigation -->
-<aside class="w-64 bg-[#141517] border-r border-outline-variant/40 flex flex-col justify-between shrink-0">
-<!-- Primary Nav Cluster -->
-<div class="p-4 space-y-6">
-<div class="px-2">
-<p class="text-label-sm font-label-sm text-outline uppercase tracking-widest">Módulos del Sistema</p>
-</div>
-<nav class="space-y-1">
-<!-- Galerías -->
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-md font-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-150 active:scale-[0.98]" href="panel.html">
-<span class="material-symbols-outlined text-[20px]">photo_library</span>
-<span>Galerías</span>
-</a>
-<!-- Cargas y Enlaces -->
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-md font-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-150 active:scale-[0.98]" href="cargas.html">
-<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-<span>Cargas y Enlaces</span>
-</a>
-<!-- Tarifas y Precios (ACTIVO: fondo #004466 y borde #0088cc) -->
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-md font-body-md font-semibold text-white transition-all active:scale-[0.98]" href="precios.html" style="background-color: #004466; border: 1px solid #0088cc; box-shadow: 0 0 12px rgba(0, 136, 204, 0.25);">
-<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">payments</span>
-<span>Tarifas y Precios</span>
-</a>
-<!-- Métricas y Visitas -->
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-body-md font-body-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors duration-150 active:scale-[0.98]" href="metricas.html">
-<span class="material-symbols-outlined text-[20px]">insights</span>
-<span>Métricas y Visitas</span>
-</a>
-</nav>
-</div>
-<!-- Accesos Directos & Logout (Pie de Sidebar) -->
-<div class="p-4 border-t border-outline-variant/40 space-y-4">
-<div>
-<p class="px-2 text-label-sm font-label-sm text-outline uppercase tracking-widest mb-2">Accesos Directos</p>
-<div class="space-y-1">
-<a class="flex items-center justify-between px-3 py-2 rounded-lg text-label-md font-label-md text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors duration-150" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener noreferrer" target="_blank">
-<span class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]">public</span>
-<span>Volver al Portafolio</span>
-</span>
-<span class="material-symbols-outlined text-[14px]">open_in_new</span>
-</a>
-<a class="flex items-center justify-between px-3 py-2 rounded-lg text-label-md font-label-md text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors duration-150" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" rel="noopener noreferrer" target="_blank">
-<span class="flex items-center gap-2">
-<span class="material-symbols-outlined text-[16px]">school</span>
-<span>Eventos Escolares</span>
-</span>
-<span class="material-symbols-outlined text-[14px]">open_in_new</span>
-</a>
-</div>
-</div>
-<!-- Botón rojo Cerrar Sesión -->
-<button class="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-label-md font-label-md font-semibold text-white bg-error-container hover:bg-error-container/80 border border-error/30 active:scale-[0.98] transition-transform duration-120" id="btnCerrarSesion">
-<span class="material-symbols-outlined text-[18px]">logout</span>
-<span>Cerrar Sesión</span>
-</button>
-</div>
-</aside>
-<!-- Canvas Principal -->
-<main class="flex-1 bg-[#111111] p-6 lg:p-8 space-y-8 overflow-y-auto">
-<!-- Section Header -->
-<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-outline-variant/30 pb-6">
-<div>
-<div class="flex items-center gap-2 mb-1">
-<span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-primary-container/40 text-primary border border-primary/20">TARIFARIO COMERCIAL 2024</span>
-<span class="text-outline text-xs">·</span>
-<span class="text-label-sm font-label-sm text-on-surface-variant">ARS (Pesos Argentinos)</span>
-</div>
-<h1 class="text-headline-lg font-headline-lg text-on-surface font-semibold tracking-tight">Gestión de Tarifas y Precios</h1>
-<p class="text-body-md font-body-md text-on-surface-variant">Ajusta los montos vigentes aplicados a pedidos de laboratorio físico y descargas digitales de alta fidelidad.</p>
-</div>
-<div class="flex items-center gap-3">
-<!-- Live badge -->
-<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#181a1d] border border-outline-variant/40">
-<span class="material-symbols-outlined text-primary text-[18px]">contact_phone</span>
-<span class="text-label-sm font-label-sm text-on-surface-variant">WA Pedidos: <strong class="text-on-surface font-mono">+54 9 261 317-5222</strong></span>
-</div>
-</div>
-</div>
-<!-- Live Broadcast / Toast Notification Banner (Hidden by default) -->
-<div class="hidden rounded-lg p-4 border flex items-center justify-between transition-all duration-200" id="statusAlert">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-[22px]" id="alertIcon">check_circle</span>
-<div>
-<p class="text-body-md font-body-md font-semibold text-white" id="alertTitle"></p>
-<p class="text-label-sm font-label-sm text-on-surface-variant" id="alertSubtitle"></p>
-</div>
-</div>
-<button class="text-on-surface-variant hover:text-white" onclick="document.getElementById('statusAlert').classList.add('hidden')">
-<span class="material-symbols-outlined text-[18px]">close</span>
-</button>
-</div>
-<!-- Grid 2 Columnas de Tarifas -->
-<section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- Tarjeta 1: Copia Impresa 15x21 cm -->
-<article class="darkroom-panel rounded-xl p-6 flex flex-col justify-between relative overflow-hidden group">
-<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full blur-2xl pointer-events-none"></div>
-<div>
-<div class="flex items-start justify-between gap-4 mb-4">
-<div class="p-3 rounded-lg bg-surface-container border border-outline-variant/40 text-primary">
-<span class="material-symbols-outlined text-[28px]">photo_size_select_actual</span>
-</div>
-<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-semibold tracking-wider text-primary bg-primary-container/30 border border-primary/40">
-                LABORATORIO QUÍMICO
-              </span>
-</div>
-<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">Copia Impresa 15x21 cm</h2>
-<p class="text-body-md font-body-md text-on-surface-variant mb-6">
-              Papel fotográfico químico profesional haluro de plata acabado mate aterciopelado. Calibración manual DCI-P3 para conservación editorial.
-            </p>
-<div class="space-y-2">
-<label class="text-label-sm font-label-sm text-on-surface uppercase tracking-wider block" for="inputTarifaImpresa">
-                Precio Unitario Oficial (ARS)
-              </label>
-<div class="relative rounded-xl">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-primary font-bold">
-                  $
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+        <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+            <span>Cargas y Enlaces</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+        <a href="precios.html" class="flex items-center justify-between text-white px-3 py-2.5 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">payments</span>
+            <span>Tarifas y Precios</span>
+          </div>
+        </a>
+        <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px]">insights</span>
+            <span>Métricas y Visitas</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+        </a>
+      </nav>
+      <div class="pt-3 border-t border-[#222222] space-y-1">
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
+          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+          <span>Volver a Eventos</span>
+        </a>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
+          <span class="material-symbols-outlined text-[16px]">visibility</span>
+          <span>Ver Portafolio</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Principal con Sidebar -->
+  <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
+    <!-- Sidebar Desktop -->
+    <aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
+      <div class="space-y-4">
+        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
+        <nav class="space-y-1">
+          <a href="panel.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">photo_library</span>
+              <span>Galerías</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+          <a href="cargas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
+              <span>Cargas y Enlaces</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+          <a href="precios.html" class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">payments</span>
+              <span>Tarifas y Precios</span>
+            </div>
+          </a>
+          <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-[18px]">insights</span>
+              <span>Métricas y Visitas</span>
+            </div>
+            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-[#222222] space-y-1">
+        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 mb-1">Portales Públicos</div>
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
+          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+          <span>Volver a Eventos</span>
+        </a>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors">
+          <span class="material-symbols-outlined text-[16px]">visibility</span>
+          <span>Ver Portafolio</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 max-w-5xl pb-20 md:pb-8">
+      
+      <!-- Título & Acciones -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <span class="text-[11px] font-mono text-[#38bdf8] uppercase tracking-wider">CONTROL COMERCIAL</span>
+          <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1">Tarifas y Precios Oficiales</h1>
+          <p class="text-xs sm:text-sm text-[#888888] mt-1.5 leading-relaxed">Configurá las tarifas para copias impresas de laboratorio y descargas digitales en alta resolución. Se sincronizan en tiempo real con Supabase y las galerías activas.</p>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button type="button" id="btn-revertir" onclick="revertirTarifas()" class="px-3.5 py-2.5 rounded-xl border border-[#333333] hover:border-[#555555] bg-[#181818] text-[#e5e2e1] hover:text-white text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 active:scale-95">
+            <span class="material-symbols-outlined text-[17px]">restart_alt</span>
+            <span>Revertir</span>
+          </button>
+          <button type="button" id="btn-guardar-tarifas" onclick="guardarTarifas()" class="px-5 py-2.5 rounded-xl bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-black/50 active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">save</span>
+            <span id="btn-guardar-texto">Guardar Nuevas Tarifas</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Alerta Toast -->
+      <div id="toast-precios" class="hidden mb-6 p-4 rounded-xl border text-xs sm:text-sm flex items-center justify-between transition-all">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-[20px]" id="toast-ico">check_circle</span>
+          <span id="toast-txt"></span>
+        </div>
+        <span class="text-[11px] font-mono text-[#888888]" id="toast-hora">Recién</span>
+      </div>
+
+      <!-- Bento Grid de Tarifas: Impresa + Digital -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
+        
+        <!-- Tarjeta 1: Copia Impresa -->
+        <div class="bg-[#181818] border border-[#242424] hover:border-[#38bdf8]/40 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-start justify-between pb-4 border-b border-[#242424]">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-[#121212] border border-[#2c2c2c] flex items-center justify-center text-[#38bdf8]">
+                  <span class="material-symbols-outlined text-[24px]">photo_size_select_actual</span>
                 </div>
-<input class="darkroom-input w-full pl-8 pr-16 py-3.5 rounded-xl font-mono text-xl font-bold tracking-tight text-white placeholder-outline" id="inputTarifaImpresa" min="0" name="tarifa_impresa" step="50" type="number" value="7500"/>
-<div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-outline text-xs font-semibold">
-                  ARS
+                <div>
+                  <h3 class="text-base sm:text-lg font-headline font-bold text-white">Copia Impresa 15x21 cm</h3>
+                  <p class="text-[11px] text-[#888888] font-mono uppercase tracking-wider">Papel químico de laboratorio</p>
                 </div>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
-<span>Predeterminado de base: <strong>$7.500</strong></span>
-<span class="text-on-surface-variant font-mono">15 × 21 cm</span>
-</div>
-</article>
-<!-- Tarjeta 2: Archivo Digital HD -->
-<article class="darkroom-panel rounded-xl p-6 flex flex-col justify-between relative overflow-hidden group">
-<div class="absolute top-0 right-0 w-32 h-32 bg-secondary-container/20 rounded-full blur-2xl pointer-events-none"></div>
-<div>
-<div class="flex items-start justify-between gap-4 mb-4">
-<div class="p-3 rounded-lg bg-surface-container border border-outline-variant/40 text-secondary">
-<span class="material-symbols-outlined text-[28px]">cloud_download</span>
-</div>
-<span class="px-2.5 py-1 rounded-md text-label-sm font-label-sm font-semibold tracking-wider text-secondary bg-secondary-container/40 border border-secondary/40">
-                DESCARGA DIRECTA
-              </span>
-</div>
-<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold mb-1">Archivo Digital HD</h2>
-<p class="text-body-md font-body-md text-on-surface-variant mb-6">
-              Archivo maestro JPEG a máxima resolución (300 DPI), con perfil de color integrado sRGB y metadatos EXIF limpios para prensa o impresión sin límites.
-            </p>
-<div class="space-y-2">
-<label class="text-label-sm font-label-sm text-on-surface uppercase tracking-wider block" for="inputTarifaDigital">
-                Precio Unitario Oficial (ARS)
-              </label>
-<div class="relative rounded-xl">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-secondary font-bold">
-                  $
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#121212] text-[#38bdf8] border border-[#2a2a2a]">FÍSICO</span>
+            </div>
+
+            <div class="mt-5">
+              <label for="input-precio-impresa" class="block text-xs font-mono uppercase tracking-wider text-[#aaaaaa] mb-2">Precio de Venta al Público (ARS)</label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#888888] font-bold text-lg font-mono pointer-events-none">$</span>
+                <input type="text" id="input-precio-impresa" inputmode="numeric" value="7.500" class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl pl-9 pr-4 py-3 text-white font-headline text-lg sm:text-xl font-bold outline-none transition-all">
+              </div>
+              <p class="text-[11px] text-[#888888] mt-2 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[15px] text-[#facc15]">info</span>
+                <span>Rango estándar escolar: $7.000 a $8.000</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-[#222222] flex items-center justify-between text-xs text-[#888888]">
+            <span>Entrega en institución escolar</span>
+            <span class="text-[#38bdf8] font-mono font-semibold">Catálogo Escolar</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Archivo Digital HD -->
+        <div class="bg-[#181818] border border-[#242424] hover:border-[#38bdf8]/40 rounded-2xl p-5 sm:p-6 shadow-xl flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-start justify-between pb-4 border-b border-[#242424]">
+              <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-[#121212] border border-[#2c2c2c] flex items-center justify-center text-[#38bdf8]">
+                  <span class="material-symbols-outlined text-[24px]">cloud_download</span>
                 </div>
-<input class="darkroom-input w-full pl-8 pr-16 py-3.5 rounded-xl font-mono text-xl font-bold tracking-tight text-white placeholder-outline" id="inputTarifaDigital" min="0" name="tarifa_digital" step="50" type="number" value="2500"/>
-<div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-outline text-xs font-semibold">
-                  ARS
+                <div>
+                  <h3 class="text-base sm:text-lg font-headline font-bold text-white">Archivo Digital HD</h3>
+                  <p class="text-[11px] text-[#888888] font-mono uppercase tracking-wider">Máxima resolución sin marca</p>
                 </div>
-</div>
-</div>
-</div>
-<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between text-label-sm font-label-sm text-outline">
-<span>Predeterminado de base: <strong>$2.500</strong></span>
-<span class="text-on-surface-variant font-mono">300 DPI · Master</span>
-</div>
-</article>
-</section>
-<!-- Panel de Control de Acciones -->
-<section class="darkroom-panel rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-outline">
-<span class="material-symbols-outlined text-[20px]">database</span>
-</div>
-<div>
-<p class="text-label-md font-label-md text-on-surface font-semibold">Persistencia en Red de Alta Disponibilidad</p>
-<p class="text-label-sm font-label-sm text-on-surface-variant">Sincroniza Supabase, caché de sesión local y emite evento en vivo a pestañas cliente.</p>
-</div>
-</div>
-<div class="flex items-center gap-3 w-full sm:w-auto">
-<!-- Botón Revertir -->
-<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-outline-variant/60 text-white font-label-md text-label-md font-semibold hover:border-outline hover:bg-surface-container active:scale-[0.98] transition-all duration-120" id="btnRevertir" type="button">
-<span class="material-symbols-outlined text-[18px]">restore</span>
-<span>Revertir a Predeterminados</span>
-</button>
-<!-- Botón Guardar -->
-<button class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary-container border border-[#0088cc] text-white font-label-md text-label-md font-semibold tracking-wider uppercase hover:bg-[#006699] active:scale-[0.98] transition-all duration-120 shadow-lg shadow-primary-container/30" id="btnGuardar" type="button">
-<span class="material-symbols-outlined text-[18px]">save</span>
-<span>Guardar Nuevas Tarifas</span>
-</button>
-</div>
-</section>
-<!-- Historial de Actualizaciones de Tarifas Auditadas -->
-<section class="darkroom-panel rounded-xl p-6 space-y-4">
-<div class="flex items-center justify-between border-b border-outline-variant/30 pb-4">
-<div>
-<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold">Historial de Actualizaciones de Tarifas</h3>
-<p class="text-label-sm font-label-sm text-on-surface-variant">Pista de auditoría local de modificaciones en valores comerciales.</p>
-</div>
-<span class="px-2.5 py-1 rounded bg-surface-container border border-outline-variant/30 text-label-sm font-label-sm text-outline font-mono">
-            TABLA AUDITORÍA: LOCAL + CLOUD
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#121212] text-[#38bdf8] border border-[#2a2a2a]">ONLINE</span>
+            </div>
+
+            <div class="mt-5">
+              <label for="input-precio-digital" class="block text-xs font-mono uppercase tracking-wider text-[#aaaaaa] mb-2">Precio por Fotografía Digital (ARS)</label>
+              <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#888888] font-bold text-lg font-mono pointer-events-none">$</span>
+                <input type="text" id="input-precio-digital" inputmode="numeric" value="2.500" class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl pl-9 pr-4 py-3 text-white font-headline text-lg sm:text-xl font-bold outline-none transition-all">
+              </div>
+              <p class="text-[11px] text-[#888888] mt-2 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[15px] text-[#38bdf8]">bolt</span>
+                <span>Habilita descarga o envío tras confirmación</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-[#222222] flex items-center justify-between text-xs text-[#888888]">
+            <span>JPG 300 DPI Original</span>
+            <span class="text-[#38bdf8] font-mono font-semibold">Envío Directo</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Historial de Actualizaciones (Solo Registros Reales) -->
+      <section class="bg-[#181818] border border-[#242424] rounded-2xl p-5 sm:p-6 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-[#242424]">
+          <div>
+            <h3 class="text-base sm:text-lg font-headline font-bold text-white">Vigencia y Registro de Tarifas</h3>
+            <p class="text-xs text-[#888888] mt-0.5">Sincronización centralizada con Supabase (tabla <code class="font-mono text-[#38bdf8]">configuracion</code>)</p>
+          </div>
+          <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono bg-[#121212] border border-[#2a2a2a] text-[#38bdf8]">
+            Auditado en Vivo
           </span>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="border-b border-outline-variant/40 text-label-sm font-label-sm text-outline uppercase tracking-wider">
-<th class="py-3 px-4">Fecha y Hora</th>
-<th class="py-3 px-4">Copia Impresa (15x21)</th>
-<th class="py-3 px-4">Archivo Digital HD</th>
-<th class="py-3 px-4">Responsable</th>
-<th class="py-3 px-4 text-right">Canal de Sincronía</th>
-</tr>
-</thead>
-<tbody class="text-body-md font-body-md divide-y divide-outline-variant/20" id="historialTableBody">
-<!-- Filas dinámicas generadas vía JS -->
-</tbody>
-</table>
-</div>
-</section>
-</main>
-</div>
-<!-- Footer oficial conforme a Shared Components JSON -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant/40">
-<div class="flex flex-col md:flex-row justify-between items-center w-full px-space-gutter-desktop max-w-container-max mx-auto py-space-md gap-4">
-<p class="text-label-md font-label-md text-on-surface-variant">
-        © 2024 Darkroom Archive Engine · Sergio Ricardo Molina (molinaoksergio@gmail.com)
-      </p>
-<div class="flex flex-wrap items-center gap-6">
-<a class="text-label-sm font-label-sm text-outline hover:text-on-surface transition-colors duration-150" href="#">Términos de OAuth</a>
-<a class="text-label-sm font-label-sm text-outline hover:text-on-surface transition-colors duration-150" href="#">Seguridad Supabase</a>
-<a class="text-label-sm font-label-sm text-outline hover:text-on-surface transition-colors duration-150" href="#">Tokens de Drive</a>
-<a class="text-label-sm font-label-sm text-outline hover:text-on-surface transition-colors duration-150" href="#">Estado de API</a>
-</div>
-</div>
-</footer>
-<!-- Script de Control Comercial y Sincronización Oficial -->
-<script>
-    (function() {
-      // Constantes de Valores por Defecto
-      const VALORES_DEFAULT = {
-        tarifa_impresa: 7500,
-        tarifa_digital: 2500,
-        whatsapp: '5492613175222',
-        clave: 'tarifas_oficiales',
-        id: 1
-      };
+        </div>
 
-      // BroadcastChannel para sincronizar en tiempo real con pestañas de clientes abiertas
-      let broadcast;
+        <div class="overflow-x-auto custom-scrollbar mt-4">
+          <table class="w-full text-left border-collapse min-w-[540px]">
+            <thead>
+              <tr class="border-b border-[#242424] text-[11px] font-mono text-[#888888] uppercase tracking-wider">
+                <th class="py-2.5 px-3">Estado</th>
+                <th class="py-2.5 px-3">Copia 15x21 cm</th>
+                <th class="py-2.5 px-3">Archivo HD</th>
+                <th class="py-2.5 px-3">WhatsApp Oficial</th>
+                <th class="py-2.5 px-3 text-right">Última Modificación</th>
+              </tr>
+            </thead>
+            <tbody class="text-xs sm:text-sm divide-y divide-[#222222]">
+              <tr class="hover:bg-[#1a1a1a] transition-colors">
+                <td class="py-3 px-3">
+                  <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-700/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    ACTIVA
+                  </span>
+                </td>
+                <td class="py-3 px-3 font-headline font-bold text-[#38bdf8]" id="table-val-impresa">$7.500</td>
+                <td class="py-3 px-3 font-headline font-bold text-[#38bdf8]" id="table-val-digital">$2.500</td>
+                <td class="py-3 px-3 font-mono text-xs text-[#c0c7cf]">+54 9 261 317-5222</td>
+                <td class="py-3 px-3 text-right font-mono text-xs text-[#888888]" id="table-val-fecha">Sincronizando...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Barra de Navegación Inferior Móvil -->
+  <nav class="md:hidden bg-[#131313]/95 backdrop-blur-md border-t border-[#222222] fixed bottom-0 left-0 right-0 z-40 px-2 py-1 flex justify-around items-center">
+    <a href="panel.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">photo_library</span>
+      <span class="text-[10px] mt-0.5 font-medium">Galerías</span>
+    </a>
+    <a href="cargas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+      <span class="text-[10px] mt-0.5 font-medium">Cargas</span>
+    </a>
+    <a href="precios.html" class="flex flex-col items-center py-1 px-2 text-[#38bdf8] font-bold">
+      <span class="material-symbols-outlined text-[20px]">payments</span>
+      <span class="text-[10px] mt-0.5">Tarifas</span>
+    </a>
+    <a href="metricas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
+      <span class="material-symbols-outlined text-[20px]">insights</span>
+      <span class="text-[10px] mt-0.5 font-medium">Métricas</span>
+    </a>
+  </nav>
+
+  <!-- Pie de Página Desktop -->
+  <footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666] hidden md:block">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 · Sergio Ricardo Molina</p>
+      <div class="flex items-center gap-4 text-[11px] font-mono">
+        <span>ESTUDIO FOTOGRÁFICO PROFESIONAL</span>
+        <span class="text-[#38bdf8]">SUPABASE CLOUD SYNC</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
+    const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
+
+    const DEFAULT_PRINT = 7500;
+    const DEFAULT_DIGITAL = 2500;
+    const WHATSAPP_OFICIAL = '5492613175222';
+
+    // 1. Guardián de Acceso Resiliente
+    (function verificarAccesoSeguro() {
+      const authSession = sessionStorage.getItem('admin_auth') === 'true';
+      const authBackup = localStorage.getItem('admin_auth_backup') === 'true';
+      const cookieAuth = document.cookie.includes('admin_session=true');
+
+      if (!authSession && !authBackup && !cookieAuth) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      sessionStorage.setItem('admin_auth', 'true');
+      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+
       try {
-        broadcast = new BroadcastChannel('darkroom_tarifas_channel');
-      } catch (e) {
-        broadcast = null;
-      }
-
-      // Elementos DOM
-      const inputImpresa = document.getElementById('inputTarifaImpresa');
-      const inputDigital = document.getElementById('inputTarifaDigital');
-      const btnGuardar = document.getElementById('btnGuardar');
-      const btnRevertir = document.getElementById('btnRevertir');
-      const btnCerrarSesion = document.getElementById('btnCerrarSesion');
-      const btnProbarSync = document.getElementById('btnProbarSync');
-      const btnAuditPanel = document.getElementById('btnAuditPanel');
-      const tableBody = document.getElementById('historialTableBody');
-      const statusAlert = document.getElementById('statusAlert');
-      const alertTitle = document.getElementById('alertTitle');
-      const alertSubtitle = document.getElementById('alertSubtitle');
-      const alertIcon = document.getElementById('alertIcon');
-
-      // Formateador de moneda en ARS
-      function formatearARS(monto) {
-        return new Intl.NumberFormat('es-AR', {
-          style: 'currency',
-          currency: 'ARS',
-          maximumFractionDigits: 0
-        }).format(monto);
-      }
-
-      // Mostrar Alerta Táctil
-      function mostrarMensaje(titulo, sub, tipo = 'success') {
-        statusAlert.className = 'rounded-lg p-4 border flex items-center justify-between transition-all duration-200';
-        if (tipo === 'success') {
-          statusAlert.classList.add('bg-[#0b2818]', 'border-emerald-500/50', 'text-emerald-200');
-          alertIcon.innerText = 'check_circle';
-          alertIcon.className = 'material-symbols-outlined text-[22px] text-emerald-400';
-        } else if (tipo === 'info') {
-          statusAlert.classList.add('bg-[#08283a]', 'border-primary/50', 'text-primary');
-          alertIcon.innerText = 'info';
-          alertIcon.className = 'material-symbols-outlined text-[22px] text-primary';
-        } else {
-          statusAlert.classList.add('bg-[#331111]', 'border-error/50', 'text-error');
-          alertIcon.innerText = 'error';
-          alertIcon.className = 'material-symbols-outlined text-[22px] text-error';
-        }
-        alertTitle.textContent = titulo;
-        alertSubtitle.textContent = sub;
-        statusAlert.classList.remove('hidden');
-
-        setTimeout(() => {
-          statusAlert.classList.add('hidden');
-        }, 5000);
-      }
-
-      // Cargar o Inicializar Datos
-      function cargarDatosIniciales() {
-        let configuracion = localStorage.getItem('darkroom_tarifas_config');
-        if (configuracion) {
-          try {
-            configuracion = JSON.parse(configuracion);
-          } catch(e) {
-            configuracion = VALORES_DEFAULT;
-          }
-        } else {
-          configuracion = VALORES_DEFAULT;
-          localStorage.setItem('darkroom_tarifas_config', JSON.stringify(configuracion));
-        }
-
-        inputImpresa.value = configuracion.tarifa_impresa || VALORES_DEFAULT.tarifa_impresa;
-        inputDigital.value = configuracion.tarifa_digital || VALORES_DEFAULT.tarifa_digital;
-
-        renderizarHistorial();
-      }
-
-      // Renderizar Historial de Auditoría
-      function renderizarHistorial() {
-        let logs = localStorage.getItem('darkroom_tarifas_historial');
-        if (!logs) {
-          logs = [
-            {
-              fecha: new Date().toLocaleString('es-AR'),
-              tarifa_impresa: 7500,
-              tarifa_digital: 2500,
-              responsable: 'Sergio Ricardo Molina (Owner)',
-              canal: 'Supabase DB / Init'
-            }
-          ];
-          localStorage.setItem('darkroom_tarifas_historial', JSON.stringify(logs));
-        } else {
-          try {
-            logs = JSON.parse(logs);
-          } catch(e) {
-            logs = [];
-          }
-        }
-
-        tableBody.innerHTML = '';
-        logs.slice(0, 8).forEach(item => {
-          const row = document.createElement('tr');
-          row.className = 'hover:bg-surface-container-high/40 transition-colors';
-          row.innerHTML = `
-            <td class="py-3 px-4 font-mono text-xs text-on-surface-variant">${item.fecha}</td>
-            <td class="py-3 px-4 font-semibold text-white font-mono">${formatearARS(item.tarifa_impresa)}</td>
-            <td class="py-3 px-4 font-semibold text-white font-mono">${formatearARS(item.tarifa_digital)}</td>
-            <td class="py-3 px-4 text-xs text-on-surface font-medium">${item.responsable}</td>
-            <td class="py-3 px-4 text-right">
-              <span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-primary">
-                <span class="material-symbols-outlined text-[12px]">done_all</span>
-                ${item.canal}
-              </span>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-      }
-
-      // Guardar Nuevas Tarifas
-      function guardarTarifas() {
-        const impresaVal = parseInt(inputImpresa.value, 10);
-        const digitalVal = parseInt(inputDigital.value, 10);
-
-        if (isNaN(impresaVal) || impresaVal <= 0 || isNaN(digitalVal) || digitalVal <= 0) {
-          mostrarMensaje('Valores inválidos', 'Por favor ingresa montos numéricos mayores a 0.', 'error');
-          return;
-        }
-
-        const dataPayload = {
-          id: 1,
-          clave: 'tarifas_oficiales',
-          tarifa_impresa: impresaVal,
-          tarifa_digital: digitalVal,
-          whatsapp: VALORES_DEFAULT.whatsapp,
-          updated_at: new Date().toISOString()
-        };
-
-        // 1. Respaldo en localStorage
-        localStorage.setItem('darkroom_tarifas_config', JSON.stringify(dataPayload));
-
-        // 2. Registro de auditoría
-        let logs = [];
-        try {
-          logs = JSON.parse(localStorage.getItem('darkroom_tarifas_historial')) || [];
-        } catch(e) {
-          logs = [];
-        }
-        logs.unshift({
-          fecha: new Date().toLocaleString('es-AR'),
-          tarifa_impresa: impresaVal,
-          tarifa_digital: digitalVal,
-          responsable: 'Sergio Ricardo Molina (Panel Admin)',
-          canal: 'Supabase table: configuracion'
-        });
-        localStorage.setItem('darkroom_tarifas_historial', JSON.stringify(logs));
-
-        // 3. Emisión en BroadcastChannel para actualizar simultáneamente eventos.html / catálogo abierto
-        if (broadcast) {
-          broadcast.postMessage({
-            type: 'TARIFAS_ACTUALIZADAS',
-            data: dataPayload
-          });
-        }
-
-        renderizarHistorial();
-        mostrarMensaje(
-          'Tarifas Actualizadas y Sincronizadas', 
-          `Copia Impresa fijada en ${formatearARS(impresaVal)} · Archivo Digital en ${formatearARS(digitalVal)}. Registro persistido en Supabase configuracion (id: 1).`,
-          'success'
-        );
-      }
-
-      // Revertir a valores predeterminados
-      function revertirTarifas() {
-        inputImpresa.value = VALORES_DEFAULT.tarifa_impresa;
-        inputDigital.value = VALORES_DEFAULT.tarifa_digital;
-        guardarTarifas();
-        mostrarMensaje(
-          'Valores Revertidos',
-          `Se restablecieron los montos base: Impresa $${VALORES_DEFAULT.tarifa_impresa} y Digital $${VALORES_DEFAULT.tarifa_digital}.`,
-          'info'
-        );
-      }
-
-      // Event Listeners
-      btnGuardar.addEventListener('click', guardarTarifas);
-      btnRevertir.addEventListener('click', revertirTarifas);
-
-      btnProbarSync.addEventListener('click', () => {
-        mostrarMensaje(
-          'Prueba de Conexión Exitosa',
-          'Enlace verificado con Supabase Database Endpoint · Ping 42ms · WhatsApp Gateway activo.',
-          'info'
-        );
-      });
-
-      btnAuditPanel.addEventListener('click', () => {
-        cargarDatosIniciales();
-        mostrarMensaje(
-          'Datos Recargados',
-          'Se recargaron los registros de tarifa desde la fuente de datos local y remota.',
-          'info'
-        );
-      });
-
-      // Botón rojo Cerrar Sesión: borra sessionStorage('admin_autenticado') y redirige
-      btnCerrarSesion.addEventListener('click', () => {
-        sessionStorage.removeItem('admin_autenticado');
-        window.location.replace('index.html');
-      });
-
-      // Arranque
-      cargarDatosIniciales();
+        fetch('/api/session', { credentials: 'include' }).catch(() => {});
+      } catch(_) {}
     })();
+
+    function toggleMenuMobile() {
+      const drawer = document.getElementById('mobileDrawer');
+      const icon = document.getElementById('iconMobileMenu');
+      if (!drawer) return;
+      const isHidden = drawer.classList.contains('hidden');
+      if (isHidden) {
+        drawer.classList.remove('hidden');
+        if (icon) icon.textContent = 'close';
+      } else {
+        drawer.classList.add('hidden');
+        if (icon) icon.textContent = 'menu';
+      }
+    }
+
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      }
+    } catch(err) {
+      console.warn('Supabase init:', err);
+    }
+
+    const inputImp = document.getElementById('input-precio-impresa');
+    const inputDig = document.getElementById('input-precio-digital');
+    const btnGuardar = document.getElementById('btn-guardar-tarifas');
+    const btnGuardarTxt = document.getElementById('btn-guardar-texto');
+    const tableImp = document.getElementById('table-val-impresa');
+    const tableDig = document.getElementById('table-val-digital');
+    const tableFecha = document.getElementById('table-val-fecha');
+
+    function formatearNumero(val) {
+      const num = parseInt(String(val).replace(/\D/g, ''), 10);
+      if (isNaN(num)) return String(val);
+      return num.toLocaleString('es-AR');
+    }
+
+    function parsearNumero(val) {
+      const clean = String(val).replace(/\D/g, '');
+      return clean ? parseInt(clean, 10) : 0;
+    }
+
+    [inputImp, inputDig].forEach(inp => {
+      if (!inp) return;
+      inp.addEventListener('input', (e) => {
+        const num = parsearNumero(e.target.value);
+        if (num > 0) e.target.value = formatearNumero(num);
+      });
+    });
+
+    function actualizarUI(pImp, pDig, fechaStr) {
+      const sImp = formatearNumero(pImp);
+      const sDig = formatearNumero(pDig);
+      if (inputImp) inputImp.value = sImp;
+      if (inputDig) inputDig.value = sDig;
+      if (tableImp) tableImp.textContent = '$' + sImp;
+      if (tableDig) tableDig.textContent = '$' + sDig;
+      if (tableFecha) {
+        tableFecha.textContent = fechaStr || ('Hoy, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      }
+    }
+
+    async function cargarTarifas() {
+      const locImp = localStorage.getItem('tarifa_impresa');
+      const locDig = localStorage.getItem('tarifa_digital');
+      const iniP = locImp ? parsearNumero(locImp) : DEFAULT_PRINT;
+      const iniD = locDig ? parsearNumero(locDig) : DEFAULT_DIGITAL;
+
+      actualizarUI(iniP, iniD);
+
+      if (!supabaseClient) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('configuracion')
+          .select('*')
+          .limit(1);
+
+        if (!error && data && data.length > 0) {
+          const cfg = data[0];
+          const valP = cfg.tarifa_impresa !== undefined ? parsearNumero(cfg.tarifa_impresa) : DEFAULT_PRINT;
+          const valD = cfg.tarifa_digital !== undefined ? parsearNumero(cfg.tarifa_digital) : DEFAULT_DIGITAL;
+          const fechaFormat = cfg.updated_at ? new Date(cfg.updated_at).toLocaleString('es-AR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : null;
+
+          actualizarUI(valP, valD, fechaFormat);
+          localStorage.setItem('tarifa_impresa', String(valP));
+          localStorage.setItem('tarifa_digital', String(valD));
+        }
+      } catch(err) {
+        console.warn('Lectura tarifas Supabase:', err);
+      }
+    }
+
+    async function guardarTarifas() {
+      const vImp = parsearNumero(inputImp.value) || DEFAULT_PRINT;
+      const vDig = parsearNumero(inputDig.value) || DEFAULT_DIGITAL;
+      const ahora = new Date().toISOString();
+
+      if (btnGuardarTxt) btnGuardarTxt.textContent = 'Guardando...';
+      btnGuardar.disabled = true;
+
+      // 1. Persistencia local inmediata
+      localStorage.setItem('tarifa_impresa', String(vImp));
+      localStorage.setItem('tarifa_digital', String(vDig));
+      localStorage.setItem('numero_whatsapp', WHATSAPP_OFICIAL);
+
+      // Transmisión inter-pestañas
+      try {
+        if ('BroadcastChannel' in window) {
+          const bc = new BroadcastChannel('tarifas_escolar_channel');
+          bc.postMessage({ type: 'TARIFAS_UPDATED', tarifa_impresa: vImp, tarifa_digital: vDig });
+        }
+      } catch(_) {}
+
+      // 2. Sincronización en Supabase
+      let exitoRemoto = false;
+      if (supabaseClient) {
+        try {
+          const payload = {
+            id: 1,
+            clave: 'tarifas_oficiales',
+            tarifa_impresa: vImp,
+            tarifa_digital: vDig,
+            whatsapp: WHATSAPP_OFICIAL,
+            updated_at: ahora
+          };
+          const { error } = await supabaseClient.from('configuracion').upsert(payload, { onConflict: 'id' });
+          if (!error) exitoRemoto = true;
+        } catch(e) {
+          console.warn('Upsert Supabase:', e);
+        }
+      }
+
+      btnGuardar.disabled = false;
+      if (btnGuardarTxt) btnGuardarTxt.textContent = 'Guardar Nuevas Tarifas';
+
+      actualizarUI(vImp, vDig);
+      mostrarToast(exitoRemoto ? '¡Tarifas guardadas y sincronizadas en Supabase y galerías!' : 'Tarifas guardadas en almacenamiento local.', false);
+    }
+
+    function revertirTarifas() {
+      actualizarUI(DEFAULT_PRINT, DEFAULT_DIGITAL);
+      localStorage.setItem('tarifa_impresa', String(DEFAULT_PRINT));
+      localStorage.setItem('tarifa_digital', String(DEFAULT_DIGITAL));
+      mostrarToast('Tarifas restablecidas a valores base ($7.500 / $2.500). Presioná Guardar para sincronizar.', false);
+    }
+
+    function mostrarToast(msg, esError) {
+      const t = document.getElementById('toast-precios');
+      const txt = document.getElementById('toast-txt');
+      const ico = document.getElementById('toast-ico');
+      const hora = document.getElementById('toast-hora');
+      if (!t || !txt) return;
+
+      txt.textContent = msg;
+      if (hora) hora.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (esError) {
+        t.className = 'mb-6 p-4 rounded-xl border border-red-500/50 bg-red-950/40 text-red-400 text-xs sm:text-sm flex items-center justify-between';
+        if (ico) ico.textContent = 'error';
+      } else {
+        t.className = 'mb-6 p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-400 text-xs sm:text-sm flex items-center justify-between';
+        if (ico) ico.textContent = 'check_circle';
+      }
+      t.classList.remove('hidden');
+      setTimeout(() => { t.classList.add('hidden'); }, 5000);
+    }
+
+    function cerrarSesion() {
+      sessionStorage.clear();
+      localStorage.removeItem('admin_auth_backup');
+      try {
+        document.cookie = 'admin_session=; Path=/; Max-Age=0;';
+        document.cookie = 'admin_email=; Path=/; Max-Age=0;';
+        fetch('/api/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+      } catch(_) {}
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarTarifas);
   </script>
-</body></html>
+</body>
+</html>

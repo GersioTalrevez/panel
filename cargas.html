@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cargas y Enlaces | Panel</title>
+
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     body {
       background-color: #111111;
@@ -17,6 +19,7 @@
       font-family: 'Manrope', sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
+
     .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
@@ -78,6 +81,8 @@
   </header>
 
   <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
+ 
+
     <aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
       <div class="space-y-4">
         <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
@@ -90,6 +95,7 @@
             <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
           </a>
 
+          
           <a href="cargas.html" class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm">
             <div class="flex items-center gap-2.5">
               <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">cloud_upload</span>
@@ -114,13 +120,17 @@
           </a>
         </nav>
       </div>
+
     </aside>
 
     <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 max-w-4xl w-full pb-24 md:pb-8">
+
+
       <div class="mb-6">
         <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#005580]/30 border border-[#005580] text-[#38bdf8] text-[11px] font-mono rounded uppercase tracking-wider mb-2">
           <span>Gestión de Lotes Escolares</span>
         </div>
+
         <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Cargas y Enlaces</h1>
         <p class="text-xs sm:text-sm text-[#888888] mt-1.5 leading-relaxed">
           Vinculá carpetas o archivos para crear nuevas galerías de forma segura. La operación se procesa en el backend.
@@ -250,18 +260,24 @@
       setTimeout(() => {
         t.classList.add('hidden');
       }, 5000);
+      
+
     }
 
     function extraerIdDrive(input) {
       if (!input) return '';
       const str = String(input).trim();
+
       const matchFolder = str.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+    
+
       if (matchFolder && matchFolder[1]) return matchFolder[1];
       const matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
       if (matchId && matchId[1]) return matchId[1];
       const matchD = str.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (matchD && matchD[1]) return matchD[1];
       return str.split('?')[0].split('#')[0].replace(/.*drive\.google\.com\//, '').trim();
+
     }
 
     async function verificarAccesoSeguro() {
@@ -327,10 +343,13 @@
         drive_id: driveId,
         titulo: titulo || `Galería ${new Date().toLocaleDateString('es-AR')}`,
         portada_url: portadaUrl || '',
+   
+
         es_privada: esPrivada,
-        clave: esPrivada ? clave : null,
+        password: esPrivada ? clave : null,
         created_at: new Date().toISOString()
       };
+
 
       if (esPrivada && !clave) {
         mostrarToast('Para galería privada, la clave es obligatoria.', true);
@@ -376,6 +395,8 @@
     });
 
     verificarAccesoSeguro();
+      
+
   </script>
 </body>
 </html>
