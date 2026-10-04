@@ -1,124 +1,49 @@
-<!DOCTYPE html>
-<html lang="es" class="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel Admin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <style>
-    body {
-      background-color: #111111;
-      color: #e5e2e1;
-      font-family: 'Manrope', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-[#111111] text-[#e5e2e1] min-h-screen">
-  <div class="max-w-6xl mx-auto p-6">
-    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
-      <div>
-        <p class="text-[11px] uppercase tracking-[0.18em] text-[#38bdf8] font-semibold">Panel administrativo</p>
-        <h1 class="text-3xl font-bold text-white font-['Raleway']">Control del sitio</h1>
-      </div>
 
-      <button id="btn-logout" class="inline-flex items-center gap-2 rounded-xl border border-red-500/40 bg-red-950/20 px-4 py-2 text-sm font-semibold text-red-200 hover:bg-red-900/30 transition">
-        <span class="material-symbols-outlined text-base">logout</span>
-        Cerrar sesión
-      </button>
-    </header>
+<script>
+  async function ensureSession() {
+    try {
+      const res = await fetch('/api/session', {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      });
 
-    <div class="grid gap-4 md:grid-cols-3 mb-8">
-      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
-        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">estado</p>
-        <p class="mt-3 text-2xl font-bold text-white">Activa</p>
-      </div>
-
-      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
-        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">usuario</p>
-        <p id="userEmail" class="mt-3 text-xl font-semibold text-[#38bdf8] break-all">Verificando…</p>
-      </div>
-
-      <div class="rounded-2xl border border-[#262626] bg-[#181818] p-5">
-        <p class="text-[10px] uppercase tracking-[0.2em] text-[#8b9199]">acceso</p>
-        <p class="mt-3 text-2xl font-bold text-emerald-400">Permitido</p>
-      </div>
-    </div>
-
-    <div class="rounded-2xl border border-[#292929] bg-[#181818] p-6">
-      <div class="flex items-center justify-between mb-5">
-        <h2 class="text-xl font-bold text-white">Resumen</h2>
-        <span class="rounded-full border border-[#2d2d2d] bg-[#121212] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[#8b9199]">
-          Backend validado
-        </span>
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="rounded-xl border border-[#2a2a2a] bg-[#121212] p-4">
-          <p class="text-xs uppercase tracking-[0.18em] text-[#8b9199] mb-2">RRSS / gestión</p>
-          <p class="text-sm text-[#d4d4d4]">
-            Este panel sólo se muestra si el backend valida la sesión del usuario.
-          </p>
-        </div>
-
-        <div class="rounded-xl border border-[#2a2a2a] bg-[#121212] p-4">
-          <p class="text-xs uppercase tracking-[0.18em] text-[#8b9199] mb-2">Seguridad</p>
-          <p class="text-sm text-[#d4d4d4]">
-            Sin `localStorage`, sin `sessionStorage` para autorizar acceso. Validación desde cookie HttpOnly.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    async function ensureSession() {
-      try {
-        const res = await fetch('/api/session', {
-          method: 'GET',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' }
-        });
-
-        if (!res.ok) {
-          throw new Error('No autorizado');
-        }
-
-        const data = await res.json();
-        const emailNode = document.getElementById('userEmail');
-
-        if (emailNode) {
-          emailNode.textContent = data.email || 'usuario@admin';
-        }
-      } catch (err) {
-        console.warn('Session invalid:', err);
-        window.location.href = 'index.html?unauthorized=1';
+      if (!res.ok) {
+        throw new Error('No autorizado');
       }
-    }
 
-    async function logout() {
-      try {
-        await fetch('/api/logout', {
-          method: 'POST',
-          credentials: 'include'
-        });
-      } catch (err) {
-        console.warn('Logout failed:', err);
-      } finally {
-        window.location.href = 'index.html?logout=true';
+      const data = await res.json();
+      const emailNode = document.getElementById('userEmail');
+
+      if (emailNode) {
+        emailNode.textContent = data.email || 'usuario@admin';
       }
+    } catch (err) {
+      console.warn('Session invalid:', err);
+      window.location.href = 'index.html?unauthorized=1';
     }
+  }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      ensureSession();
+  async function logout() {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+    } catch (err) {
+      console.warn('Logout failed:', err);
+    } finally {
+      window.location.href = 'index.html?logout=true';
+    }
+  }
 
-      const btnLogout = document.getElementById('btn-logout');
-      if (btnLogout) {
-        btnLogout.addEventListener('click', logout);
-      }
-    });
-  </script>
-</body>
-</html>
+  document.addEventListener('DOMContentLoaded', () => {
+    ensureSession();
+
+    const btnLogout = document.getElementById('btn-logout');
+    if (btnLogout) {
+      btnLogout.addEventListener('click', logout);
+    }
+  });
+</script>
+

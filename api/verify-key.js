@@ -1,30 +1,81 @@
-// api/verify-key.js
+import crypto from 'crypto';
+
+const SESSION_TTL = 60 * 60 * 1000; // 1 hora
+globalThis.__panelSessions = globalThis.__panelSessions || new Map();
+
+function signSessionToken(token) {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) return null;
+  return crypto.createHmac('sha256', secret).update(token).digest('hex');
+}
+
 export default function handler(req, res) {
-  // Solo permitimos método POST por seguridad
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Método no permitido' });
   }
 
-  const { key } = req.body;
-  const backupKey = process.env.BACKUP_KEY || 'admin2026';
-  const allowedEmail = process.env.ALLOWED_EMAIL || 'molinaoksergio@gmail.com';
+  const body = req.body || {};
+  const { key, email } = body;
 
-  if (!key) {
-    return res.status(400).json({ success: false, message: 'Falta la clave' });
+  const backupKey = process.env.BACKUP_KEY;
+  const allowedEmail = (process.env.ALLOWED_EMAIL || '').trim().toLowerCase();
+  const sessionSecret = process.env.SESSION_SECRET;
+
+  if (!backupKey || !allowedEmail || !sessionSecret) {
+    return res.status(500).json({
+      success: false,
+      message: 'Configuración del servidor incompleta'
+    });
   }
 
-  // Verificamos si la clave ingresada coincide con la de respaldo
-  if (key === backupKey) {
-    const secureFlag = (process.env.NODE_ENV === 'production');
-
-    // Seteamos las cookies de sesión del lado del servidor
-    res.setHeader('Set-Cookie', [
-      `admin_session=true; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${secureFlag ? '; Secure' : ''}`,
-      `admin_email=${encodeURIComponent(allowedEmail)}; Path=/; Max-Age=3600; SameSite=Lax${secureFlag ? '; Secure' : ''}`
-    ]);
-
-    return res.status(200).json({ success: true, message: 'Autenticación exitosa' });
+  if (typeof key !== 'string' || !key.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: 'Falta la clave'
+    });
   }
 
-  return res.status(401).json({ success: false, message: 'Clave incorrecta' });
+  if (key !== backupKey) {
+    return res.status(401).json({
+      success: false,
+      message: 'Clave incorrecta'
+    });
+  }
+
+  const normalizedEmail = (email || allowedEmail).trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return res.status(400).json({
+      success: false,
+      message: 'Falta email válido'
+    });
+  }
+
+  const sessionToken = crypto.randomBytes(32).toString('hex');
+  const signature = signSessionToken(sessionToken);
+
+  if (!signature) {
+    return res.status(500).json({
+      success: false,
+      message: 'Error al crear la sesión'
+    });
+  }
+
+  globalThis.__panelSessions.set(sessionToken, {
+    email: normalizedEmail,
+    expiresAt: Date.now() + SESSION_TTL
+  });
+
+  const isProd = process.env.NODE_ENV === 'production';
+
+  res.setHeader('Set-Cookie', [
+    `panel_session=${sessionToken}.${signature}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`,
+    `panel_email=${encodeURIComponent(normalizedEmail)}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax${isProd ? '; Secure' : ''}`
+  ]);
+
+  return res.status(200).json({
+    success: true,
+    message: 'Autenticación exitosa',
+    email: normalizedEmail
+  });
 }
