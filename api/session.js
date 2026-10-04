@@ -1,16 +1,21 @@
 import crypto from 'crypto';
 
-globalThis.__panelSessions = globalThis.__panelSessions || new Map();
+function readCookie(rawCookie, name) {
+  if (!rawCookie) return null;
+  const match = rawCookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
 
 function safeEqual(a, b) {
-  const aBuf = Buffer.from(a, 'hex');
-  const bBuf = Buffer.from(b, 'hex');
+  try {
+    const aBuf = Buffer.from(a, 'hex');
+    const bBuf = Buffer.from(b, 'hex');
 
-  if (aBuf.length !== bBuf.length) {
+    if (aBuf.length !== bBuf.length) return false;
+    return crypto.timingSafeEqual(aBuf, bBuf);
+  } catch (_) {
     return false;
   }
-
-  return crypto.timingSafeEqual(aBuf, bBuf);
 }
 
 export default function handler(req, res) {
@@ -19,8 +24,7 @@ export default function handler(req, res) {
   }
 
   const cookieHeader = req.headers.cookie || '';
-  const match = cookieHeader.match(/(?:^|;\s*)panel_session=([^;]+)/);
-  const raw = match ? decodeURIComponent(match[1]) : '';
+  const raw = readCookie(cookieHeader, 'panel_session');
 
   if (!raw) {
     return res.status(401).json({ authorized: false, message: 'No autorizado' });
@@ -45,6 +49,7 @@ export default function handler(req, res) {
     return res.status(401).json({ authorized: false, message: 'No autorizado' });
   }
 
+  globalThis.__panelSessions = globalThis.__panelSessions || new Map();
   const session = globalThis.__panelSessions.get(token);
 
   if (!session) {
