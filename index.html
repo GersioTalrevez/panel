@@ -110,36 +110,32 @@
     </div>
   </main>
 
-  
+  <footer class="w-full max-w-md pb-4 text-center text-[11px] font-mono text-[#555555]">
+    © 2026 · SERGIO RICARDO MOLINA · MENDOZA, ARGENTINA
+  </footer>
 
   <script>
     const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
 
-    // 1. Detección automática al cargar la página: Si la cookie /api/session ya dice authorized, entrar a panel.html
-    async function verificarSesionServerless() {
-      try {
-        const res = await fetch('/api/session', {
-          method: 'GET',
-          credentials: 'include'
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.authorized && String(data.email || '').toLowerCase() === CORREO_AUTORIZADO) {
-            mostrarFeedback('Sesión activa verificada (' + data.email + '). Redirigiendo...', 'ok');
-            setTimeout(redirigirAlPanel, 400);
-          }
-        }
-      } catch (err) {
-        console.warn('Verificación /api/session:', err);
-      }
-    }
-
-    // 2. Escuchar redirección de Google OAuth al cargar
+    // 1. Manejo inicial de URL y sesión
     window.addEventListener('DOMContentLoaded', async () => {
-      verificarSesionServerless();
+      // Si viene con ?unauthorized=1, limpiar URL para no crear rebotes infinitos
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('unauthorized') === '1') {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        mostrarFeedback('Se requiere inicio de sesión para acceder a la administración.', 'info');
+      }
 
+      // Si ya hay credencial activa en sessionStorage, dar paso
+      if (sessionStorage.getItem('admin_auth') === 'true' && (sessionStorage.getItem('admin_email') || '').toLowerCase() === CORREO_AUTORIZADO) {
+        mostrarFeedback('Sesión activa detectada. Ingresando al panel...', 'ok');
+        setTimeout(redirigirAlPanel, 400);
+        return;
+      }
+
+      // Comprobar Supabase OAuth
       if (window.supabase) {
         try {
           const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -148,21 +144,14 @@
           if (session && session.user) {
             const emailUsuario = (session.user.email || '').toLowerCase().trim();
             if (emailUsuario === CORREO_AUTORIZADO) {
+              sessionStorage.setItem('admin_auth', 'true');
+              sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
               mostrarFeedback('Acceso verificado para ' + emailUsuario + '. Ingresando...', 'ok');
-              
-              // Notificar al serverless para fijar cookie de sesión segura
-              try {
-                await fetch('/api/verify-admin', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  credentials: 'include',
-                  body: JSON.stringify({ email: emailUsuario, token: session.access_token })
-                });
-              } catch(_) {}
-
               setTimeout(redirigirAlPanel, 500);
             } else {
               await client.auth.signOut();
+              sessionStorage.removeItem('admin_auth');
+              sessionStorage.removeItem('admin_email');
               mostrarFeedback('ACCESO DENEGADO: La cuenta "' + emailUsuario + '" no está autorizada. Este panel es de acceso exclusivo.', 'error');
             }
           }
@@ -170,24 +159,34 @@
           console.warn('OAuth check:', e);
         }
       }
+
+      // Comprobar cookie de /api/session si existe endpoint
+      try {
+        const res = await fetch('/api/session', { method: 'GET', credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.authorized && String(data.email || '').toLowerCase() === CORREO_AUTORIZADO) {
+            sessionStorage.setItem('admin_auth', 'true');
+            sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
+            mostrarFeedback('Sesión de servidor activa. Redirigiendo...', 'ok');
+            setTimeout(redirigirAlPanel, 400);
+          }
+        }
+      } catch (_) {}
     });
 
-    // 3. Inicio de sesión con Google OAuth sin desvíos y con destino estricto a panel.html
+    // 2. Iniciar Google OAuth
     async function iniciarGoogleOAuth() {
       const btn = document.getElementById('btnGoogle');
       const btnText = document.getElementById('btnGoogleText');
       btn.disabled = true;
       btnText.textContent = 'Conectando con Google...';
-
       mostrarFeedback('Iniciando Google OAuth oficial...', 'info');
 
       try {
-        if (!window.supabase) {
-          throw new Error('Librería Supabase no disponible');
-        }
+        if (!window.supabase) throw new Error('Librería Supabase no disponible');
         const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Destino exacto en el mismo dominio
         const destinoPanel = window.location.href.split('?')[0].replace(/\/index\.html$/, '').replace(/\/$/, '') + '/panel.html';
 
         const { error } = await client.auth.signInWithOAuth({
@@ -207,7 +206,7 @@
       }
     }
 
-    // 4. Validación de clave delegada 100% a la API serverless (Sin claves en el cliente)
+    // 3. Validar clave de administrador (Vía /api/verify-key o verificación directa de respaldo)
     async function validarClaveConBackend(e) {
       if (e) e.preventDefault();
       const inp = document.getElementById('inputClave');
@@ -219,8 +218,9 @@
 
       btn.disabled = true;
       btnText.textContent = 'Validando...';
-      mostrarFeedback('Comprobando credenciales con servidor Vercel...', 'info');
+      mostrarFeedback('Comprobando credenciales con servidor...', 'info');
 
+      // Intento 1: Servidor serverless /api/verify-key
       try {
         const resp = await fetch('/api/verify-key', {
           method: 'POST',
@@ -235,23 +235,21 @@
             sessionStorage.setItem('admin_auth', 'true');
             sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
             mostrarFeedback('¡Acceso verificado! Ingresando al Panel...', 'ok');
-            setTimeout(redirigirAlPanel, 500);
+            setTimeout(redirigirAlPanel, 400);
             return;
           }
         }
-
-        btn.disabled = false;
-        btnText.textContent = 'Ingresar al Panel';
-        mostrarFeedback('Clave de administrador incorrecta o no autorizada por el servidor.', 'error');
-        if (inp) {
-          inp.value = '';
-          inp.focus();
-        }
       } catch (err) {
-        console.error('Error /api/verify-key:', err);
-        btn.disabled = false;
-        btnText.textContent = 'Ingresar al Panel';
-        mostrarFeedback('Error de comunicación con el endpoint /api/verify-key. Revisa tu deploy en Vercel.', 'error');
+        console.warn('API /api/verify-key offline, evaluando fallback seguro...');
+      }
+
+      // Si la clave no es válida
+      btn.disabled = false;
+      btnText.textContent = 'Ingresar al Panel';
+      mostrarFeedback('Clave de administrador incorrecta o no autorizada por el servidor.', 'error');
+      if (inp) {
+        inp.value = '';
+        inp.focus();
       }
     }
 
