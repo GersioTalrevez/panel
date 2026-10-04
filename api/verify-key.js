@@ -3,6 +3,12 @@ import crypto from 'crypto';
 const SESSION_TTL = 60 * 60 * 1000; // 1 hora
 globalThis.__panelSessions = globalThis.__panelSessions || new Map();
 
+function signSessionToken(token) {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) return null;
+  return crypto.createHmac('sha256', secret).update(token).digest('hex');
+}
+
 export default function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Método no permitido' });
@@ -46,10 +52,14 @@ export default function handler(req, res) {
   }
 
   const sessionToken = crypto.randomBytes(32).toString('hex');
-  const signature = crypto
-    .createHmac('sha256', sessionSecret)
-    .update(sessionToken)
-    .digest('hex');
+  const signature = signSessionToken(sessionToken);
+
+  if (!signature) {
+    return res.status(500).json({
+      success: false,
+      message: 'Error al crear la sesión'
+    });
+  }
 
   globalThis.__panelSessions.set(sessionToken, {
     email: normalizedEmail,
