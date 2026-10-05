@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="es">
-<head>
+<html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Métricas y Visitas | SERGIO RICARDO MOLINA</title>
@@ -261,7 +260,23 @@
 </tr>
 </tbody>
 </table>
-</div><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-[#242424] mt-4" id="paginacion-contenedor"><div class="text-xs text-[#888888] font-mono"><span id="paginacion-resumen">Mostrando 0 - 0 de 0 registros</span> <span class="text-[#555555]">·</span> <span class="text-[#38bdf8]" id="paginacion-pagina-actual">Página 1 de 1</span></div><div class="flex items-center gap-1.5 self-end sm:self-auto"><button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-prev" onclick="cambiarPagina(-1)"><span class="material-symbols-outlined text-[14px]">arrow_back</span><span>Anterior</span></button><div class="flex items-center gap-1" id="paginacion-botones"></div><button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-next" onclick="cambiarPagina(1)"><span>Siguiente</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></button></div></div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-[#242424] mt-4" id="paginacion-contenedor">
+<div class="text-xs text-[#888888] font-mono">
+<span id="paginacion-resumen">Mostrando 0 - 0 de 0 registros</span> <span class="text-[#555555]">·</span> <span class="text-[#38bdf8]" id="paginacion-pagina-actual">Página 1 de 1</span>
+</div>
+<div class="flex items-center gap-1.5 self-end sm:self-auto">
+<button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-prev" onclick="cambiarPagina(-1)">
+<span class="material-symbols-outlined text-[14px]">arrow_back</span>
+<span>Anterior</span>
+</button>
+<div class="flex items-center gap-1" id="paginacion-botones"></div>
+<button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-next" onclick="cambiarPagina(1)">
+<span>Siguiente</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
 <!-- Estado Vacío -->
 <div class="hidden text-center py-10 text-xs text-[#777777]" id="estado-sin-registros">
           No hay registros de visitas de clientes todavía. Cuando los padres exploren las galerías aparecerán aquí automáticamente.
@@ -302,6 +317,11 @@
     const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
+
+    // Constantes de paginación estricta
+    const REGISTROS_POR_PAGINA = 20;
+    let registrosTotales = [];
+    let paginaActual = 1;
 
     // 1. Guardián de Acceso Resiliente
     (function verificarAccesoSeguro() {
@@ -345,35 +365,68 @@
       console.warn('Supabase init:', err);
     }
 
-    async function cargarMetricas() {
-      const tbody = document.getElementById('tabla-registros-body');
-      const sinReg = document.getElementById('estado-sin-registros');
-      const badgeReg = document.getElementById('badge-conteo-registros');
-
+    // Consulta de doble vía infalible: SDK Supabase primero, fallback vía REST directo
+    async function obtenerRegistrosVisitas() {
       let registros = [];
 
+      // Vía 1: Cliente SDK de Supabase
       if (supabaseClient) {
         try {
           const { data, error } = await supabaseClient
             .from('visitas')
             .select('*')
             .order('created_at', { ascending: false })
-            .limit(100);
+            .limit(500);
 
-          if (!error && data) {
-            registros = data;
+          if (!error && Array.isArray(data) && data.length > 0) {
+            return data;
           }
         } catch(e) {
-          console.warn('Consulta visitas Supabase:', e);
+          console.warn('Fallo SDK Supabase, intentando vía REST:', e);
         }
       }
 
-      // Filtrar visitas propias de administración si estuviesen marcadas
-      const reales = registros.filter(r => r.origen !== 'admin' && r.tipo !== 'test_admin');
+      // Vía 2: Fallback directo REST API
+      try {
+        const url = `${SUPABASE_URL}/rest/v1/visitas?select=*&order=created_at.desc&limit=500`;
+        const res = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            registros = data;
+          }
+        }
+      } catch(e) {
+        console.error('Error en fallback REST visitas:', e);
+      }
 
-      // Calcular contadores reales
+      return registros;
+    }
+
+    async function cargarMetricas() {
+      const tbody = document.getElementById('tabla-registros-body');
+      tbody.innerHTML = `
+        <tr>
+          <td class="py-8 text-center text-xs text-[#38bdf8] font-mono animate-pulse" colspan="5">
+            Sincronizando registros en vivo con Supabase...
+          </td>
+        </tr>
+      `;
+
+      const data = await obtenerRegistrosVisitas();
+      // Aseguramos que NINGÚN filtro oculte registros en silencio
+      registrosTotales = Array.isArray(data) ? data : [];
+
+      // Calcular contadores de métricas sobre el total real
       let cWeb = 0, cAlb = 0, cFot = 0, cWsp = 0;
-      reales.forEach(r => {
+      registrosTotales.forEach(r => {
         const t = (r.tipo || '').toLowerCase();
         const p = (r.pagina || '').toLowerCase();
 
@@ -388,18 +441,46 @@
       document.getElementById('stat-fotos-vistas').textContent = cFot;
       document.getElementById('stat-whatsapp-pedidos').textContent = cWsp;
 
-      if (badgeReg) badgeReg.textContent = `${reales.length} eventos`;
+      const badgeReg = document.getElementById('badge-conteo-registros');
+      if (badgeReg) badgeReg.textContent = `${registrosTotales.length} eventos`;
 
-      if (reales.length === 0) {
+      paginaActual = 1;
+      renderizarTablaPaginada();
+    }
+
+    function renderizarTablaPaginada() {
+      const tbody = document.getElementById('tabla-registros-body');
+      const sinReg = document.getElementById('estado-sin-registros');
+      const pagContenedor = document.getElementById('paginacion-contenedor');
+      const resumenEl = document.getElementById('paginacion-resumen');
+      const pagActualEl = document.getElementById('paginacion-pagina-actual');
+      const botonesEl = document.getElementById('paginacion-botones');
+      const btnPrev = document.getElementById('btn-pag-prev');
+      const btnNext = document.getElementById('btn-pag-next');
+
+      const total = registrosTotales.length;
+
+      if (total === 0) {
         tbody.innerHTML = '';
         sinReg?.classList.remove('hidden');
+        if (pagContenedor) pagContenedor.classList.add('hidden');
         return;
       }
 
       sinReg?.classList.add('hidden');
+      if (pagContenedor) pagContenedor.classList.remove('hidden');
+
+      const totalPaginas = Math.ceil(total / REGISTROS_POR_PAGINA) || 1;
+      if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+      if (paginaActual < 1) paginaActual = 1;
+
+      const inicio = (paginaActual - 1) * REGISTROS_POR_PAGINA;
+      const fin = Math.min(inicio + REGISTROS_POR_PAGINA, total);
+      const registrosPagina = registrosTotales.slice(inicio, fin);
+
       tbody.innerHTML = '';
 
-      reales.forEach(r => {
+      registrosPagina.forEach(r => {
         const fechaObj = r.created_at ? new Date(r.created_at) : new Date();
         const fechaStr = fechaObj.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
         const horaStr = fechaObj.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -421,6 +502,71 @@
         `;
         tbody.appendChild(tr);
       });
+
+      // Actualizar texto del resumen y página
+      if (resumenEl) {
+        resumenEl.textContent = `Mostrando ${inicio + 1} - ${fin} de ${total} registros`;
+      }
+      if (pagActualEl) {
+        pagActualEl.textContent = `Página ${paginaActual} de ${totalPaginas}`;
+      }
+
+      // Estados botones Anterior/Siguiente
+      if (btnPrev) btnPrev.disabled = (paginaActual <= 1);
+      if (btnNext) btnNext.disabled = (paginaActual >= totalPaginas);
+
+      // Renderizar números de páginas dinámicos
+      if (botonesEl) {
+        botonesEl.innerHTML = '';
+        let paginasAMostrar = [];
+        
+        if (totalPaginas <= 5) {
+          for (let i = 1; i <= totalPaginas; i++) paginasAMostrar.push(i);
+        } else {
+          paginasAMostrar.push(1);
+          let start = Math.max(2, paginaActual - 1);
+          let end = Math.min(totalPaginas - 1, paginaActual + 1);
+
+          if (start > 2) paginasAMostrar.push('...');
+          for (let i = start; i <= end; i++) paginasAMostrar.push(i);
+          if (end < totalPaginas - 1) paginasAMostrar.push('...');
+          paginasAMostrar.push(totalPaginas);
+        }
+
+        paginasAMostrar.forEach(p => {
+          if (p === '...') {
+            const span = document.createElement('span');
+            span.className = 'px-1.5 py-1 text-xs text-[#666666] font-mono';
+            span.textContent = '…';
+            botonesEl.appendChild(span);
+          } else {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `w-7 h-7 rounded-lg text-xs font-mono flex items-center justify-center transition-all ${
+              p === paginaActual 
+                ? 'bg-[#005580] text-white font-bold border border-[#0088cc]' 
+                : 'bg-[#141414] hover:bg-[#222222] text-[#c0c7cf] border border-[#2a2a2a]'
+            }`;
+            btn.textContent = p;
+            btn.onclick = () => irAPagina(p);
+            botonesEl.appendChild(btn);
+          }
+        });
+      }
+    }
+
+    function cambiarPagina(delta) {
+      const totalPaginas = Math.ceil(registrosTotales.length / REGISTROS_POR_PAGINA) || 1;
+      const nuevaPagina = paginaActual + delta;
+      if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
+        paginaActual = nuevaPagina;
+        renderizarTablaPaginada();
+      }
+    }
+
+    function irAPagina(num) {
+      paginaActual = num;
+      renderizarTablaPaginada();
     }
 
     function badgeColorTipo(tipo) {
@@ -444,5 +590,4 @@
 
     document.addEventListener('DOMContentLoaded', cargarMetricas);
   </script>
-</body>
-</html>
+</body></html>
