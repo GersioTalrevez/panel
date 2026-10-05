@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="es">
+<html lang="es" class="dark">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Panel de Control | SERGIO RICARDO MOLINA</title>
-<link href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA" rel="icon" type="image/png"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Raleway:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>Panel de Control | SERGIO RICARDO MOLINA</title>
+  <link href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA" rel="icon" type="image/png"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
     body {
       background-color: #111111;
       color: #e5e2e1;
@@ -32,152 +31,196 @@
     }
   </style>
 </head>
-<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white" style="visibility: hidden;">
-<!-- Header Superior Global -->
-<header class="w-full bg-[#141414] border-b border-[#242424] sticky top-0 z-50">
-<div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
-<!-- Brand & Mobile Toggle -->
-<div class="flex items-center gap-3">
-<button class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all" id="btnMobileMenu" type="button">
-<span class="material-symbols-outlined text-[24px]" id="menuIcon">menu</span>
-</button>
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[#38bdf8] text-[26px]">photo_camera</span>
-<span class="text-white font-headline font-bold text-base sm:text-lg tracking-tight">Panel de Control</span>
-</div>
-</div>
-<!-- Header Sync Indicator & Acciones Rápidas -->
-<div class="flex items-center gap-2 sm:gap-3"><div class="hidden xl:flex items-center gap-2"><a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2e2e2e] bg-[#181818] hover:bg-[#1e1e1e] hover:border-[#0088cc]/60 text-xs font-medium text-[#c0c7cf] hover:text-[#38bdf8] transition-all" href="https://sergiomolina-fotografia.netlify.app/" target="_blank"><span class="material-symbols-outlined text-[16px]">arrow_back</span><span>Volver al Portafolio</span></a><a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2e2e2e] bg-[#181818] hover:bg-[#1e1e1e] hover:border-[#0088cc]/60 text-xs font-medium text-[#c0c7cf] hover:text-[#38bdf8] transition-all" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank"><span class="material-symbols-outlined text-[16px]">photo_camera</span><span>Ir a Galerías / Eventos</span></a></div><div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#181818] border border-emerald-800/60 text-emerald-400 text-xs font-semibold rounded-full uppercase tracking-wider"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="text-[11px] font-mono hidden sm:inline">Supabase Conectado</span></div><button class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/30 text-xs font-medium text-[#c0c7cf] hover:text-red-400 transition-all" onclick="cerrarSesionAdmin()"><span class="material-symbols-outlined text-[16px]">logout</span><span class="hidden sm:inline">Salir</span></button></div>
-</div>
-<!-- Menú Desplegable Móvil -->
-<div class="hidden md:hidden border-b border-[#242424] bg-[#141414] px-4 py-4 space-y-4 shadow-2xl" id="mobileDrawer">
-<div class="px-2 pb-2 border-b border-[#222222]">
-<h2 class="text-base font-headline font-bold text-white tracking-tight">SERGIO RICARDO MOLINA</h2>
-<p class="text-[11px] text-[#8b9199] tracking-wider uppercase mt-0.5">Fotografía Profesional</p>
-</div>
-<nav class="space-y-1">
-<a class="flex items-center gap-3 text-white px-3 py-2.5 text-sm font-semibold rounded-lg bg-[#004466] border border-[#0088cc]" href="panel.html">
-<span class="material-symbols-outlined text-[20px] text-[#38bdf8]">photo_library</span>
-<span>Galerías</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all" href="cargas.html">
-<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-<span>Cargas y Enlaces</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all" href="precios.html">
-<span class="material-symbols-outlined text-[20px]">payments</span>
-<span>Tarifas y Precios</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all" href="metricas.html">
-<span class="material-symbols-outlined text-[20px]">insights</span>
-<span>Métricas y Visitas</span>
-</a>
-</nav>
-<div class="pt-3 border-t border-[#222222] space-y-1"><p class="text-[10px] font-bold text-[#8b9199] uppercase tracking-wider px-3 mb-1">Accesos y Navegación Directa</p><a class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-3 py-2 text-sm rounded-lg hover:bg-[#1b1b1b] transition-all" href="https://sergiomolina-fotografia.netlify.app/" target="_blank"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[18px] text-[#8b9199]">arrow_back</span><span>Volver al Portafolio</span></div><span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span></a><a class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-3 py-2 text-sm rounded-lg hover:bg-[#1b1b1b] transition-all" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank"><div class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[18px] text-[#8b9199]">photo_camera</span><span>Ir a Galerías / Eventos</span></div><span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span></a></div>
-</div>
-</header>
-<!-- Layout Principal con Aside Fijo -->
-<div class="flex-1 flex w-full max-w-7xl mx-auto overflow-hidden">
-<!-- Sidebar Desktop -->
-<aside class="w-64 bg-[#141414] border-r border-[#242424] flex-col justify-between shrink-0 hidden md:flex">
-<div class="p-5">
-<div class="mb-6 px-1">
-<h2 class="text-base font-headline font-bold text-white tracking-tight">SERGIO RICARDO MOLINA</h2>
-<p class="text-[10px] font-semibold text-[#8b9199] tracking-wider uppercase mt-0.5">Fotografía Profesional</p>
-</div>
-<nav class="space-y-1.5">
-<a class="flex items-center gap-3 bg-[#004466] border border-[#0088cc] text-white rounded-lg px-3 py-2.5 text-sm font-semibold shadow-sm" href="panel.html">
-<span class="material-symbols-outlined text-[20px] text-[#38bdf8]">photo_library</span>
-<span>Galerías</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all" href="cargas.html">
-<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-<span>Cargas y Enlaces</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all" href="precios.html">
-<span class="material-symbols-outlined text-[20px]">payments</span>
-<span>Tarifas y Precios</span>
-</a>
-<a class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all" href="metricas.html">
-<span class="material-symbols-outlined text-[20px]">insights</span>
-<span>Métricas y Visitas</span>
-</a>
-</nav>
-</div>
-<div class="p-4 border-t border-[#242424] bg-[#111111] space-y-1"><p class="text-[10px] font-bold text-[#8b9199] uppercase tracking-wider px-2 mb-2">Accesos Rápidos</p><a class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-2 py-2 rounded-lg text-sm transition-all hover:bg-[#181818] group" href="https://sergiomolina-fotografia.netlify.app/" target="_blank"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-[#8b9199] group-hover:text-[#38bdf8] transition-colors">arrow_back</span><span>Volver al Portafolio</span></div><span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span></a><a class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-2 py-2 rounded-lg text-sm transition-all hover:bg-[#181818] group" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-[#8b9199] group-hover:text-[#38bdf8] transition-colors">photo_camera</span><span>Ver Eventos Escolar</span></div><span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span></a></div>
-</aside>
-<!-- Área de Contenido Principal -->
-<main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
-<!-- Título de Sección -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#242424] mb-6">
-<div>
-<span class="px-2.5 py-0.5 bg-[#005580]/40 border border-[#005580] text-[#38bdf8] text-[11px] font-semibold rounded uppercase tracking-wider">Gestión de Álbumes</span>
-<h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1.5">Galerías Publicadas y Registradas</h1>
-<p class="text-xs sm:text-sm text-[#888888] mt-1">Álbumes escolares y coberturas conectadas en vivo con Supabase.</p>
-</div>
-<a class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95" href="cargas.html">
-<span class="material-symbols-outlined text-[18px]">add_circle</span>
-<span>+ Cargar Nueva Galería</span>
-</a>
-</div>
-<!-- Métricas Superiores -->
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-<div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-<div>
-<p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Total Registradas</p>
-<p class="text-2xl font-bold font-mono text-white mt-0.5" id="lblTotalGalerias">0</p>
-<span class="text-[11px] text-[#666666]">Sincronizadas con Supabase</span>
-</div>
-<div class="w-10 h-10 rounded-lg bg-[#141414] border border-[#2e2e2e] flex items-center justify-center text-[#38bdf8]">
-<span class="material-symbols-outlined text-[22px]">collections_bookmark</span>
-</div>
-</div>
-<div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-<div>
-<p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Álbumes Públicos</p>
-<p class="text-2xl font-bold font-mono text-[#38bdf8] mt-0.5" id="lblPublicasCount">0</p>
-<span class="text-[11px] text-[#666666]">Visibles en Directorio</span>
-</div>
-<div class="w-10 h-10 rounded-lg bg-[#004466]/40 border border-[#0088cc]/60 flex items-center justify-center text-[#38bdf8]">
-<span class="material-symbols-outlined text-[22px]">public</span>
-</div>
-</div>
-<div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
-<div>
-<p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Privadas con Clave</p>
-<p class="text-2xl font-bold font-mono text-[#facc15] mt-0.5" id="lblPrivadasCount">0</p>
-<span class="text-[11px] text-[#666666]">Acceso Exclusivo con PIN</span>
-</div>
-<div class="w-10 h-10 rounded-lg bg-amber-950/30 border border-amber-500/40 flex items-center justify-center text-[#facc15]">
-<span class="material-symbols-outlined text-[22px]">lock</span>
-</div>
-</div>
-</div>
-<!-- Barra de Filtros y Búsqueda -->
-<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#181818] p-3 rounded-xl border border-[#242424] mb-6">
-<div class="relative flex-1 max-w-md">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777777] text-[18px]">search</span>
-<input class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-white outline-none transition-colors" id="inputBusqueda" onkeyup="filtrarLista()" placeholder="Buscar por colegio, evento o ID Drive..." type="text"/>
-</div>
-<div class="flex items-center gap-1.5 self-start sm:self-auto">
-<button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#004466] border border-[#0088cc] text-white" onclick="cambiarFiltro('todas', this)">Todas</button>
-<button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-medium bg-[#141414] border border-[#262626] text-[#888888] hover:text-white" onclick="cambiarFiltro('publicas', this)">Públicas</button>
-<button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-medium bg-[#141414] border border-[#262626] text-[#888888] hover:text-white" onclick="cambiarFiltro('privadas', this)">Privadas</button>
-<button class="p-2 rounded-lg bg-[#141414] border border-[#262626] text-[#888888] hover:text-[#38bdf8] transition-colors" onclick="cargarColecciones()" title="Refrescar lista">
-<span class="material-symbols-outlined text-[16px]">refresh</span>
-</button>
-</div>
-</div>
-<!-- Cuadrícula Dinámica de Álbumes (100% Reales de Supabase) -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="gridGalerias">
-<div class="col-span-full py-16 text-center border border-dashed border-[#262626] rounded-xl bg-[#141414]/50">
-<div class="w-8 h-8 border-2 border-[#38bdf8] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-<p class="text-sm text-white font-medium">Consultando galerías en Supabase...</p>
-</div>
-</div>
-</main>
-</div>
-<script>
+<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
+
+  <!-- Header Superior Global -->
+  <header class="w-full bg-[#141414] border-b border-[#242424] sticky top-0 z-50">
+    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
+      
+      <!-- Brand & Mobile Toggle -->
+      <div class="flex items-center gap-3">
+        <button id="btnMobileMenu" type="button" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all">
+          <span class="material-symbols-outlined text-[24px]" id="menuIcon">menu</span>
+        </button>
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-[#38bdf8] text-[26px]">photo_camera</span>
+          <span class="text-white font-headline font-bold text-base sm:text-lg tracking-tight">Panel de Control</span>
+        </div>
+      </div>
+
+      <!-- Header Sync Indicator & Acciones Rápidas -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#181818] border border-emerald-800/60 text-emerald-400 text-xs font-semibold rounded-full uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-[11px] font-mono">Supabase Conectado</span>
+        </div>
+        <button onclick="cerrarSesionAdmin()" class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/30 text-xs font-medium text-[#c0c7cf] hover:text-red-400 transition-all">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span class="hidden sm:inline">Salir</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobileDrawer" class="hidden md:hidden border-b border-[#242424] bg-[#141414] px-4 py-4 space-y-4 shadow-2xl">
+      <div class="px-2 pb-2 border-b border-[#222222]">
+        <h2 class="text-base font-headline font-bold text-white tracking-tight">SERGIO RICARDO MOLINA</h2>
+        <p class="text-[11px] text-[#8b9199] tracking-wider uppercase mt-0.5">Fotografía Profesional</p>
+      </div>
+      <nav class="space-y-1">
+        <a href="panel.html" class="flex items-center gap-3 text-white px-3 py-2.5 text-sm font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
+          <span class="material-symbols-outlined text-[20px] text-[#38bdf8]">photo_library</span>
+          <span>Galerías</span>
+        </a>
+        <a href="cargas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+          <span>Cargas y Enlaces</span>
+        </a>
+        <a href="precios.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">payments</span>
+          <span>Tarifas y Precios</span>
+        </a>
+        <a href="metricas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1f1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">insights</span>
+          <span>Métricas y Visitas</span>
+        </a>
+      </nav>
+      <div class="pt-3 border-t border-[#222222] space-y-1">
+        <p class="text-[10px] font-bold text-[#8b9199] uppercase tracking-wider px-3 mb-1">Accesos Directos</p>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-3 py-2 text-sm rounded-lg hover:bg-[#1b1b1b] transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[18px] text-[#8b9199]">visibility</span>
+            <span>Ver Portafolio</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Principal con Aside Fijo -->
+  <div class="flex-1 flex w-full max-w-7xl mx-auto overflow-hidden">
+    
+    <!-- Sidebar Desktop -->
+    <aside class="w-64 bg-[#141414] border-r border-[#242424] flex-col justify-between shrink-0 hidden md:flex">
+      <div class="p-5">
+        <div class="mb-6 px-1">
+          <h2 class="text-base font-headline font-bold text-white tracking-tight">SERGIO RICARDO MOLINA</h2>
+          <p class="text-[10px] font-semibold text-[#8b9199] tracking-wider uppercase mt-0.5">Fotografía Profesional</p>
+        </div>
+        <nav class="space-y-1.5">
+          <a href="panel.html" class="flex items-center gap-3 bg-[#004466] border border-[#0088cc] text-white rounded-lg px-3 py-2.5 text-sm font-semibold shadow-sm">
+            <span class="material-symbols-outlined text-[20px] text-[#38bdf8]">photo_library</span>
+            <span>Galerías</span>
+          </a>
+          <a href="cargas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+            <span>Cargas y Enlaces</span>
+          </a>
+          <a href="precios.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">payments</span>
+            <span>Tarifas y Precios</span>
+          </a>
+          <a href="metricas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">insights</span>
+            <span>Métricas y Visitas</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-[#242424] bg-[#111111] space-y-1">
+        <p class="text-[10px] font-bold text-[#8b9199] uppercase tracking-wider px-2 mb-2">Accesos Directos</p>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-2 py-2 rounded-lg text-sm transition-all hover:bg-[#181818] group">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[#8b9199] group-hover:text-[#38bdf8] transition-colors">visibility</span>
+            <span>Ver Portafolio</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Área de Contenido Principal -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
+      
+      <!-- Título de Sección -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#242424] mb-6">
+        <div>
+          <span class="px-2.5 py-0.5 bg-[#005580]/40 border border-[#005580] text-[#38bdf8] text-[11px] font-semibold rounded uppercase tracking-wider">Gestión de Álbumes</span>
+          <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1.5">Galerías Publicadas y Registradas</h1>
+          <p class="text-xs sm:text-sm text-[#888888] mt-1">Álbumes escolares y coberturas conectadas en vivo con Supabase.</p>
+        </div>
+        <a href="cargas.html" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95">
+          <span class="material-symbols-outlined text-[18px]">add_circle</span>
+          <span>+ Cargar Nueva Galería</span>
+        </a>
+      </div>
+
+      <!-- Métricas Superiores -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Total Registradas</p>
+            <p class="text-2xl font-bold font-mono text-white mt-0.5" id="lblTotalGalerias">0</p>
+            <span class="text-[11px] text-[#666666]">Sincronizadas con Supabase</span>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#141414] border border-[#2e2e2e] flex items-center justify-center text-[#38bdf8]">
+            <span class="material-symbols-outlined text-[22px]">collections_bookmark</span>
+          </div>
+        </div>
+
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Álbumes Públicos</p>
+            <p class="text-2xl font-bold font-mono text-[#38bdf8] mt-0.5" id="lblPublicasCount">0</p>
+            <span class="text-[11px] text-[#666666]">Visibles en Directorio</span>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-[#004466]/40 border border-[#0088cc]/60 flex items-center justify-center text-[#38bdf8]">
+            <span class="material-symbols-outlined text-[22px]">public</span>
+          </div>
+        </div>
+
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex items-center justify-between shadow-sm">
+          <div>
+            <p class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Privadas con Clave</p>
+            <p class="text-2xl font-bold font-mono text-[#facc15] mt-0.5" id="lblPrivadasCount">0</p>
+            <span class="text-[11px] text-[#666666]">Acceso Exclusivo con PIN</span>
+          </div>
+          <div class="w-10 h-10 rounded-lg bg-amber-950/30 border border-amber-500/40 flex items-center justify-center text-[#facc15]">
+            <span class="material-symbols-outlined text-[22px]">lock</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros y Búsqueda -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-[#181818] p-3 rounded-xl border border-[#242424] mb-6">
+        <div class="relative flex-1 max-w-md">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#777777] text-[18px]">search</span>
+          <input type="text" id="inputBusqueda" onkeyup="filtrarLista()" placeholder="Buscar por colegio, evento o ID Drive..." class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-white outline-none transition-colors">
+        </div>
+        <div class="flex items-center gap-1.5 self-start sm:self-auto">
+          <button onclick="cambiarFiltro('todas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#004466] border border-[#0088cc] text-white">Todas</button>
+          <button onclick="cambiarFiltro('publicas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-medium bg-[#141414] border border-[#262626] text-[#888888] hover:text-white">Públicas</button>
+          <button onclick="cambiarFiltro('privadas', this)" class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-medium bg-[#141414] border border-[#262626] text-[#888888] hover:text-white">Privadas</button>
+          <button onclick="cargarColecciones()" title="Refrescar lista" class="p-2 rounded-lg bg-[#141414] border border-[#262626] text-[#888888] hover:text-[#38bdf8] transition-colors">
+            <span class="material-symbols-outlined text-[16px]">refresh</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cuadrícula Dinámica de Álbumes (100% Reales de Supabase) -->
+      <div id="gridGalerias" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="col-span-full py-16 text-center border border-dashed border-[#262626] rounded-xl bg-[#141414]/50">
+          <div class="w-8 h-8 border-2 border-[#38bdf8] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <p class="text-sm text-white font-medium">Consultando galerías en Supabase...</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
     const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
