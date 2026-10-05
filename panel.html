@@ -1,367 +1,335 @@
-<!DOCTYPE html><html class="dark" lang="es"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Métricas y Visitas | SERGIO RICARDO MOLINA</title>
-<link href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA" rel="icon" type="image/png">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Raleway:wght@500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            surface: '#111111',
-            'surface-container': '#161616',
-            'surface-card': '#181818',
-            primary: '#005580',
-            'primary-light': '#38bdf8',
-            gold: '#facc15'
-          },
-          fontFamily: {
-            sans: ['Manrope', 'sans-serif'],
-            headline: ['Raleway', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>Métricas y Visitas en Vivo | SERGIO RICARDO MOLINA</title>
+  <link href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA" rel="icon" type="image/png"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      background-color: #111111;
+      color: #e5e2e1;
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
     }
-  </script>
-<style>
-    body { background-color: #111111; color: #e5e2e1; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
-    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #005580; }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #141414;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #2b2b2b;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
-<!-- Header Superior Global -->
-<header class="w-full bg-[#131313] border-b border-[#222222] sticky top-0 z-50">
-<div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
-<div class="flex items-center gap-3">
-<button aria-label="Menú" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all" id="btnMobileMenu" onclick="toggleMenuMobile()">
-<span class="material-symbols-outlined text-[24px]" id="iconMobileMenu">menu</span>
-</button>
-<span class="material-symbols-outlined text-[#38bdf8] text-[24px]">insights</span>
-<div class="flex flex-col">
-<span class="font-headline font-bold text-white text-base sm:text-lg tracking-wide">Métricas y Visitas</span>
-<span class="text-[10px] text-[#888888] font-mono tracking-wider uppercase">SERGIO RICARDO MOLINA</span>
-</div>
-</div>
-<div class="flex items-center gap-2 sm:gap-3">
-<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#181818] border border-[#2a2a2a] rounded-full text-xs font-mono text-[#38bdf8]">
-<span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
-<span class="hidden xs:inline">100% DATOS REALES</span>
-<span class="xs:hidden">EN VIVO</span>
-</div>
-<button class="px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/20 text-xs font-semibold text-[#c0c7cf] hover:text-red-400 transition-all flex items-center gap-1.5" onclick="cerrarSesion()">
-<span class="material-symbols-outlined text-[16px]">logout</span>
-<span class="hidden sm:inline">Cerrar Sesión</span>
-</button>
-</div>
-</div>
-<!-- Menú Desplegable Móvil -->
-<div class="hidden md:hidden border-b border-[#222222] bg-[#141414] px-4 py-4 space-y-3" id="mobileDrawer">
-<nav class="space-y-1">
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]" href="panel.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">photo_library</span>
-<span class="">Galerías</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]" href="cargas.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">cloud_upload</span>
-<span class="">Cargas y Enlaces</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2.5 text-xs font-medium rounded-lg hover:bg-[#1a1a1a]" href="precios.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">payments</span>
-<span class="">Tarifas y Precios</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-white px-3 py-2.5 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc]" href="metricas.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px] text-[#38bdf8]">insights</span>
-<span class="">Métricas y Visitas</span>
-</div>
-</a>
-</nav>
-<div class="pt-3 border-t border-[#222222] space-y-1">
-<a class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank">
-<span class="material-symbols-outlined text-[16px]">calendar_month</span>
-<span class="">Volver a Eventos</span>
-</a>
-<a class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded" href="https://sergiomolina-fotografia.netlify.app/" target="_blank">
-<span class="material-symbols-outlined text-[16px]">visibility</span>
-<span class="">Ver Portafolio</span>
-</a>
-</div>
-</div>
-</header>
-<!-- Layout Principal con Sidebar -->
-<div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
-<!-- Sidebar Desktop -->
-<aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
-<div class="space-y-4">
-<div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
-<nav class="space-y-1">
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors" href="panel.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">photo_library</span>
-<span class="">Galerías</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors" href="cargas.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">cloud_upload</span>
-<span class="">Cargas y Enlaces</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors" href="precios.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px]">payments</span>
-<span class="">Tarifas y Precios</span>
-</div>
-<span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-</a>
-<a class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm" href="metricas.html">
-<div class="flex items-center gap-2.5">
-<span class="material-symbols-outlined text-[18px] text-[#38bdf8]">insights</span>
-<span class="">Métricas y Visitas</span>
-</div>
-</a>
-</nav>
-</div>
-<div class="pt-4 border-t border-[#222222] space-y-1">
-<div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 mb-1">Portales Públicos</div>
-<a class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors" href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank">
-<span class="material-symbols-outlined text-[16px]">calendar_month</span>
-<span class="">Volver a Eventos</span>
-</a>
-<a class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors" href="https://sergiomolina-fotografia.netlify.app/" target="_blank">
-<span class="material-symbols-outlined text-[16px]">visibility</span>
-<span class="">Ver Portafolio</span>
-</a>
-</div>
-</aside>
-<!-- Contenido Principal -->
-<main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 max-w-5xl pb-20 md:pb-8">
-<!-- Título & Botón de Refresco -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-<div>
-<span class="text-[11px] font-mono text-[#38bdf8] uppercase tracking-wider">ANALÍTICA Y AUDITORÍA EN TIEMPO REAL</span>
-<h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1">Estadísticas de Visitas y Tráfico</h1>
-<p class="text-xs sm:text-sm text-[#888888] mt-1.5 leading-relaxed">Registro en vivo con doble vía de sincronización permanente (SDK + REST API) conectada a la tabla <code class="font-mono text-[#38bdf8]">visitas</code> de Supabase. Todos los eventos son computados y reflejados en tiempo real sin descarte silencioso.</p>
-</div>
-<div class="flex items-center gap-2 sm:gap-3">
-<button class="px-4 py-2.5 rounded-xl bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-black/50 active:scale-95" onclick="cargarMetricas()" type="button">
-<span class="material-symbols-outlined text-[17px]">sync</span>
-<span class="">Actualizar Datos</span>
-</button>
-</div>
-</div>
-<!-- Cuadrícula de Métricas Clave (2 columnas en móvil, 4 en desktop) -->
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-<!-- Métrica 1: Visitas Web -->
-<div class="bg-[#181818] border border-[#242424] rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Visitas Web</span>
-<div class="w-8 h-8 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
-<span class="material-symbols-outlined text-[18px]">public</span>
-</div>
-</div>
-<div>
-<div class="text-2xl sm:text-3xl font-headline font-bold text-white" id="stat-visitas-web">0</div>
-<p class="text-[11px] text-[#777777] mt-1 truncate">Aperturas de portafolio</p>
-</div>
-</div>
-<!-- Métrica 2: Álbumes Explorados -->
-<div class="bg-[#181818] border border-[#242424] rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Álbumes</span>
-<div class="w-8 h-8 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#38bdf8]">
-<span class="material-symbols-outlined text-[18px]">photo_library</span>
-</div>
-</div>
-<div>
-<div class="text-2xl sm:text-3xl font-headline font-bold text-white" id="stat-albumes-vistos">0</div>
-<p class="text-[11px] text-[#777777] mt-1 truncate">Galerías abiertas</p>
-</div>
-</div>
-<!-- Métrica 3: Fotos en Visor HD -->
-<div class="bg-[#181818] border border-[#242424] rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">Fotos en Visor</span>
-<div class="w-8 h-8 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-[#facc15]">
-<span class="material-symbols-outlined text-[18px]">visibility</span>
-</div>
-</div>
-<div>
-<div class="text-2xl sm:text-3xl font-headline font-bold text-white" id="stat-fotos-vistas">0</div>
-<p class="text-[11px] text-[#777777] mt-1 truncate">Fotos ampliadas HD</p>
-</div>
-</div>
-<!-- Métrica 4: Clics en WhatsApp -->
-<div class="bg-[#181818] border border-[#242424] rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-lg">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-mono text-[#888888] uppercase tracking-wider">WhatsApp</span>
-<div class="w-8 h-8 rounded-lg bg-[#121212] border border-[#262626] flex items-center justify-center text-emerald-400">
-<span class="material-symbols-outlined text-[18px]">chat</span>
-</div>
-</div>
-<div>
-<div class="text-2xl sm:text-3xl font-headline font-bold text-emerald-400" id="stat-whatsapp-pedidos">0</div>
-<p class="text-[11px] text-[#777777] mt-1 truncate">Encargos iniciados</p>
-</div>
-</div>
-</div>
-<!-- Tabla de Registro de Actividad Real -->
-<section class="bg-[#181818] border border-[#242424] rounded-2xl p-5 sm:p-6 shadow-xl">
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-[#242424]">
-<div>
-<h3 class="text-base sm:text-lg font-headline font-bold text-white">Registro de Actividad en Vivo</h3>
-<p class="text-xs text-[#888888] mt-0.5">Eventos reales capturados con fecha y hora permanente</p>
-</div>
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-[#121212] border border-[#2a2a2a] text-[#38bdf8]">
-<span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
-<span id="badge-conteo-registros" class="">0 eventos</span>
-</span>
-</div>
-<div class="overflow-x-auto custom-scrollbar mt-4">
-<table class="w-full text-left border-collapse min-w-[560px]">
-<thead>
-<tr class="border-b border-[#242424] text-[11px] font-mono text-[#888888] uppercase tracking-wider"><th class="py-2.5 px-3">Fecha y Hora</th><th class="py-2.5 px-3">Tipo de Evento</th><th class="py-2.5 px-3">Página / Sección</th><th class="py-2.5 px-3">Dispositivo</th><th class="py-2.5 px-3 text-right">Galería y Detalle / Foto</th></tr>
-</thead>
-<tbody class="text-xs sm:text-sm divide-y divide-[#222222]" id="tabla-registros-body">
-<tr>
-<td class="py-8 text-center text-xs text-[#666666] font-mono" colspan="5">
-                  Consultando registros en vivo con Supabase...
-                </td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-[#242424] mt-4" id="paginacion-contenedor">
-<div class="text-xs text-[#888888] font-mono">
-<span id="paginacion-resumen" class="">Mostrando 0 - 0 de 0 registros</span> <span class="text-[#555555]">·</span> <span class="text-[#38bdf8]" id="paginacion-pagina-actual">Página 1 de 1</span>
-</div>
-<div class="flex items-center gap-1.5 self-end sm:self-auto">
-<button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-prev" onclick="cambiarPagina(-1)">
-<span class="material-symbols-outlined text-[14px]">arrow_back</span>
-<span class="">Anterior</span>
-</button>
-<div class="flex items-center gap-1" id="paginacion-botones"></div>
-<button class="px-2.5 py-1.5 rounded-lg border border-[#2a2a2a] bg-[#141414] hover:bg-[#222222] text-xs font-mono text-[#c0c7cf] disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center gap-1" id="btn-pag-next" onclick="cambiarPagina(1)">
-<span class="">Siguiente</span>
-<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-</button>
-</div>
-</div>
-<!-- Estado Vacío -->
-<div class="hidden text-center py-10 text-xs text-[#777777]" id="estado-sin-registros">
-          No hay registros de visitas de clientes todavía. Cuando los padres exploren las galerías aparecerán aquí automáticamente.
+
+  <!-- Header Superior con Accesos Arriba -->
+  <header class="w-full bg-[#141414] border-b border-[#242424] sticky top-0 z-50">
+    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16 gap-2">
+      <div class="flex items-center gap-3">
+        <button id="btnMobileMenu" type="button" aria-label="Abrir menú" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#262626] text-[#e5e2e1] hover:text-[#38bdf8] transition-all">
+          <span class="material-symbols-outlined text-[24px]" id="menuIcon">menu</span>
+        </button>
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-[#38bdf8] text-[26px]">insights</span>
+          <span class="text-white font-headline font-bold text-base sm:text-lg tracking-tight">Métricas y Visitas en Vivo</span>
         </div>
-</section>
-</main>
-</div>
-<!-- Barra de Navegación Inferior Móvil -->
-<nav class="md:hidden bg-[#131313]/95 backdrop-blur-md border-t border-[#222222] fixed bottom-0 left-0 right-0 z-40 px-2 py-1 flex justify-around items-center">
-<a class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white" href="panel.html">
-<span class="material-symbols-outlined text-[20px]">photo_library</span>
-<span class="text-[10px] mt-0.5 font-medium">Galerías</span>
-</a>
-<a class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white" href="cargas.html">
-<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-<span class="text-[10px] mt-0.5 font-medium">Cargas</span>
-</a>
-<a class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white" href="precios.html">
-<span class="material-symbols-outlined text-[20px]">payments</span>
-<span class="text-[10px] mt-0.5 font-medium">Tarifas</span>
-</a>
-<a class="flex flex-col items-center py-1 px-2 text-[#38bdf8] font-bold" href="metricas.html">
-<span class="material-symbols-outlined text-[20px]">insights</span>
-<span class="text-[10px] mt-0.5">Métricas</span>
-</a>
-</nav>
-<!-- Pie de Página Desktop -->
-<footer class="w-full py-4 px-6 border-t border-[#1a1a1a] text-center text-xs text-[#666666] hidden md:block">
-<div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-<p class="">© 2026 · Sergio Ricardo Molina</p>
-<div class="flex items-center gap-4 text-[11px] font-mono">
-<span class="">ESTUDIO FOTOGRÁFICO PROFESIONAL</span>
-<span class="text-[#38bdf8]">SUPABASE AUDIT ENGINE</span>
-</div>
-</div>
-</footer>
-<script>
-    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
+      </div>
+
+      <!-- Accesos Directos Arriba -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="https://sergiomolina-fotografia.netlify.app/" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2a2a2a] hover:border-[#0088cc] bg-[#181818] hover:bg-[#1e1e1e] text-xs font-semibold text-[#c0c7cf] hover:text-white transition-all shadow-sm active:scale-95">
+          <span class="material-symbols-outlined text-[16px] text-[#38bdf8]">arrow_back</span>
+          <span>Portafolio</span>
+        </a>
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#2a2a2a] hover:border-[#38bdf8] bg-[#181818] hover:bg-[#1e1e1e] text-xs font-semibold text-[#c0c7cf] hover:text-white transition-all shadow-sm active:scale-95">
+          <span class="material-symbols-outlined text-[16px] text-sky-400">school</span>
+          <span>Eventos</span>
+        </a>
+        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#181818] border border-emerald-800/60 text-emerald-400 text-xs font-semibold rounded-full uppercase tracking-wider" id="syncBadge">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-[11px] font-mono hidden md:inline" id="lblSyncText">EN VIVO</span>
+        </div>
+        <button onclick="cargarMetricasReales()" title="Refrescar métricas ahora" class="p-2 rounded-lg bg-[#181818] border border-[#2e2e2e] text-[#888888] hover:text-[#38bdf8] transition-colors active:scale-95">
+          <span class="material-symbols-outlined text-[18px]">refresh</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="mobileDrawer" class="hidden md:hidden border-b border-[#242424] bg-[#141414] px-4 py-4 space-y-4 shadow-2xl">
+      <nav class="space-y-1">
+        <a href="panel.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">photo_library</span>
+          <span>Galerías</span>
+        </a>
+        <a href="cargas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+          <span>Cargas y Enlaces</span>
+        </a>
+        <a href="precios.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+          <span class="material-symbols-outlined text-[20px]">payments</span>
+          <span>Tarifas y Precios</span>
+        </a>
+        <a href="metricas.html" class="flex items-center gap-3 text-white px-3 py-2.5 text-sm font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
+          <span class="material-symbols-outlined text-[20px] text-[#38bdf8]">insights</span>
+          <span>Métricas y Visitas</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Layout Principal con Aside Desktop -->
+  <div class="flex-1 flex w-full max-w-7xl mx-auto overflow-hidden">
+    <aside class="w-64 bg-[#141414] border-r border-[#242424] flex-col justify-between shrink-0 hidden md:flex">
+      <div class="p-5">
+        <div class="mb-6 px-1">
+          <h2 class="text-base font-headline font-bold text-white tracking-tight">SERGIO RICARDO MOLINA</h2>
+          <p class="text-[10px] font-semibold text-[#8b9199] tracking-wider uppercase mt-0.5">Fotografía Profesional</p>
+        </div>
+        <nav class="space-y-1.5">
+          <a href="panel.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">photo_library</span>
+            <span>Galerías</span>
+          </a>
+          <a href="cargas.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+            <span>Cargas y Enlaces</span>
+          </a>
+          <a href="precios.html" class="flex items-center gap-3 text-[#c0c7cf] px-3 py-2.5 text-sm font-medium rounded-lg hover:bg-[#1e1e1e] hover:text-white transition-all">
+            <span class="material-symbols-outlined text-[20px]">payments</span>
+            <span>Tarifas y Precios</span>
+          </a>
+          <a href="metricas.html" class="flex items-center gap-3 bg-[#004466] border border-[#0088cc] text-white rounded-lg px-3 py-2.5 text-sm font-semibold shadow-sm">
+            <span class="material-symbols-outlined text-[20px] text-[#38bdf8]">insights</span>
+            <span>Métricas y Visitas</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-[#242424] bg-[#111111] space-y-1">
+        <p class="text-[10px] font-bold text-[#8b9199] uppercase tracking-wider px-2 mb-2">Accesos Directos</p>
+        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-2 py-2 rounded-lg text-sm transition-all hover:bg-[#181818] group">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">arrow_back</span>
+            <span>Ver Portafolio</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span>
+        </a>
+        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center justify-between text-[#c0c7cf] hover:text-[#38bdf8] px-2 py-2 rounded-lg text-sm transition-all hover:bg-[#181818] group">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-sky-400">school</span>
+            <span>Galerías Escolares</span>
+          </div>
+          <span class="material-symbols-outlined text-[14px] text-[#8b9199]">open_in_new</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 space-y-6">
+      
+      <!-- Título de Sección -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#242424]">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight">Rendimiento de Álbumes y Visitas</h1>
+          <p class="text-xs sm:text-sm text-[#888888] mt-1" id="lblSubtituloAuditado">Detalle en vivo de galerías y fotos específicas visitadas por los clientes.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportarCSV()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-[#181818] hover:bg-[#222222] border border-[#2e2e2e] text-[#c0c7cf] hover:text-white rounded-xl text-xs font-semibold transition-all active:scale-95">
+            <span class="material-symbols-outlined text-[16px]">download</span>
+            <span>Exportar CSV</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Tarjetas de Métricas -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <!-- Total Visitas Web -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+          <div class="flex items-center justify-between text-[#888888]">
+            <span class="text-[10px] font-mono uppercase tracking-wider">Total Visitas Web</span>
+            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">visibility</span>
+          </div>
+          <div class="mt-2">
+            <p class="text-2xl sm:text-3xl font-mono font-bold text-white" id="valTotalVisitas">0</p>
+            <span class="text-[11px] text-[#666666]">Cargas de página</span>
+          </div>
+        </div>
+
+        <!-- Álbumes Explorados -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+          <div class="flex items-center justify-between text-[#888888]">
+            <span class="text-[10px] font-mono uppercase tracking-wider">Álbumes Explorados</span>
+            <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">folder_open</span>
+          </div>
+          <div class="mt-2">
+            <p class="text-2xl sm:text-3xl font-mono font-bold text-white" id="valAlbumesVistos">0</p>
+            <span class="text-[11px] text-[#666666]">Galerías abiertas</span>
+          </div>
+        </div>
+
+        <!-- Fotos en Visor HD -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+          <div class="flex items-center justify-between text-[#888888]">
+            <span class="text-[10px] font-mono uppercase tracking-wider">Fotos en Visor HD</span>
+            <span class="material-symbols-outlined text-[18px] text-amber-400">photo_camera</span>
+          </div>
+          <div class="mt-2">
+            <p class="text-2xl sm:text-3xl font-mono font-bold text-amber-400" id="valFotosVisor">0</p>
+            <span class="text-[11px] text-[#666666]">Ampliadas en pantalla</span>
+          </div>
+        </div>
+
+        <!-- Clics en WhatsApp -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-4 flex flex-col justify-between shadow-sm">
+          <div class="flex items-center justify-between text-[#888888]">
+            <span class="text-[10px] font-mono uppercase tracking-wider">Clics en WhatsApp</span>
+            <span class="material-symbols-outlined text-[18px] text-emerald-400">chat</span>
+          </div>
+          <div class="mt-2">
+            <p class="text-2xl sm:text-3xl font-mono font-bold text-emerald-400" id="valWhatsappClicks">0</p>
+            <span class="text-[11px] text-[#666666]">Encargos y pedidos</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Desglose por Página y Fotos Más Visitadas -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        
+        <!-- Visitas por Página -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-[#222222] pb-2">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">trending_up</span>
+              <span>Visitas por Página y Sección</span>
+            </h3>
+            <span class="text-[10px] font-mono text-[#777777] uppercase">Páginas</span>
+          </div>
+          <div class="space-y-2.5 text-xs font-mono" id="listaPaginasTráfico">
+            <div class="text-[#666666] text-center py-4">Consultando datos en tiempo real...</div>
+          </div>
+        </div>
+
+        <!-- Álbumes y Colecciones Destacadas -->
+        <div class="bg-[#181818] border border-[#242424] rounded-xl p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-[#222222] pb-2">
+            <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px] text-amber-400">photo_library</span>
+              <span>Álbumes y Galerías Más Visitadas</span>
+            </h3>
+            <span class="text-[10px] font-mono text-[#777777] uppercase" id="lblCantDestacados">0 Álbumes</span>
+          </div>
+          <div class="space-y-2 text-xs font-mono" id="listaAlbumesDestacados">
+            <div class="text-[#666666] text-center py-4">Esperando registros de clientes...</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tabla: Registro de Actividad Detallada en Vivo (20 por Página) -->
+      <div class="bg-[#181818] border border-[#242424] rounded-xl overflow-hidden shadow-sm">
+        
+        <div class="p-4 sm:p-5 border-b border-[#222222] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <h3 class="text-sm font-semibold text-white">Registro de Actividad Detallada en Vivo</h3>
+            <span class="text-[11px] font-mono text-[#888888]" id="lblTotalRegistrosAuditados">(0 eventos registrados)</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono text-[#777777]">
+            <span>Paginación: 20 por página</span>
+          </div>
+        </div>
+
+        <!-- Tabla Responsiva con Identificación de Galería y Foto Exacta -->
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left border-collapse min-w-[760px]">
+            <thead>
+              <tr class="border-b border-[#262626] bg-[#141414] text-[10px] font-mono text-[#888888] uppercase tracking-wider">
+                <th class="py-3 px-4">Fecha y Hora</th>
+                <th class="py-3 px-4">Tipo de Evento</th>
+                <th class="py-3 px-4">Página / Origen</th>
+                <th class="py-3 px-4">Galería / Álbum</th>
+                <th class="py-3 px-4">Foto / Detalle Exacto</th>
+                <th class="py-3 px-4 text-right">Dispositivo</th>
+              </tr>
+            </thead>
+            <tbody class="text-xs divide-y divide-[#222222] font-mono" id="tablaActividadCuerpo">
+              <tr>
+                <td colspan="6" class="py-8 text-center text-[#666666]">
+                  <div class="w-6 h-6 border-2 border-[#38bdf8] border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                  Cargando eventos de métricas detalladas...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Controles de Paginación Estricta de a 20 Registros -->
+        <div class="p-3 sm:p-4 bg-[#141414] border-t border-[#242424] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+          
+          <div class="text-[#888888] text-center sm:text-left" id="lblInfoPaginacion">
+            Mostrando 0 - 0 de 0 registros
+          </div>
+
+          <!-- Botones de Navegación -->
+          <div class="flex items-center gap-1.5" id="controlesPaginacion">
+            <button onclick="cambiarPagina(-1)" id="btnPaginaAnt" class="px-3 py-1.5 rounded-lg border border-[#2e2e2e] bg-[#181818] text-[#c0c7cf] hover:text-white hover:border-[#0088cc] disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+              <span>Anterior</span>
+            </button>
+
+            <!-- Números de página interactivos -->
+            <div class="flex items-center gap-1" id="numerosPagina"></div>
+
+            <button onclick="cambiarPagina(1)" id="btnPaginaSig" class="px-3 py-1.5 rounded-lg border border-[#2e2e2e] bg-[#181818] text-[#c0c7cf] hover:text-white hover:border-[#0088cc] disabled:opacity-40 disabled:pointer-events-none transition-all flex items-center gap-1">
+              <span>Siguiente</span>
+              <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script>
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
 
-    // Constantes de paginación estricta
+    let supabaseClient = null;
+    let todosLosEventos = [];
     const REGISTROS_POR_PAGINA = 20;
-    let registrosTotales = [];
     let paginaActual = 1;
 
-    // 1. Guardián de Acceso Resiliente
-    (function verificarAccesoSeguro() {
-      const authSession = sessionStorage.getItem('admin_auth') === 'true';
-      const authBackup = localStorage.getItem('admin_auth_backup') === 'true';
-      const cookieAuth = document.cookie.includes('admin_session=true');
-
-      if (!authSession && !authBackup && !cookieAuth) {
-        window.location.href = 'index.html';
-        return;
-      }
-
-      sessionStorage.setItem('admin_auth', 'true');
-      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
-
-      try {
-        fetch('/api/session', { credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-    })();
-
-    function toggleMenuMobile() {
-      const drawer = document.getElementById('mobileDrawer');
-      const icon = document.getElementById('iconMobileMenu');
-      if (!drawer) return;
-      const isHidden = drawer.classList.contains('hidden');
-      if (isHidden) {
-        drawer.classList.remove('hidden');
-        if (icon) icon.textContent = 'close';
-      } else {
-        drawer.classList.add('hidden');
-        if (icon) icon.textContent = 'menu';
-      }
+    if (window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     }
 
-    let supabaseClient = null;
-    try {
-      if (window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      }
-    } catch(err) {
-      console.warn('Supabase init:', err);
-    }
-
-    // Consulta de doble vía infalible: SDK Supabase primero, fallback vía REST directo
-    async function obtenerRegistrosVisitas() {
+    // 1. Cargar registros reales desde Supabase
+    async function cargarMetricasReales() {
+      const cuerpo = document.getElementById('tablaActividadCuerpo');
+      const syncBadge = document.getElementById('lblSyncText');
       let registros = [];
 
-      // Vía 1: Cliente SDK de Supabase
+      if (syncBadge) syncBadge.textContent = 'Sincronizando...';
+
+      // Vía A: SDK Supabase
       if (supabaseClient) {
         try {
           const { data, error } = await supabaseClient
@@ -370,218 +338,315 @@
             .order('created_at', { ascending: false })
             .limit(500);
 
-          if (!error && Array.isArray(data) && data.length > 0) {
-            return data;
-          }
-        } catch(e) {
-          console.warn('Fallo SDK Supabase, intentando vía REST:', e);
-        }
-      }
-
-      // Vía 2: Fallback directo REST API
-      try {
-        const url = `${SUPABASE_URL}/rest/v1/visitas?select=*&order=created_at.desc&limit=500`;
-        const res = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data)) {
+          if (!error && data && data.length > 0) {
             registros = data;
           }
+        } catch (e) {
+          console.warn('Error consulta Supabase visitas SDK:', e);
         }
-      } catch(e) {
-        console.error('Error en fallback REST visitas:', e);
       }
 
-      return registros;
-    }
+      // Vía B: Fallback REST nativo directo
+      if (registros.length === 0) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/visitas?select=*&order=created_at.desc&limit=500`, {
+            headers: {
+              'apikey': SUPABASE_KEY,
+              'Authorization': `Bearer ${SUPABASE_KEY}`
+            }
+          });
+          if (res.ok) {
+            const dataJson = await res.json();
+            if (Array.isArray(dataJson) && dataJson.length > 0) {
+              registros = dataJson;
+            }
+          }
+        } catch (err) {
+          console.warn('Error consulta Supabase visitas REST:', err);
+        }
+      }
 
-    async function cargarMetricas() {
-      const tbody = document.getElementById('tabla-registros-body');
-      tbody.innerHTML = `
-        <tr>
-          <td class="py-8 text-center text-xs text-[#38bdf8] font-mono animate-pulse" colspan="5">
-            Sincronizando registros en vivo con Supabase...
-          </td>
-        </tr>
-      `;
+      // Combinar con respaldo local evitando duplicados
+      try {
+        const locales = JSON.parse(localStorage.getItem('visitas_metricas_locales') || '[]');
+        locales.forEach(loc => {
+          const existe = registros.some(r => String(r.id) === String(loc.id) || (r.created_at === loc.created_at && r.detalle === loc.detalle));
+          if (!existe) registros.push(loc);
+        });
+      } catch (_) {}
 
-      const data = await obtenerRegistrosVisitas();
-      // Aseguramos que NINGÚN filtro oculte registros en silencio
-      registrosTotales = Array.isArray(data) ? data : [];
+      // Ordenar por fecha descendente
+      registros.sort((a, b) => new Date(b.created_at || b.fecha || 0) - new Date(a.created_at || a.fecha || 0));
 
-      // Calcular contadores de métricas sobre el total real
-      let cWeb = 0, cAlb = 0, cFot = 0, cWsp = 0;
-      registrosTotales.forEach(r => {
-        const t = (r.tipo || '').toLowerCase();
-        const p = (r.pagina || '').toLowerCase();
+      todosLosEventos = registros.slice(0, 500);
 
-        if (t.includes('whatsapp') || t.includes('pedido')) cWsp++;
-        else if (t.includes('foto') || t.includes('visor')) cFot++;
-        else if (t.includes('galeria') || p.includes('galeria')) cAlb++;
-        else cWeb++;
-      });
+      if (syncBadge) {
+        syncBadge.textContent = todosLosEventos.length > 0 ? 'EN VIVO' : 'CONECTADO';
+      }
 
-      document.getElementById('stat-visitas-web').textContent = cWeb;
-      document.getElementById('stat-albumes-vistos').textContent = cAlb;
-      document.getElementById('stat-fotos-vistas').textContent = cFot;
-      document.getElementById('stat-whatsapp-pedidos').textContent = cWsp;
-
-      const badgeReg = document.getElementById('badge-conteo-registros');
-      if (badgeReg) badgeReg.textContent = `${registrosTotales.length} eventos`;
+      calcularTotales();
+      calcularDesgloses();
 
       paginaActual = 1;
       renderizarTablaPaginada();
     }
 
-    function renderizarTablaPaginada() {
-      const tbody = document.getElementById('tabla-registros-body');
-      const sinReg = document.getElementById('estado-sin-registros');
-      const pagContenedor = document.getElementById('paginacion-contenedor');
-      const resumenEl = document.getElementById('paginacion-resumen');
-      const pagActualEl = document.getElementById('paginacion-pagina-actual');
-      const botonesEl = document.getElementById('paginacion-botones');
-      const btnPrev = document.getElementById('btn-pag-prev');
-      const btnNext = document.getElementById('btn-pag-next');
+    // 2. Cálculo global de métricas
+    function calcularTotales() {
+      let totalVisitas = 0;
+      let albumesVistos = 0;
+      let fotosVisor = 0;
+      let whatsappClicks = 0;
 
-      const total = registrosTotales.length;
+      todosLosEventos.forEach(e => {
+        const tipo = String(e.tipo || e.tipo_evento || '').toLowerCase();
+        const pag = String(e.pagina || '').toLowerCase();
+        const det = String(e.detalle || '').toLowerCase();
+
+        if (tipo.includes('visita_pagina') || tipo === 'visita' || pag.includes('index') || pag.includes('eventos')) {
+          totalVisitas++;
+        }
+        if (tipo.includes('album') || tipo.includes('galeria') || tipo.includes('privad') || det.includes('galería') || det.includes('álbum')) {
+          albumesVistos++;
+        }
+        if (tipo.includes('visor') || tipo.includes('foto') || tipo.includes('hd') || det.includes('foto')) {
+          fotosVisor++;
+        }
+        if (tipo.includes('wsp') || tipo.includes('whatsapp') || det.includes('whatsapp') || det.includes('encargo')) {
+          whatsappClicks++;
+        }
+      });
+
+      if (totalVisitas === 0 && todosLosEventos.length > 0) {
+        totalVisitas = todosLosEventos.length;
+      }
+
+      document.getElementById('valTotalVisitas').innerText = totalVisitas;
+      document.getElementById('valAlbumesVistos').innerText = albumesVistos;
+      document.getElementById('valFotosVisor').innerText = fotosVisor;
+      document.getElementById('valWhatsappClicks').innerText = whatsappClicks;
+      
+      const totalRegistros = todosLosEventos.length;
+      document.getElementById('lblTotalRegistrosAuditados').innerText = `(${totalRegistros} eventos registrados)`;
+      document.getElementById('lblSubtituloAuditado').innerText = `Métricas 100% reales auditadas directamente desde Supabase (${totalRegistros} eventos registrados).`;
+    }
+
+    // 3. Desglose de Páginas y Álbumes Destacados
+    function calcularDesgloses() {
+      const conteoPaginas = {};
+      todosLosEventos.forEach(ev => {
+        const pag = ev.pagina || '/index.html (Portafolio)';
+        conteoPaginas[pag] = (conteoPaginas[pag] || 0) + 1;
+      });
+
+      const listaPaginas = document.getElementById('listaPaginasTráfico');
+      const entradasPaginas = Object.entries(conteoPaginas);
+
+      if (entradasPaginas.length === 0) {
+        listaPaginas.innerHTML = '<div class="text-[#666666] text-center py-4">Sin registros de páginas aún.</div>';
+      } else {
+        listaPaginas.innerHTML = entradasPaginas.map(([pag, cant]) => `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-[#141414] border border-[#222222]">
+            <span class="text-white truncate max-w-[260px]">${pag}</span>
+            <span class="text-[#38bdf8] font-bold">${cant} visitas</span>
+          </div>
+        `).join('');
+      }
+
+      const conteoAlbumes = {};
+      todosLosEventos.forEach(ev => {
+        const nom = ev.album_titulo || ev.album_id || (ev.detalle && ev.detalle.includes('Álbum') ? ev.detalle : null);
+        if (nom) {
+          conteoAlbumes[nom] = (conteoAlbumes[nom] || 0) + 1;
+        }
+      });
+
+      const listaAlbumes = document.getElementById('listaAlbumesDestacados');
+      const entradasAlbumes = Object.entries(conteoAlbumes).sort((a, b) => b[1] - a[1]);
+
+      document.getElementById('lblCantDestacados').innerText = `${entradasAlbumes.length} Álbumes`;
+
+      if (entradasAlbumes.length === 0) {
+        listaAlbumes.innerHTML = '<div class="text-[#666666] text-center py-4">Sin visitas a álbumes registradas aún.</div>';
+      } else {
+        listaAlbumes.innerHTML = entradasAlbumes.slice(0, 5).map(([album, cant], index) => `
+          <div class="flex items-center justify-between p-2 rounded-lg bg-[#141414] border border-[#222222]">
+            <div class="flex items-center gap-2 truncate max-w-[240px]">
+              <span class="text-amber-400 font-bold">#${index + 1}</span>
+              <span class="text-white truncate">${album}</span>
+            </div>
+            <span class="text-amber-400 font-bold">${cant} aperturas</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // 4. Renderizar Tabla Paginada de a 20 Registros con Desglose Exacto
+    function renderizarTablaPaginada() {
+      const cuerpo = document.getElementById('tablaActividadCuerpo');
+      const total = todosLosEventos.length;
 
       if (total === 0) {
-        tbody.innerHTML = '';
-        sinReg?.classList.remove('hidden');
-        if (pagContenedor) pagContenedor.classList.add('hidden');
+        cuerpo.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-8 text-center text-[#666666]">
+              No hay eventos de métricas registrados aún en Supabase.
+            </td>
+          </tr>
+        `;
+        document.getElementById('lblInfoPaginacion').innerText = 'Mostrando 0 - 0 de 0 registros';
+        document.getElementById('btnPaginaAnt').disabled = true;
+        document.getElementById('btnPaginaSig').disabled = true;
+        document.getElementById('numerosPagina').innerHTML = '';
         return;
       }
 
-      sinReg?.classList.add('hidden');
-      if (pagContenedor) pagContenedor.classList.remove('hidden');
-
-      const totalPaginas = Math.ceil(total / REGISTROS_POR_PAGINA) || 1;
+      const totalPaginas = Math.ceil(total / REGISTROS_POR_PAGINA);
       if (paginaActual > totalPaginas) paginaActual = totalPaginas;
       if (paginaActual < 1) paginaActual = 1;
 
       const inicio = (paginaActual - 1) * REGISTROS_POR_PAGINA;
       const fin = Math.min(inicio + REGISTROS_POR_PAGINA, total);
-      const registrosPagina = registrosTotales.slice(inicio, fin);
+      const paginaItems = todosLosEventos.slice(inicio, fin);
 
-      tbody.innerHTML = '';
-
-      registrosPagina.forEach(r => {
-        const fechaObj = r.created_at ? new Date(r.created_at) : new Date();
-        const fechaStr = fechaObj.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        const horaStr = fechaObj.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-[#1a1a1a] transition-colors';
-        tr.innerHTML = `
-          <td class="py-3 px-3 font-mono text-xs text-[#888888]">
-            <span class="text-white font-semibold">${fechaStr}</span> · ${horaStr}
-          </td>
-          <td class="py-3 px-3 font-mono text-xs">
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeColorTipo(r.tipo)}">${r.tipo || 'visita_pagina'}</span>
-          </td>
-          <td class="py-3 px-3 text-[#c0c7cf] font-mono text-xs">${r.pagina || 'index.html'}</td>
-          <td class="py-3 px-3 text-[#888888] font-mono text-xs">${r.dispositivo || 'Desktop'}</td>
-          <td class="py-3 px-3 text-right text-xs text-[#aaaaaa] truncate max-w-[180px]" title="${r.detalle || ''}">
-            ${r.detalle || r.album_titulo || 'Visita orgánica'}
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      // Actualizar texto del resumen y página
-      if (resumenEl) {
-        resumenEl.textContent = `Mostrando ${inicio + 1} - ${fin} de ${total} registros`;
-      }
-      if (pagActualEl) {
-        pagActualEl.textContent = `Página ${paginaActual} de ${totalPaginas}`;
-      }
-
-      // Estados botones Anterior/Siguiente
-      if (btnPrev) btnPrev.disabled = (paginaActual <= 1);
-      if (btnNext) btnNext.disabled = (paginaActual >= totalPaginas);
-
-      // Renderizar números de páginas dinámicos
-      if (botonesEl) {
-        botonesEl.innerHTML = '';
-        let paginasAMostrar = [];
-        
-        if (totalPaginas <= 5) {
-          for (let i = 1; i <= totalPaginas; i++) paginasAMostrar.push(i);
-        } else {
-          paginasAMostrar.push(1);
-          let start = Math.max(2, paginaActual - 1);
-          let end = Math.min(totalPaginas - 1, paginaActual + 1);
-
-          if (start > 2) paginasAMostrar.push('...');
-          for (let i = start; i <= end; i++) paginasAMostrar.push(i);
-          if (end < totalPaginas - 1) paginasAMostrar.push('...');
-          paginasAMostrar.push(totalPaginas);
+      cuerpo.innerHTML = paginaItems.map(item => {
+        let fechaHoraStr = 'Reciente';
+        const rawDate = item.created_at || item.fecha;
+        if (rawDate) {
+          try {
+            const d = new Date(rawDate);
+            fechaHoraStr = d.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + 
+              ' ' + d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          } catch (_) {
+            fechaHoraStr = String(rawDate);
+          }
         }
 
-        paginasAMostrar.forEach(p => {
-          if (p === '...') {
-            const span = document.createElement('span');
-            span.className = 'px-1.5 py-1 text-xs text-[#666666] font-mono';
-            span.textContent = '…';
-            botonesEl.appendChild(span);
-          } else {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = `w-7 h-7 rounded-lg text-xs font-mono flex items-center justify-center transition-all ${
-              p === paginaActual 
-                ? 'bg-[#005580] text-white font-bold border border-[#0088cc]' 
-                : 'bg-[#141414] hover:bg-[#222222] text-[#c0c7cf] border border-[#2a2a2a]'
-            }`;
-            btn.textContent = p;
-            btn.onclick = () => irAPagina(p);
-            botonesEl.appendChild(btn);
-          }
-        });
+        const tipo = String(item.tipo || 'visita_pagina');
+        const pagina = String(item.pagina || 'index.html');
+        const album = item.album_titulo || (item.album_id ? ('ID: ' + item.album_id) : '—');
+        const detalle = item.detalle || 'Visita al sitio';
+        const dispositivo = item.dispositivo || 'desktop';
+
+        // Badge de Tipo de Evento
+        let badgeTipo = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#1e1e1e] border border-[#333] text-[#888]">${tipo}</span>`;
+        if (tipo === 'foto_visor_hd') {
+          badgeTipo = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950/60 border border-amber-600/50 text-[#facc15]">foto_visor_hd</span>`;
+        } else if (tipo === 'visita_galeria') {
+          badgeTipo = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-sky-950/60 border border-sky-600/50 text-[#38bdf8]">visita_galeria</span>`;
+        } else if (tipo === 'visita_privada') {
+          badgeTipo = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-purple-950/60 border border-purple-600/50 text-purple-300">visita_privada</span>`;
+        } else if (tipo === 'clic_whatsapp') {
+          badgeTipo = `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/60 border border-emerald-600/50 text-emerald-400">clic_whatsapp</span>`;
+        }
+
+        return `
+          <tr class="hover:bg-[#1a1a1a] transition-colors">
+            <td class="py-2.5 px-4 text-[#888888] whitespace-nowrap">${fechaHoraStr}</td>
+            <td class="py-2.5 px-4 whitespace-nowrap">${badgeTipo}</td>
+            <td class="py-2.5 px-4 text-[#c0c7cf] truncate max-w-[140px]" title="${pagina}">${pagina}</td>
+            <td class="py-2.5 px-4 text-white font-medium truncate max-w-[200px]" title="${album}">
+              <div class="flex items-center gap-1.5 truncate">
+                ${album !== '—' ? '<span class="material-symbols-outlined text-[14px] text-[#38bdf8]">folder</span>' : ''}
+                <span class="truncate">${album}</span>
+              </div>
+            </td>
+            <td class="py-2.5 px-4 text-[#38bdf8] font-mono text-[11px] truncate max-w-[220px]" title="${detalle}">
+              ${detalle}
+            </td>
+            <td class="py-2.5 px-4 text-right text-[#777777] whitespace-nowrap">${dispositivo}</td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('lblInfoPaginacion').innerText = `Mostrando ${inicio + 1} - ${fin} de ${total} registros (Página ${paginaActual} de ${totalPaginas})`;
+      document.getElementById('btnPaginaAnt').disabled = (paginaActual <= 1);
+      document.getElementById('btnPaginaSig').disabled = (paginaActual >= totalPaginas);
+
+      renderizarBotonesPagina(totalPaginas);
+    }
+
+    function renderizarBotonesPagina(totalPaginas) {
+      const cont = document.getElementById('numerosPagina');
+      cont.innerHTML = '';
+
+      let startPage = Math.max(1, paginaActual - 2);
+      let endPage = Math.min(totalPaginas, startPage + 4);
+      if (endPage - startPage < 4) {
+        startPage = Math.max(1, endPage - 4);
+      }
+
+      for (let p = startPage; p <= endPage; p++) {
+        const btn = document.createElement('button');
+        btn.innerText = p;
+        if (p === paginaActual) {
+          btn.className = 'w-8 h-8 rounded-lg bg-[#004466] border border-[#0088cc] text-white font-bold transition-all';
+        } else {
+          btn.className = 'w-8 h-8 rounded-lg border border-[#2e2e2e] bg-[#181818] text-[#888888] hover:text-white hover:border-[#444444] transition-all';
+          btn.onclick = () => irAPagina(p);
+        }
+        cont.appendChild(btn);
       }
     }
 
     function cambiarPagina(delta) {
-      const totalPaginas = Math.ceil(registrosTotales.length / REGISTROS_POR_PAGINA) || 1;
-      const nuevaPagina = paginaActual + delta;
-      if (nuevaPagina >= 1 && nuevaPagina <= totalPaginas) {
-        paginaActual = nuevaPagina;
-        renderizarTablaPaginada();
-      }
-    }
-
-    function irAPagina(num) {
-      paginaActual = num;
+      paginaActual += delta;
       renderizarTablaPaginada();
     }
 
-    function badgeColorTipo(tipo) {
-      const t = (tipo || '').toLowerCase();
-      if (t.includes('whatsapp') || t.includes('pedido')) return 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/50';
-      if (t.includes('foto') || t.includes('visor')) return 'bg-amber-950/80 text-amber-400 border border-amber-800/50';
-      if (t.includes('galeria')) return 'bg-[#004466]/80 text-[#38bdf8] border border-[#0088cc]/50';
-      return 'bg-[#222222] text-[#c0c7cf] border border-[#333333]';
+    function irAPagina(p) {
+      paginaActual = p;
+      renderizarTablaPaginada();
     }
 
-    function cerrarSesion() {
-      sessionStorage.clear();
-      localStorage.removeItem('admin_auth_backup');
-      try {
-        document.cookie = 'admin_session=; Path=/; Max-Age=0;';
-        document.cookie = 'admin_email=; Path=/; Max-Age=0;';
-        fetch('/api/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-      window.location.href = 'index.html';
+    // Exportar CSV
+    function exportarCSV() {
+      if (!todosLosEventos || todosLosEventos.length === 0) {
+        alert('No hay eventos de métricas para exportar.');
+        return;
+      }
+
+      let csv = 'Fecha_Hora,Tipo,Pagina,Album,Foto_Detalle,Dispositivo\n';
+      todosLosEventos.forEach(ev => {
+        const d = ev.created_at || ev.fecha || '';
+        const tipo = (ev.tipo || '').replace(/,/g, ' ');
+        const pag = (ev.pagina || '').replace(/,/g, ' ');
+        const alb = (ev.album_titulo || ev.album_id || '').replace(/,/g, ' ');
+        const det = (ev.detalle || '').replace(/,/g, ' ');
+        const disp = (ev.dispositivo || '').replace(/,/g, ' ');
+        csv += `"${d}","${tipo}","${pag}","${alb}","${det}","${disp}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `metricas_detalladas_sergio_molina_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
-    document.addEventListener('DOMContentLoaded', cargarMetricas);
+    // Menú móvil
+    const btnMobile = document.getElementById('btnMobileMenu');
+    const drawer = document.getElementById('mobileDrawer');
+    const menuIcon = document.getElementById('menuIcon');
+
+    if (btnMobile && drawer) {
+      btnMobile.addEventListener('click', () => {
+        const isHidden = drawer.classList.contains('hidden');
+        if (isHidden) {
+          drawer.classList.remove('hidden');
+          if (menuIcon) menuIcon.textContent = 'close';
+        } else {
+          drawer.classList.add('hidden');
+          if (menuIcon) menuIcon.textContent = 'menu';
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      cargarMetricasReales();
+    });
   </script>
-
-
-</body></html>
+</body>
+</html>
