@@ -1,454 +1,742 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Cargas y Enlaces | SERGIO RICARDO MOLINA</title>
-  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Raleway:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Carga de Galerías y Enlaces | Sergio Ricardo Molina</title>
+<link href="https://lh3.googleusercontent.com/d/1A6PFi2lpp_VNhnmtTYGkYXyjMZ1p8LhA" rel="icon" type="image/png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Raleway:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="tailwind-config">
     tailwind.config = {
-      darkMode: 'class',
+      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            surface: '#111111',
-            'surface-card': '#181818',
-            primary: '#005580',
-            'primary-light': '#38bdf8'
+            "surface-variant": "#353534",
+            "surface-dim": "#131313",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-highest": "#353534",
+            "primary": "#38bdf8",
+            "surface-container-low": "#1c1b1b",
+            "surface-container-lowest": "#0e0e0e",
+            "surface": "#131313",
+            "surface-container": "#181818"
           },
           fontFamily: {
-            sans: ['Manrope', 'sans-serif'],
-            headline: ['Raleway', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
+            sans: ["Manrope", "sans-serif"],
+            display: ["Raleway", "sans-serif"]
           }
         }
       }
     }
   </script>
-  <style>
-    body { background-color: #111111; color: #e5e2e1; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; }
-    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #111111; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #005580; }
+<style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #111111;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #111111;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+    .preview-card-box {
+      border: 1.5px solid #005580;
+      box-shadow: 0 10px 30px -10px rgba(0, 85, 128, 0.35);
+    }
+    .transition-all-200 {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
-<body class="bg-[#111111] text-[#e5e2e1] min-h-screen flex flex-col antialiased selection:bg-[#005580] selection:text-white">
-
-  <!-- Header Superior Global -->
-  <header class="w-full bg-[#131313] border-b border-[#222222] sticky top-0 z-50">
-    <div class="flex justify-between items-center w-full px-4 md:px-6 max-w-7xl mx-auto h-16">
-      
-      <!-- Brand & Mobile Toggle -->
-      <div class="flex items-center gap-3">
-        <button id="btnMobileToggle" type="button" class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#181818] border border-[#2a2a2a] text-[#e5e2e1] hover:text-[#38bdf8] transition-colors" aria-label="Abrir menú">
-          <span class="material-symbols-outlined text-[22px]" id="iconMobileToggle">menu</span>
-        </button>
-        <div class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-[#38bdf8] text-[24px]">cloud_upload</span>
-          <div class="flex flex-col">
-            <span class="font-headline font-bold text-white text-base sm:text-lg tracking-wide leading-tight">Cargas y Enlaces</span>
-            <span class="text-[10px] text-[#888888] font-mono tracking-wider uppercase hidden xs:inline">SERGIO RICARDO MOLINA</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sistema Activo & Cerrar Sesión -->
-      <div class="flex items-center gap-3">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#181818] border border-[#2a2a2a] rounded-full text-xs font-mono text-[#38bdf8]">
-          <span class="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse"></span>
-          <span class="hidden xs:inline">SISTEMA ACTIVO</span>
-          <span class="xs:hidden">ACTIVO</span>
-        </div>
-        <button onclick="cerrarSesion()" class="px-3 py-1.5 rounded-lg border border-[#333333] hover:border-red-500/60 bg-[#181818] hover:bg-red-950/20 text-xs font-semibold text-[#c0c7cf] hover:text-red-400 transition-all flex items-center gap-1.5 active:scale-95">
-          <span class="material-symbols-outlined text-[16px]">logout</span>
-          <span class="hidden sm:inline">Cerrar Sesión</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Menú Desplegable Móvil (< 768px) -->
-    <div id="drawerMobile" class="hidden md:hidden border-b border-[#222222] bg-[#141414] px-4 py-3 space-y-2 shadow-2xl transition-all">
-      <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 pt-1">MÓDULO DE GESTIÓN</div>
-      <nav class="space-y-1">
-        <a href="panel.html" class="flex items-center gap-2.5 text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1f1e1e]">
-          <span class="material-symbols-outlined text-[18px]">photo_library</span>
-          <span>Galerías</span>
-        </a>
-        <a href="cargas.html" class="flex items-center gap-2.5 text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc]">
-          <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">cloud_upload</span>
-          <span>Cargas y Enlaces</span>
-        </a>
-        <a href="precios.html" class="flex items-center gap-2.5 text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1f1e1e]">
-          <span class="material-symbols-outlined text-[18px]">payments</span>
-          <span>Tarifas y Precios</span>
-        </a>
-        <a href="metricas.html" class="flex items-center gap-2.5 text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1f1e1e]">
-          <span class="material-symbols-outlined text-[18px]">insights</span>
-          <span>Métricas y Visitas</span>
-        </a>
-      </nav>
-      <div class="pt-2 border-t border-[#222222] space-y-1">
-        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">Accesos Directos</div>
-        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center justify-between text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-[16px]">calendar_month</span>
-            <span>Volver a Eventos</span>
-          </div>
-          <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-        </a>
-        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center justify-between text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-[16px]">visibility</span>
-            <span>Ver Portafolio</span>
-          </div>
-          <span class="material-symbols-outlined text-[14px]">open_in_new</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Layout Principal con Sidebar Fijo en Desktop -->
-  <div class="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
-    
-    <!-- Sidebar Desktop (>= 768px) -->
-    <aside class="w-60 bg-[#131313] border-r border-[#222222] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
-      <div class="space-y-4">
-        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2">MÓDULO DE GESTIÓN</div>
-        <nav class="space-y-1">
-          <a href="panel.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">photo_library</span>
-              <span>Galerías</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-          
-          <a href="cargas.html" class="flex items-center justify-between text-white px-3 py-2 text-xs font-semibold rounded-lg bg-[#004466] border border-[#0088cc] shadow-sm">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px] text-[#38bdf8]">cloud_upload</span>
-              <span>Cargas y Enlaces</span>
-            </div>
-          </a>
-
-          <a href="precios.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">payments</span>
-              <span>Tarifas y Precios</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-
-          <a href="metricas.html" class="flex items-center justify-between text-[#c0c7cf] hover:text-white px-3 py-2 text-xs font-medium rounded-lg hover:bg-[#1a1a1a] transition-colors">
-            <div class="flex items-center gap-2.5">
-              <span class="material-symbols-outlined text-[18px]">insights</span>
-              <span>Métricas y Visitas</span>
-            </div>
-            <span class="material-symbols-outlined text-[14px] text-[#555555]">chevron_right</span>
-          </a>
-        </nav>
-      </div>
-
-      <div class="pt-4 border-t border-[#222222] space-y-1">
-        <div class="text-[10px] font-mono text-[#777777] uppercase tracking-wider px-2 mb-1">Portales Públicos</div>
-        <a href="https://gersiotalrevez.github.io/Eventos-Escolares/eventos.html" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors group">
-          <span class="material-symbols-outlined text-[16px] group-hover:text-[#38bdf8]">calendar_month</span>
-          <span>Volver a Eventos</span>
-        </a>
-        <a href="https://sergiomolina-fotografia.netlify.app/" target="_blank" class="flex items-center gap-2 text-xs text-[#888888] hover:text-[#38bdf8] px-2 py-1.5 rounded transition-colors group">
-          <span class="material-symbols-outlined text-[16px] group-hover:text-[#38bdf8]">visibility</span>
-          <span>Ver Portafolio</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- Contenido Principal -->
-    <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8 max-w-4xl w-full pb-24 md:pb-8">
-      
-      <!-- Título de Sección -->
-      <div class="mb-6">
-        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#005580]/30 border border-[#005580] text-[#38bdf8] text-[11px] font-mono rounded uppercase tracking-wider mb-2">
-          <span>Gestión de Lotes Escolares</span>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight">Cargas y Enlaces de Google Drive</h1>
-        <p class="text-xs sm:text-sm text-[#888888] mt-1.5 leading-relaxed">
-          Vincula carpetas o archivos de Google Drive para crear nuevas galerías públicas o privadas en Supabase sin escribir código.
-        </p>
-      </div>
-
-      <!-- Feedback Toast Dinámico -->
-      <div id="toast-feedback" class="hidden mb-6 p-4 rounded-xl border text-xs sm:text-sm flex items-center justify-between transition-all shadow-lg">
-        <div class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-[20px]" id="toast-icon">check_circle</span>
-          <span id="toast-texto" class="font-medium text-white"></span>
-        </div>
-      </div>
-
-      <!-- Formulario de Subida -->
-      <div class="bg-[#181818] border border-[#262626] rounded-2xl p-5 sm:p-7 shadow-xl space-y-5">
-        <form onsubmit="guardarNuevaGaleria(event)" class="space-y-4">
-          
-          <!-- Enlace Drive -->
-          <div>
-            <label class="block text-xs font-mono uppercase tracking-wider text-[#aaaaaa] mb-1.5" for="input-drive-url">
-              Enlace de Carpeta o Archivo de Google Drive *
-            </label>
-            <div class="relative">
-              <span class="material-symbols-outlined text-[#777777] text-[18px] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">link</span>
-              <input type="text" id="input-drive-url" required placeholder="https://drive.google.com/drive/folders/..." onblur="autoDetectarDatos(this.value)" class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl pl-9 pr-3 py-2.5 text-xs sm:text-sm text-white outline-none transition-all">
-            </div>
-            <p class="text-[11px] text-[#777777] mt-1">Asegúrate de que el enlace de Drive tenga permisos de lectura pública (Cualquier persona con el enlace puede ver).</p>
-          </div>
-
-          <!-- Título -->
-          <div>
-            <label class="block text-xs font-mono uppercase tracking-wider text-[#aaaaaa] mb-1.5" for="input-titulo">
-              Título del Evento o Colegio (Opcional - Auto si se deja vacío)
-            </label>
-            <input type="text" id="input-titulo" placeholder="Ej: Colegio San Martín · Graduación 2026" class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white outline-none transition-all">
-          </div>
-
-          <!-- Portada Manual -->
-          <div>
-            <label class="block text-xs font-mono uppercase tracking-wider text-[#aaaaaa] mb-1.5" for="input-portada-url">
-              Enlace de Portada Manual (Opcional)
-            </label>
-            <input type="text" id="input-portada-url" placeholder="https://lh3.googleusercontent.com/... o enlace directo de Drive" class="w-full bg-[#111111] border border-[#2e2e2e] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white outline-none transition-all">
-          </div>
-
-          <!-- Switch Galería Privada -->
-          <div class="pt-3 border-t border-[#242424]">
-            <div class="flex items-center justify-between p-3.5 rounded-xl bg-[#141414] border border-[#282828]">
-              <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-[#facc15] text-[22px]">lock</span>
-                <div>
-                  <div class="text-xs sm:text-sm font-semibold text-white">Galería Privada con Clave</div>
-                  <div class="text-[11px] text-[#777777]">Solo accesible mediante contraseña de cliente en privadas.html</div>
-                </div>
-              </div>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="check-privada" onchange="alternarCampoClave(this.checked)" class="sr-only peer">
-                <div class="w-11 h-6 bg-[#262626] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0088cc]"></div>
-              </label>
-            </div>
-
-            <!-- Campo de Clave Condicional -->
-            <div id="bloque-clave" class="hidden mt-3 p-3.5 rounded-xl bg-[#141414] border border-amber-900/40 space-y-1.5">
-              <label class="block text-xs font-mono uppercase tracking-wider text-[#facc15]" for="input-clave-evento">
-                Contraseña de Acceso para Familias
-              </label>
-              <input type="text" id="input-clave-evento" placeholder="Ej: brenda, promo24, familia2026..." class="w-full bg-[#111111] border border-amber-600/40 focus:border-[#facc15] rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white outline-none">
-            </div>
-          </div>
-
-          <!-- Botón de Guardado -->
-          <div class="pt-3">
-            <button type="submit" id="btn-guardar" class="w-full sm:w-auto px-6 py-2.5 bg-[#005580] hover:bg-[#0077b3] border border-[#0088cc] text-white rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 shadow-lg transition-all active:scale-[0.98]">
-              <span class="material-symbols-outlined text-[18px]">cloud_upload</span>
-              <span id="btn-guardar-texto">Guardar y Sincronizar Galería</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </main>
-  </div>
-
-  <!-- Barra Fija Inferior en Celulares (< 768px) -->
-  <nav class="md:hidden bg-[#131313]/95 backdrop-blur-md border-t border-[#222222] fixed bottom-0 left-0 right-0 z-40 px-2 py-1 flex justify-around items-center">
-    <a href="panel.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">photo_library</span>
-      <span class="text-[10px] mt-0.5 font-medium">Galerías</span>
-    </a>
-    <a href="cargas.html" class="flex flex-col items-center py-1 px-2 text-[#38bdf8] font-bold">
-      <span class="material-symbols-outlined text-[20px]">cloud_upload</span>
-      <span class="text-[10px] mt-0.5">Cargas</span>
-    </a>
-    <a href="precios.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">payments</span>
-      <span class="text-[10px] mt-0.5 font-medium">Tarifas</span>
-    </a>
-    <a href="metricas.html" class="flex flex-col items-center py-1 px-2 text-[#8b9199] hover:text-white">
-      <span class="material-symbols-outlined text-[20px]">insights</span>
-      <span class="text-[10px] mt-0.5 font-medium">Métricas</span>
-    </a>
-  </nav>
-
-  <script>
-    const CORREO_AUTORIZADO = 'molinaoksergio@gmail.com';
+<body class="bg-[#111111] text-[#e5e2e1] flex flex-col md:flex-row min-h-screen antialiased selection:bg-[#005580] selection:text-[#ffffff]">
+<!-- BOTÓN MÓVIL PARA ABRIR SIDEBAR -->
+<header class="md:hidden flex items-center justify-between px-4 py-3 bg-[#161616] border-b border-[#222222] sticky top-0 z-40">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#38bdf8]"></span>
+<span class="text-xs font-bold tracking-wider uppercase text-white font-display">SERGIO RICARDO MOLINA</span>
+</div>
+<button class="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-[#202020] transition" id="btn-toggle-menu" onclick="toggleSidebarMobile()" type="button">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+</header>
+<!-- BARRA LATERAL IZQUIERDA -->
+<aside class="hidden md:flex flex-col justify-between w-full md:w-[260px] bg-[#161616] border-r border-[#222222] p-5 shrink-0 min-h-screen fixed md:relative z-30 transition-all-200" id="sidebar-panel">
+<div class="flex flex-col">
+<!-- MARCA / BRAND -->
+<div class="pb-5 border-b border-[#222222] mb-5">
+<div class="flex items-center gap-1.5 text-[#38bdf8] text-[11px] uppercase tracking-widest font-semibold mb-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-[#38bdf8] animate-pulse"></span>
+<span>Panel Control</span>
+</div>
+<h2 class="text-[0.98rem] font-bold tracking-wide text-white font-display leading-tight">SERGIO RICARDO MOLINA</h2>
+<span class="text-[10px] text-neutral-400 uppercase tracking-widest font-semibold block mt-0.5">FOTOGRAFÍA PROFESIONAL</span>
+</div>
+<!-- MENÚ DE NAVEGACIÓN -->
+<nav class="flex flex-col gap-1.5">
+<!-- 1. Galerías -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[0.86rem] font-medium text-neutral-400 hover:bg-[#202020] hover:text-white transition-all-200 border border-transparent" href="panel.html">
+<span class="material-symbols-outlined text-[20px]">photo_library</span>
+<span>Galerías</span>
+</a>
+<!-- 2. Cargas y Enlaces (Activo) -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[0.86rem] font-semibold bg-[#004466] text-white border border-[#0088cc] shadow-[0_2px_10px_rgba(0,68,102,0.4)] transition-all-200" href="cargas.html">
+<span class="material-symbols-outlined text-[20px] text-[#38bdf8]">cloud_upload</span>
+<span>Cargas y Enlaces</span>
+</a>
+<!-- 3. Tarifas y Precios -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[0.86rem] font-medium text-neutral-400 hover:bg-[#202020] hover:text-white transition-all-200 border border-transparent" href="precios.html">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span>Tarifas y Precios</span>
+</a>
+<!-- 4. Métricas y Visitas -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[0.86rem] font-medium text-neutral-400 hover:bg-[#202020] hover:text-white transition-all-200 border border-transparent" href="metricas.html">
+<span class="material-symbols-outlined text-[20px]">monitoring</span>
+<span>Métricas y Visitas</span>
+</a>
+<div class="my-2 border-t border-[#222222]"></div>
+<!-- Enlaces directos externos -->
+<a class="flex items-center gap-2.5 px-3.5 py-2 rounded-lg text-[0.82rem] text-neutral-400 hover:text-[#38bdf8] hover:bg-[#202020] transition-all-200" href="https://sergiomolina-fotografia.github.io/Eventos-Escolares/eventos.html" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Volver a Eventos</span>
+</a>
+<a class="flex items-center gap-2.5 px-3.5 py-2 rounded-lg text-[0.82rem] text-neutral-400 hover:text-[#38bdf8] hover:bg-[#202020] transition-all-200" href="https://sergiomolina-fotografia.netlify.app/" rel="noopener" target="_blank">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+<span>Ver Portafolio</span>
+</a>
+</nav>
+</div>
+<!-- FOOTER ASIDE -->
+<div class="pt-4 border-t border-[#222222] mt-6">
+<div class="flex items-center justify-between text-[11px] text-neutral-500 font-mono">
+<span>ESTUDIO FOTOGRÁFICO</span>
+<span class="text-[#38bdf8]">v2.6</span>
+</div>
+</div>
+</aside>
+<!-- CONTENIDO PRINCIPAL -->
+<main class="flex-1 p-5 sm:p-8 lg:p-10 max-w-7xl overflow-y-auto custom-scroll">
+<!-- ENCABEZADO -->
+<div class="flex flex-col sm:flex-row justify-between items-start mb-7 gap-4">
+<div>
+<div class="text-[#38bdf8] text-xs font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
+<span class="material-symbols-outlined text-[16px]">cloud_upload</span>
+<span>Módulo de Vinculación Drive</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white font-display">Carga de Galerías y Enlaces</h1>
+<p class="text-neutral-400 text-sm mt-1">Conecta tus carpetas de Google Drive directamente a la plataforma con sincronización en la nube</p>
+</div>
+</div>
+<!-- LAYOUT DE 2 COLUMNAS -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-7">
+<!-- COLUMNA IZQUIERDA: FORMULARIO (7 cols) -->
+<div class="lg:col-span-7 space-y-6">
+<div class="bg-[#181818] border border-[#242424] rounded-xl p-6 sm:p-7 shadow-lg">
+<div class="flex items-center gap-2 pb-4 mb-5 border-b border-[#242424]">
+<span class="material-symbols-outlined text-[#38bdf8] text-[22px]">add_link</span>
+<h2 class="text-base sm:text-lg font-semibold text-white tracking-wide">Configuración de la Carpeta</h2>
+</div>
+<form class="space-y-5" id="form-galeria" onsubmit="event.preventDefault(); guardarGaleria();">
+<!-- 1. Enlace / ID de Google Drive -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs sm:text-[13px] font-semibold text-neutral-200 flex items-center gap-2" for="input-drive-url">
+<span class="material-symbols-outlined text-[17px] text-[#38bdf8]">folder</span>
+<span>Enlace o ID de Carpeta de Google Drive <span class="text-rose-400">*</span></span>
+</label>
+<div class="relative">
+<input autocomplete="off" class="w-full bg-[#121212] border border-[#2c2c2c] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-all-200 font-mono" id="input-drive-url" name="drive_url" placeholder="https://drive.google.com/drive/folders/1aBcD... o ID de carpeta" type="text"/>
+<div class="hidden absolute right-3 top-2.5 text-[#38bdf8]" id="drive-spinner">
+<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>
+</div>
+</div>
+<p class="text-[11px] text-neutral-500" id="drive-helper">Pega el link compartido de Drive. El título y la foto de portada se resolverán automáticamente.</p>
+</div>
+<!-- 2. Título del Evento -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs sm:text-[13px] font-semibold text-neutral-200 flex items-center gap-2" for="input-titulo">
+<span class="material-symbols-outlined text-[17px] text-[#38bdf8]">title</span>
+<span>Título del Evento / Escuela <span class="text-neutral-500 font-normal text-xs">(Opcional)</span></span>
+</label>
+<input class="w-full bg-[#121212] border border-[#2c2c2c] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-all-200" id="input-titulo" name="titulo" placeholder="Ej: Egresados 2026 Colegio San Martín" type="text"/>
+<!-- Nota badge autocompletado de Drive -->
+<div class="hidden items-center gap-1.5 text-[11px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-2 py-1 rounded w-fit" id="badge-drive-title">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span id="badge-drive-title-text">Nombre detectado de Drive</span>
+</div>
+</div>
+<!-- 3. URL Portada Manual -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs sm:text-[13px] font-semibold text-neutral-200 flex items-center gap-2" for="input-portada">
+<span class="material-symbols-outlined text-[17px] text-[#38bdf8]">image</span>
+<span>URL de Portada Manual <span class="text-neutral-500 font-normal text-xs">(Opcional)</span></span>
+</label>
+<input class="w-full bg-[#121212] border border-[#2c2c2c] focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-all-200 font-mono" id="input-portada" name="portada_url" placeholder="https://drive.google.com/file/d/... o enlace directo de imagen" type="text"/>
+<p class="text-[11px] text-neutral-500">Acepta fotos compartidas de Drive o URLs web estándar (.jpg, .png, .webp). Si se deja vacío, tomará la primera foto de la carpeta.</p>
+</div>
+<!-- 4. Casilla Galería Privada -->
+<div class="bg-[#131313] border border-[#262626] rounded-lg p-4 space-y-3">
+<label class="flex items-center gap-3 cursor-pointer select-none">
+<input class="w-4 h-4 rounded bg-[#1c1b1b] border-[#41474e] text-[#005580] focus:ring-[#005580] focus:ring-offset-0 cursor-pointer" id="check-es-privada" type="checkbox"/>
+<span class="text-sm font-medium text-white flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-amber-400">lock</span>
+                  ¿Es una galería privada de clientes?
+                </span>
+</label>
+<!-- PIN / Password desplegable -->
+<div class="hidden flex-col gap-1.5 pt-2 border-t border-[#222222]" id="campo-password-wrap">
+<label class="text-xs font-semibold text-amber-300 flex items-center gap-1.5" for="input-password">
+<span class="material-symbols-outlined text-[16px] text-amber-400">key</span>
+<span>Clave de Acceso para el Cliente <span class="text-rose-400">*</span></span>
+</label>
+<input class="w-full bg-[#121212] border border-amber-900/40 focus:border-amber-400 rounded-lg px-3.5 py-2 text-sm text-white placeholder-neutral-600 outline-none font-mono" id="input-password" placeholder="Ej: BODA2026 o PIN del curso" type="text"/>
+<p class="text-[11px] text-neutral-400">Esta clave será exigida a los visitantes para desbloquear la descarga y visualización.</p>
+</div>
+</div>
+<!-- MENSAJES DE ESTADO / ALERTAS -->
+<div class="hidden p-3.5 rounded-lg text-sm border" id="mensaje-estado"></div>
+<div class="hidden bg-[#1c1414] border border-rose-900/60 rounded-lg p-3.5 text-xs text-rose-300 space-y-2" id="diagnostico-supabase-box">
+<div class="font-bold flex items-center gap-1.5 text-rose-400">
+<span class="material-symbols-outlined text-[18px]">error</span>
+<span>Diagnóstico Supabase (Error en Inserción)</span>
+</div>
+<pre class="bg-[#110c0c] p-2.5 rounded overflow-x-auto text-[11px] text-rose-200 font-mono" id="diagnostico-detalle"></pre>
+<p class="text-[11px] text-neutral-400 leading-relaxed">
+                Los datos se guardaron localmente en el navegador, pero no impactaron en Supabase. Verificá si la tabla <code>galeria</code> tiene habilitadas políticas RLS de INSERT para el rol <code>anon</code>.
+              </p>
+</div>
+<div class="hidden bg-[#0f241a] border border-emerald-900/80 rounded-lg p-4 text-xs text-emerald-300 space-y-3" id="exito-supabase-box">
+<div class="font-bold flex items-center gap-2 text-emerald-400 text-sm">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span id="exito-supabase-titulo">¡Galería sincronizada en Supabase con éxito!</span>
+</div>
+<p class="text-xs text-emerald-200/90 leading-relaxed" id="exito-supabase-detalle"></p>
+<a class="inline-flex items-center gap-1.5 bg-[#15803d] hover:bg-[#16a34a] text-white px-4 py-2 rounded-lg font-semibold text-xs transition" href="panel.html">
+<span>Ir a Ver Galerías en Panel</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<!-- BOTÓN GUARDAR -->
+<button class="w-full bg-[#005580] hover:bg-[#0077b3] text-white font-semibold py-3.5 px-5 rounded-lg text-sm flex items-center justify-center gap-2 shadow-[0_4px_18px_rgba(0,85,128,0.4)] transition-all-200 cursor-pointer active:scale-[0.99] border border-[#0077b3]" id="btn-guardar" type="submit">
+<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+<span id="btn-guardar-texto">Guardar y Vincular Galería</span>
+</button>
+</form>
+</div>
+</div>
+<!-- COLUMNA DERECHA: PREVISUALIZACIÓN EN VIVO (5 cols) -->
+<div class="lg:col-span-5">
+<div class="bg-[#181818] border border-[#242424] rounded-xl p-5 sm:p-6 sticky top-6 shadow-lg space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-[#242424]">
+<h3 class="text-xs font-bold text-neutral-400 uppercase tracking-wider font-mono">Vista Previa en Vivo</h3>
+<span class="text-[10px] text-neutral-500 uppercase tracking-widest font-mono">Simulador Tarjeta</span>
+</div>
+<!-- TARJETA SIMULADA -->
+<div class="preview-card-box bg-[#141414] rounded-xl overflow-hidden transition-all-200">
+<!-- CONTENEDOR FOTO PORTADA -->
+<div class="w-full aspect-[16/10] bg-[#0c0c0c] relative flex items-center justify-center overflow-hidden border-b border-[#202020]" id="box-preview-portada">
+<!-- BADGE ESTADO -->
+<span class="absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-md bg-[#005580]/90 text-white z-10 backdrop-blur-sm shadow uppercase" id="preview-badge">
+                PÚBLICA
+              </span>
+<!-- PLACEHOLDER VACÍO -->
+<div class="flex flex-col items-center justify-center gap-2 p-4 text-center" id="preview-placeholder-icono">
+<div class="w-12 h-12 rounded-full bg-[#1b2631] flex items-center justify-center text-[#38bdf8]">
+<span class="material-symbols-outlined text-[26px]">photo_camera</span>
+</div>
+<span class="text-xs text-neutral-500 font-medium">La portada se reflejará aquí</span>
+<span class="text-[10px] text-neutral-600 font-mono">Drive o URL Directa</span>
+</div>
+<!-- IMAGEN DE PREVIEW -->
+<img alt="Portada Galería" class="hidden w-full h-full object-cover transition-opacity duration-300 opacity-0" id="img-preview"/>
+<!-- SPINNER CARGANDO PORTADA -->
+<div class="hidden absolute inset-0 bg-[#0c0c0c]/70 backdrop-blur-[2px] flex items-center justify-center" id="preview-img-loading">
+<span class="material-symbols-outlined text-[28px] text-[#38bdf8] animate-spin">progress_activity</span>
+</div>
+</div>
+<!-- DETALLES DE LA TARJETA -->
+<div class="p-4 sm:p-5 space-y-2">
+<h4 class="text-base font-bold text-white tracking-tight line-clamp-2" id="preview-titulo">Nombre del Evento</h4>
+<div class="flex items-center gap-2 text-[11px] text-neutral-400 font-mono pt-1">
+<span class="material-symbols-outlined text-[14px] text-neutral-500">link</span>
+<span class="truncate" id="preview-id">Drive ID: Sin asignar</span>
+</div>
+<div class="flex items-center justify-between pt-3 mt-3 border-t border-[#222222] text-[11px] text-neutral-500">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Conexión directa
+                </span>
+<span class="hidden text-amber-400 font-mono" id="preview-password-hint">🔒 Protegida con PIN</span>
+</div>
+</div>
+</div>
+<!-- NOTA INFORMATIVA INFERIOR -->
+<div class="bg-[#121212] border border-[#222222] rounded-lg p-3 text-xs text-neutral-400 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-[18px] text-[#38bdf8] shrink-0 mt-0.5">info</span>
+<p class="leading-relaxed">
+              Al guardar, se registrará el evento tanto en la base de datos Supabase como en el almacenamiento local para sincronización inmediata con la cuadrícula de <a class="text-[#38bdf8] underline hover:text-white" href="panel.html">panel.html</a>.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+    // CONFIGURACIÓN DE APIS Y CLAVES
     const SUPABASE_URL = 'https://zbixojacwvanucxlrdcd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiaXhvamFjd3ZhbnVjeGxyZGNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MzgxMzQsImV4cCI6MjEwNDExNDEzNH0.Wz35IGTGzdHuHOm2EbTsGSLBZfhw67Wt7UXBbMXek68';
+    const API_KEY_DRIVE = 'AIzaSyAHNvLODt54qLomj14TUPbQyo-KJ_HO4ZM';
 
-    // Guardián de Acceso Resiliente Sin Rebotes
-    (function verificarAccesoSeguro() {
-      const authSession = sessionStorage.getItem('admin_auth') === 'true';
-      const authBackup = localStorage.getItem('admin_auth_backup') === 'true';
-      const cookieAuth = document.cookie.includes('admin_session=true');
+    // Cliente Supabase
+    const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-      if (!authSession && !authBackup && !cookieAuth) {
-        window.location.href = 'index.html';
-        return;
-      }
-
-      sessionStorage.setItem('admin_auth', 'true');
-      sessionStorage.setItem('admin_email', CORREO_AUTORIZADO);
-
-      try {
-        fetch('/api/session', { credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-    })();
-
-    let supabaseClient = null;
-    try {
-      if (window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      }
-    } catch(err) {
-      console.warn('Supabase init:', err);
-    }
+    // Estado interno
+    let ultimoFolderIdDetectado = '';
+    let driveTituloDetectado = '';
+    let drivePortadaDetectada = '';
+    let debounceDriveTimeout = null;
 
     // Toggle menú móvil
-    const btnMobile = document.getElementById('btnMobileToggle');
-    const drawerMobile = document.getElementById('drawerMobile');
-    const iconMobile = document.getElementById('iconMobileToggle');
-
-    if (btnMobile && drawerMobile) {
-      btnMobile.addEventListener('click', () => {
-        const isHidden = drawerMobile.classList.contains('hidden');
-        if (isHidden) {
-          drawerMobile.classList.remove('hidden');
-          if (iconMobile) iconMobile.textContent = 'close';
-        } else {
-          drawerMobile.classList.add('hidden');
-          if (iconMobile) iconMobile.textContent = 'menu';
-        }
-      });
+    function toggleSidebarMobile() {
+      const sidebar = document.getElementById('sidebar-panel');
+      sidebar.classList.toggle('hidden');
     }
 
-    function alternarCampoClave(esPrivada) {
-      const bloque = document.getElementById('bloque-clave');
-      if (bloque) {
-        if (esPrivada) bloque.classList.remove('hidden');
-        else bloque.classList.add('hidden');
-      }
-    }
-
-    function autoDetectarDatos(val) {
-      if (!val) return;
-      const inpTit = document.getElementById('input-titulo');
-      const inpPort = document.getElementById('input-portada-url');
-      const idDrive = extraerIdDrive(val);
-
-      if (idDrive && inpPort && !inpPort.value.trim()) {
-        inpPort.value = `https://lh3.googleusercontent.com/d/${idDrive}=w800`;
-      }
-      if (inpTit && !inpTit.value.trim()) {
-        inpTit.value = 'Lote Escolar · ' + new Date().toLocaleDateString('es-AR', { month: 'short', year: 'numeric' });
-      }
-    }
-
+    // EXTRAER ID DE GOOGLE DRIVE (Carpetas o Archivos)
     function extraerIdDrive(input) {
       if (!input) return '';
       const str = String(input).trim();
       const matchFolder = str.match(/folders\/([a-zA-Z0-9_-]+)/);
       if (matchFolder && matchFolder[1]) return matchFolder[1];
-      const matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      if (matchId && matchId[1]) return matchId[1];
+      const matchFile = str.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (matchFile && matchFile[1]) return matchFile[1];
       const matchD = str.match(/\/d\/([a-zA-Z0-9_-]+)/);
       if (matchD && matchD[1]) return matchD[1];
+      const matchId = str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (matchId && matchId[1]) return matchId[1];
+      
+      // Si el usuario pegó directamente un ID alfanumérico limpio
+      if (/^[a-zA-Z0-9_-]{15,50}$/.test(str)) {
+        return str;
+      }
       return str.split('?')[0].split('#')[0].replace(/.*drive\.google\.com\//, '').trim();
     }
 
-    async function guardarNuevaGaleria(e) {
-      if (e) e.preventDefault();
-      const driveUrl = document.getElementById('input-drive-url')?.value.trim();
-      let titulo = document.getElementById('input-titulo')?.value.trim();
-      let portadaUrl = document.getElementById('input-portada-url')?.value.trim();
-      const esPrivada = document.getElementById('check-privada')?.checked || false;
-      const clave = document.getElementById('input-clave-evento')?.value.trim() || '';
+    // RESOLVER IMAGEN A URL VÁLIDA
+    function resolverUrlPortada(rawVal) {
+      if (!rawVal) return '';
+      const trimmed = String(rawVal).trim();
+      
+      // Si es un link de Drive (archivo o carpeta)
+      const fileId = extraerIdDrive(trimmed);
+      if (fileId && (trimmed.includes('drive.google.com') || trimmed.includes('lh3.googleusercontent.com') || !trimmed.startsWith('http'))) {
+        return `https://lh3.googleusercontent.com/d/${fileId}=w800`;
+      }
+      
+      // Si ya es un URL web directo (http / https)
+      if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        return trimmed;
+      }
+
+      // Si sólo escribió un ID suelto
+      if (fileId) {
+        return `https://lh3.googleusercontent.com/d/${fileId}=w800`;
+      }
+      return '';
+    }
+
+    // ACTUALIZAR PREVIEW DE IMAGEN EN VIVO
+    function actualizarPreviewImagen(imgUrl) {
+      const imgEl = document.getElementById('img-preview');
+      const placeholder = document.getElementById('preview-placeholder-icono');
+      const loader = document.getElementById('preview-img-loading');
+
+      if (!imgUrl) {
+        imgEl.style.display = 'none';
+        imgEl.classList.add('opacity-0');
+        imgEl.src = '';
+        placeholder.style.display = 'flex';
+        loader.classList.add('hidden');
+        return;
+      }
+
+      loader.classList.remove('hidden');
+
+      imgEl.onload = function() {
+        loader.classList.add('hidden');
+        placeholder.style.display = 'none';
+        imgEl.style.display = 'block';
+        setTimeout(() => {
+          imgEl.classList.remove('opacity-0');
+          imgEl.classList.add('opacity-100');
+        }, 30);
+      };
+
+      imgEl.onerror = function() {
+        loader.classList.add('hidden');
+        imgEl.style.display = 'none';
+        placeholder.style.display = 'flex';
+      };
+
+      imgEl.src = imgUrl;
+    }
+
+    // ACTUALIZAR PREVIEW GENERAL (TÍTULO, ID, BADGE, IMAGEN)
+    function actualizarPreview() {
+      const driveUrl = document.getElementById('input-drive-url').value.trim();
+      const folderId = extraerIdDrive(driveUrl);
+      const inputTitulo = document.getElementById('input-titulo').value.trim();
+      const inputPortada = document.getElementById('input-portada').value.trim();
+      const esPrivada = document.getElementById('check-es-privada').checked;
+
+      // 1. Título
+      const previewTitulo = document.getElementById('preview-titulo');
+      if (inputTitulo) {
+        previewTitulo.innerText = inputTitulo;
+      } else if (driveTituloDetectado) {
+        previewTitulo.innerText = driveTituloDetectado;
+      } else if (folderId) {
+        previewTitulo.innerText = `Evento Escolar (${folderId.substring(0, 10)}...)`;
+      } else {
+        previewTitulo.innerText = 'Nombre del Evento';
+      }
+
+      // 2. Drive ID
+      const previewId = document.getElementById('preview-id');
+      previewId.innerText = folderId ? `Drive ID: ${folderId}` : 'Drive ID: Sin asignar';
+
+      // 3. Badge Privada/Pública
+      const badge = document.getElementById('preview-badge');
+      const passHint = document.getElementById('preview-password-hint');
+      if (esPrivada) {
+        badge.innerText = 'PRIVADA 🔒';
+        badge.className = 'absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-md bg-amber-500/90 text-white z-10 backdrop-blur-sm shadow uppercase';
+        passHint.classList.remove('hidden');
+      } else {
+        badge.innerText = 'PÚBLICA';
+        badge.className = 'absolute top-3 left-3 text-[10px] font-bold tracking-wider px-2.5 py-1 rounded-md bg-[#005580]/90 text-white z-10 backdrop-blur-sm shadow uppercase';
+        passHint.classList.add('hidden');
+      }
+
+      // 4. Imagen de portada: Manual primero, sino portada de Drive detectada, sino folderId
+      let imgFinal = '';
+      if (inputPortada) {
+        imgFinal = resolverUrlPortada(inputPortada);
+      } else if (drivePortadaDetectada) {
+        imgFinal = drivePortadaDetectada;
+      } else if (folderId) {
+        imgFinal = `https://lh3.googleusercontent.com/d/${folderId}=w800`;
+      }
+
+      actualizarPreviewImagen(imgFinal);
+    }
+
+    // CONSULTAR GOOGLE DRIVE API V3: NOMBRE REAL Y PRIMERA FOTO
+    async function consultarDriveApi(folderId) {
+      if (!folderId || folderId.length < 5) return;
+      const spinner = document.getElementById('drive-spinner');
+      const badgeTitle = document.getElementById('badge-drive-title');
+      const badgeText = document.getElementById('badge-drive-title-text');
+      const inputTitulo = document.getElementById('input-titulo');
+
+      spinner.classList.remove('hidden');
+
+      try {
+        // A) Obtener metadatos de la carpeta (Nombre real)
+        const urlCarpeta = `https://www.googleapis.com/drive/v3/files/${folderId}?fields=name&key=${API_KEY_DRIVE}`;
+        const resCarpeta = await fetch(urlCarpeta);
+        const dataCarpeta = await resCarpeta.json();
+
+        if (dataCarpeta.name) {
+          driveTituloDetectado = dataCarpeta.name;
+          
+          // FIX 1: Si el usuario no ha tipeado un título propio, autocompletar el campo
+          if (!inputTitulo.value.trim() || inputTitulo.dataset.autoFilled === 'true') {
+            inputTitulo.value = dataCarpeta.name;
+            inputTitulo.dataset.autoFilled = 'true';
+            badgeText.innerText = `Nombre obtenido de Drive: "${dataCarpeta.name}"`;
+            badgeTitle.classList.remove('hidden');
+            badgeTitle.classList.add('flex');
+          }
+        }
+
+        // B) Si no hay portada manual, consultar la 1ra foto dentro de la carpeta
+        const inputPortada = document.getElementById('input-portada').value.trim();
+        if (!inputPortada) {
+          const urlFotos = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType+contains+'image/'&pageSize=1&orderBy=name&key=${API_KEY_DRIVE}&fields=files(id,name)`;
+          const resFotos = await fetch(urlFotos);
+          const dataFotos = await resFotos.json();
+
+          if (dataFotos.files && dataFotos.files.length > 0) {
+            const firstFile = dataFotos.files[0];
+            drivePortadaDetectada = `https://lh3.googleusercontent.com/d/${firstFile.id}=w800`;
+          } else {
+            drivePortadaDetectada = `https://lh3.googleusercontent.com/d/${folderId}=w800`;
+          }
+        }
+
+      } catch (err) {
+        console.warn("Aviso consulta Drive API:", err);
+      } finally {
+        spinner.classList.add('hidden');
+        actualizarPreview();
+      }
+    }
+
+    // MANEJADOR DE ENTRADA EN CAMPO DRIVE URL
+    function handleDriveInput() {
+      const val = document.getElementById('input-drive-url').value.trim();
+      const folderId = extraerIdDrive(val);
+
+      actualizarPreview();
+
+      if (folderId && folderId !== ultimoFolderIdDetectado) {
+        ultimoFolderIdDetectado = folderId;
+        clearTimeout(debounceDriveTimeout);
+        debounceDriveTimeout = setTimeout(() => {
+          consultarDriveApi(folderId);
+        }, 400);
+      }
+    }
+
+    // MANEJADOR DE ENTRADA EN CAMPO PORTADA MANUAL (FIX 2)
+    function handleManualPortadaInput() {
+      const input = document.getElementById('input-portada');
+      const val = input.value.trim();
+      
+      // Si pegó un enlace de archivo común de Google Drive, auto-formatear a lh3 con w800
+      const fileId = extraerIdDrive(val);
+      if (fileId && (val.includes('drive.google.com') || (val.includes('lh3.googleusercontent.com') && !val.includes('=w800')))) {
+        const transformed = `https://lh3.googleusercontent.com/d/${fileId}=w800`;
+        input.value = transformed;
+      }
+      
+      actualizarPreview();
+    }
+
+    // TOGGLE OPCIÓN PRIVADA
+    function toggleOpcionPrivada() {
+      const chk = document.getElementById('check-es-privada').checked;
+      const wrap = document.getElementById('campo-password-wrap');
+      if (chk) {
+        wrap.classList.remove('hidden');
+        wrap.classList.add('flex');
+      } else {
+        wrap.classList.add('hidden');
+        wrap.classList.remove('flex');
+      }
+      actualizarPreview();
+    }
+
+    // MOSTRAR MENSAJE FEEDBACK
+    function mostrarMensaje(texto, tipo = "info") {
+      const box = document.getElementById('mensaje-estado');
+      box.className = 'p-3.5 rounded-lg text-sm border ' + 
+        (tipo === 'error' ? 'bg-rose-950/40 border-rose-800 text-rose-300' : 
+         tipo === 'exito' ? 'bg-emerald-950/40 border-emerald-800 text-emerald-300' : 
+         'bg-sky-950/40 border-sky-800 text-sky-300');
+      box.innerText = texto;
+      box.classList.remove('hidden');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // GUARDAR Y VINCULAR GALERÍA
+    async function guardarGaleria() {
+      const urlDriveRaw = document.getElementById('input-drive-url').value.trim();
+      const folderId = extraerIdDrive(urlDriveRaw);
+
+      if (!folderId) {
+        mostrarMensaje("Por favor ingresá un enlace o ID válido de Google Drive.", "error");
+        return;
+      }
+
+      let titulo = document.getElementById('input-titulo').value.trim();
+      let portada = document.getElementById('input-portada').value.trim();
+      const esPrivada = document.getElementById('check-es-privada').checked;
+      const password = document.getElementById('input-password').value.trim();
+
+      if (esPrivada && !password) {
+        mostrarMensaje("Por favor asigná una contraseña de acceso para esta galería privada.", "error");
+        document.getElementById('input-password').focus();
+        return;
+      }
 
       const btn = document.getElementById('btn-guardar');
-      const btnTxt = document.getElementById('btn-guardar-texto');
-
-      if (!driveUrl) return;
-
-      const driveId = extraerIdDrive(driveUrl);
-      if (!titulo) titulo = 'Colección ' + (driveId ? driveId.substring(0, 8) : 'Escolar');
-      if (!portadaUrl && driveId) portadaUrl = `https://lh3.googleusercontent.com/d/${driveId}=w800`;
-
+      const btnTexto = document.getElementById('btn-guardar-texto');
       btn.disabled = true;
-      if (btnTxt) btnTxt.textContent = 'Guardando en Supabase...';
+      btn.classList.add('opacity-75', 'cursor-not-allowed');
+      btnTexto.innerText = "Consultando Google Drive y guardando...";
 
-      const nuevoRegistro = {
+      // FIX 1: Si el título sigue vacío, consultar nombre real de Drive o usar el detectado
+      if (!titulo) {
+        if (driveTituloDetectado) {
+          titulo = driveTituloDetectado;
+        } else {
+          try {
+            const urlC = `https://www.googleapis.com/drive/v3/files/${folderId}?fields=name&key=${API_KEY_DRIVE}`;
+            const rC = await fetch(urlC);
+            const dC = await rC.json();
+            if (dC.name) titulo = dC.name;
+          } catch(e) {
+            console.warn("Fallback Drive:", e);
+          }
+        }
+      }
+
+      // Si portada está vacía, usar la detectada o enlace por defecto
+      if (!portada) {
+        if (drivePortadaDetectada) {
+          portada = drivePortadaDetectada;
+        } else {
+          portada = `https://lh3.googleusercontent.com/d/${folderId}=w800`;
+        }
+      } else {
+        portada = resolverUrlPortada(portada);
+      }
+
+      if (!titulo) {
+        titulo = `Evento Escolar (${folderId.substring(0, 8)})`;
+      }
+
+      const finalDriveUrl = urlDriveRaw.startsWith('http') 
+        ? urlDriveRaw 
+        : `https://drive.google.com/drive/folders/${folderId}`;
+
+      const nuevaGaleria = {
+        id: Date.now(),
         titulo: titulo,
-        drive_url: driveUrl,
-        portada_url: portadaUrl,
-        es_privada: esPrivada,
-        password: esPrivada ? clave : null,
+        drive_url: finalDriveUrl,
+        enlace_drive: finalDriveUrl,
+        portada_url: portada,
+        portada: portada,
+        es_privada: Boolean(esPrivada),
+        password: esPrivada ? password : null,
         created_at: new Date().toISOString()
       };
 
-      // Respaldo local inmediato
+      // 1. Guardar siempre en Respaldo Local (localStorage)
       try {
         let locales = JSON.parse(localStorage.getItem('galerias_locales') || '[]');
-        locales.unshift({ id: 'loc-' + Date.now(), ...nuevoRegistro });
+        locales.unshift(nuevaGaleria);
         localStorage.setItem('galerias_locales', JSON.stringify(locales));
-      } catch(_) {}
+      } catch (eLocal) {
+        console.warn("Error guardando local:", eLocal);
+      }
 
-      // Inserción en Supabase
-      let exitoRemoto = false;
+      // 2. Guardar en Supabase (tabla 'galeria' con fallback a 'galerias')
+      let guardadoEnSupabase = false;
+      let detalleError = null;
+
       if (supabaseClient) {
         try {
-          const { error } = await supabaseClient.from('galeria').insert([nuevoRegistro]);
-          if (!error) exitoRemoto = true;
-        } catch(err) {
-          console.warn('Error Supabase:', err);
+          const { data, error: err1 } = await supabaseClient.from('galeria').insert([{
+            titulo: nuevaGaleria.titulo,
+            drive_url: nuevaGaleria.drive_url,
+            enlace_drive: nuevaGaleria.enlace_drive,
+            portada_url: nuevaGaleria.portada_url,
+            portada: nuevaGaleria.portada,
+            es_privada: nuevaGaleria.es_privada,
+            password: nuevaGaleria.password
+          }]);
+
+          if (!err1) {
+            guardadoEnSupabase = true;
+          } else {
+            detalleError = err1;
+            // Intento secundario en la tabla/vista alternativa
+            const { error: err2 } = await supabaseClient.from('galerias').insert([{
+              titulo: nuevaGaleria.titulo,
+              drive_url: nuevaGaleria.drive_url,
+              portada_url: nuevaGaleria.portada_url,
+              password: nuevaGaleria.password
+            }]);
+            if (!err2) guardadoEnSupabase = true;
+          }
+        } catch (errSupa) {
+          detalleError = errSupa;
+          console.warn("Excepción Supabase:", errSupa);
         }
       }
 
       btn.disabled = false;
-      if (btnTxt) btnTxt.textContent = 'Guardar y Sincronizar Galería';
+      btn.classList.remove('opacity-75', 'cursor-not-allowed');
+      btnTexto.innerText = "Guardar y Vincular Galería";
 
-      mostrarToast(exitoRemoto ? '¡Galería guardada con éxito en Supabase y localmente!' : 'Galería guardada en almacenamiento local.', false);
+      if (guardadoEnSupabase) {
+        const exitoBox = document.getElementById('exito-supabase-box');
+        const exitoDetalle = document.getElementById('exito-supabase-detalle');
+        exitoDetalle.innerText = `La carpeta "${titulo}" quedó vinculada en la base de datos oficial. Redirigiendo al panel...`;
+        exitoBox.classList.remove('hidden');
 
-      // Solo redirige tras hacer clic en guardar voluntariamente
-      setTimeout(() => {
-        window.location.href = 'panel.html';
-      }, 1200);
-    }
-
-    function mostrarToast(msg, esError) {
-      const t = document.getElementById('toast-feedback');
-      const txt = document.getElementById('toast-texto');
-      const ico = document.getElementById('toast-icon');
-      if (!t || !txt) return;
-
-      txt.textContent = msg;
-      if (esError) {
-        t.className = 'mb-6 p-4 rounded-xl border border-red-500/50 bg-red-950/40 text-red-400 text-xs sm:text-sm flex items-center justify-between';
-        if (ico) ico.textContent = 'error';
+        setTimeout(() => {
+          window.location.href = "panel.html";
+        }, 1200);
       } else {
-        t.className = 'mb-6 p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-400 text-xs sm:text-sm flex items-center justify-between';
-        if (ico) ico.textContent = 'check_circle';
+        // Notificar inserción local con aviso de diagnóstico si hubo falla de RLS/red
+        mostrarMensaje(`¡Galería "${titulo}" guardada en almacenamiento local con éxito! Redirigiendo a Galerías...`, "exito");
+        
+        if (detalleError) {
+          const diagBox = document.getElementById('diagnostico-supabase-box');
+          const diagPre = document.getElementById('diagnostico-detalle');
+          diagPre.innerText = JSON.stringify(detalleError, null, 2);
+          diagBox.classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+          window.location.href = "panel.html";
+        }, 1500);
       }
-      t.classList.remove('hidden');
     }
 
-    function cerrarSesion() {
-      sessionStorage.clear();
-      localStorage.removeItem('admin_auth_backup');
-      try {
-        document.cookie = 'admin_session=; Path=/; Max-Age=0;';
-        document.cookie = 'admin_email=; Path=/; Max-Age=0;';
-        fetch('/api/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
-      } catch(_) {}
-      window.location.href = 'index.html';
-    }
+    // INICIALIZACIÓN Y EVENT LISTENERS
+    document.addEventListener('DOMContentLoaded', () => {
+      const inputDrive = document.getElementById('input-drive-url');
+      const inputTitulo = document.getElementById('input-titulo');
+      const inputPortada = document.getElementById('input-portada');
+      const checkPrivada = document.getElementById('check-es-privada');
+
+      // Escuchar eventos en Drive URL
+      if (inputDrive) {
+        inputDrive.addEventListener('input', handleDriveInput);
+        inputDrive.addEventListener('paste', () => setTimeout(handleDriveInput, 50));
+        inputDrive.addEventListener('change', handleDriveInput);
+      }
+
+      // Escuchar eventos en Título (para saber si el usuario lo personalizó)
+      if (inputTitulo) {
+        inputTitulo.addEventListener('input', () => {
+          inputTitulo.dataset.autoFilled = 'false';
+          actualizarPreview();
+        });
+      }
+
+      // FIX 2: Escuchar eventos instantáneos en Portada Manual
+      if (inputPortada) {
+        inputPortada.addEventListener('input', handleManualPortadaInput);
+        inputPortada.addEventListener('paste', () => setTimeout(handleManualPortadaInput, 50));
+        inputPortada.addEventListener('change', handleManualPortadaInput);
+      }
+
+      // Checkbox privada
+      if (checkPrivada) {
+        checkPrivada.addEventListener('change', toggleOpcionPrivada);
+      }
+
+      // Preview inicial
+      actualizarPreview();
+    });
   </script>
-</body>
-</html>
+</body></html>
